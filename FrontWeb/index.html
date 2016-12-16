@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="dashboard">
+		 <head>
+			 <title>Tableau de Bord</title>
+			 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			 <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+   </head>
+   
+   <body>
+      <div ng-controller="ctrlDashboard as ctrl">
+         <h1>Liste des lémuriens</h1>
+         Recherche: <input type="text" ng-model="rechercheLemur">
+
+
+         
+         <div ng-repeat="lemur in ctrl.lemurList">
+	         {{lemur.nom}}
+	         {{lemur.sexe}}
+	         {{lemur.dateNaissance}}
+	         {{lemur.taille}}
+	         {{lemur.poids}}
+	         {{lemur.caracteristiques}}
+	         {{lemur.etat}}
+	         {{lemur.latitude}}
+	         {{lemur.longitude}}
+	         {{lemur.parent1}}
+	         {{lemur.parent2}}
+	         {{lemur.dernierScan}}
+	         
+	         <span ng-if="lemur.sexe == 1">Masculin</span>
+	         <span ng-if="lemur.sexe == 0">Féminin</span>
+         </div>
+      </div>
+
+		<script src="lib/angular.min.js"></script> 
+		<script src="js/dashboard.js"></script>
+	</body>
+</html>
