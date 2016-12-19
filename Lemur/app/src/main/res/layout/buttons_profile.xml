@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/buttons"
+    android:layout_above="@+id/contentProfile"
+    android:layout_below="@+id/descProf"
+    android:background="@color/colorPrimary">
+
+    <EditText android:id="@+id/nomEdit"
+        android:hint="Entrez votre nom ici"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <EditText android:id="@+id/prenomEdit"
+        android:hint="Entrez votre prenom ici"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/nomEdit" />
+
+    <Button android:id="@+id/valider"
+        android:text="valider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/prenomEdit"
+        android:layout_alignRight="@id/prenomEdit" />
+
+</RelativeLayout>
