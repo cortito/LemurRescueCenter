@@ -7,4 +7,7 @@ app.controller('ctrlDashboard',function($scope, $http, $q){
         $scope.lemurList = res.data;
         console.log($scope.lemurList);
         });
+        
+        $scope.sortType = 'id';
+        $scope.sortReverse = false;
 });

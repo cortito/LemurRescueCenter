@@ -18,8 +18,8 @@
       <div class="container" ng-controller="ctrlDashboard as ctrl">
       <br/>
       <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-
+        <div class="col-md-12">
+	 		<label>Recherche:</label> <input type="text" ng-model="rechercheLemur">
             <div class="panel panel-default panel-table">
               <div class="panel-heading">
                 <div class="row">
@@ -36,13 +36,47 @@
                   <thead>
                     <tr>
                         <th><em class="fa fa-cog"></em></th>
-                        <th class="hidden-xs">ID</th>
-                        <th>Nom</th>
+                        <th class="hidden-xs">
+                        	<a href="" ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                        	ID
+                        	<span ng-show="sortType == 'id' && !sortReverse" class="caret"></span>
+                        	<span ng-show="sortType == 'id' && sortReverse" class="dropup">
+                            	<span class="caret"></span>
+                        	</span>
+                        	</a>
+                        </th>
+                        <th>
+                        	<a href="" ng-click="sortType = 'nom'; sortReverse = !sortReverse">
+                        	Nom
+                        	<span ng-show="sortType == 'nom' && !sortReverse" class="caret"></span>
+                        	<span ng-show="sortType == 'nom' && sortReverse" class="dropup">
+                            	<span class="caret"></span>
+                        	</span>
+                        	</a>
+                        </th>
                         <th>Sexe</th>
+                        <th>
+                       		<a href="" ng-click="sortType = 'dateNaissance'; sortReverse = !sortReverse">
+                        	Date de naissance
+                        	<span ng-show="sortType == 'dateNaissance' && !sortReverse" class="caret"></span>
+                        	<span ng-show="sortType == 'dateNaissance' && sortReverse" class="dropup">
+                            	<span class="caret"></span>
+                        	</span>
+                        	</a>
+                        </th>
+                        <th>Taille</th> 
+                        <th>Poids</th>
+                        <th>Caractéristiques</th>
+                        <!--<th>Etat</th>
+                        <th>Famille</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>-->
+                        <th>Parents</th>
+                        <th>Dernier scan</th>
                     </tr> 
                   </thead>
                   <tbody>
-                          <tr ng-repeat="lemur in lemurList">
+                          <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse">
                             <td align="center">
                               <a class="btn btn-default"><em class="fa fa-pencil"></em></a>
                               <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
@@ -53,6 +87,20 @@
                             	<span ng-if="lemur.sexe == 1">Masculin</span>
 	         					<span ng-if="lemur.sexe == 0">Féminin</span>
 	         				</td>
+	         				<td>{{lemur.dateNaissance}}</td>
+	         				<td>{{lemur.taille}}</td>
+	         				<td>{{lemur.poids}}</td>
+	         				<td>{{lemur.caracteristiques}}</td>
+	         				<!--<td>{{lemur.etat}}</td>
+	         				<td>{{lemur.famille}}</td>
+	         				<td>{{lemur.latitude}}</td>
+	         				<td>{{lemur.longitude}}</td>-->
+	         				<td>
+	         					<span ng-if="lemur.parent1">{{lemur.parent1}}</span>
+	         					<span ng-if="lemur.parent2">{{lemur.parent2}}</span>
+	         					<span ng-if="lemur.parent1==null && lemur.parent2==null">Aucun</span>
+							</td>
+							<td>{{lemur.dernierScan}}</td>
                           </tr>
                         </tbody>
                 </table>
@@ -60,7 +108,7 @@
               </div>
               <div class="panel-footer">
                 <div class="row">
-                  <div class="col col-xs-4">Page 1 of 5
+                  <div class="col col-xs-4">Page 1 sur 5
                   </div>
                   <div class="col col-xs-8">
                     <ul class="pagination hidden-xs pull-right">
@@ -79,32 +127,8 @@
               </div>
             </div>
 
-</div>         <h1>Liste des lémuriens</h1>
-         Recherche: <input type="text" ng-model="rechercheLemur">
-                  <ul ng-repeat="lemur in lemurList">
-         <li>	        
-         	 {{lemur.nom}}
-	         {{lemur.sexe}}
-	         {{lemur.dateNaissance}}
-	         {{lemur.taille}}
-	         {{lemur.poids}}
-	         {{lemur.caracteristiques}}
-	         {{lemur.etat}}
-	         {{lemur.famille}}
-	         {{lemur.latitude}}
-	         {{lemur.longitude}}
-	         <label>Parents</label>
-	         <span ng-if="lemur.parent1">{{lemur.parent1}}</span>
-	         <span ng-if="lemur.parent2">{{lemur.parent2}}</span>
-	         <span ng-if="lemur.parent1==null && lemur.parent2==null">Aucun</span>
-	         {{lemur.dernierScan}}
-	         
-	         <span ng-if="lemur.sexe == 1">Masculin</span>
-	         <span ng-if="lemur.sexe == 0">Féminin</span>
-	         </li>
-
-         </ul>
-         
+</div>                 
+                           
       
 </div>
 </div>
