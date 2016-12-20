@@ -1,41 +1,58 @@
-package model;
+package fr.cpe.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Lemurien {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
+import org.jboss.arquillian.junit.InSequence;
+
+@Entity
+@Table(name = "Lemurien")
+public class LemurienEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2686907338544888162L;
+
+	@Id
+	@NotNull
+	@Column
 	private int id;
+	@Column
 	private boolean sexe;
+	@Column
 	private String nom;
+	@Column
 	private LocalDate dateDeNaissance;
+	@Column
 	private int taille;
+	@Column
 	private double poids;
+	@Column
 	private String caracteristiques;
+	@Column
 	private String etat;
+	@Column
 	private String famille;
+	@Column
 	private double latitude;
+	@Column
 	private double longitude;
+	@Null
+	@Column
 	private int parent1;
+	@Null
+	@Column
 	private int parent2;
-
-	public Lemurien(int id, boolean sexe, String nom, LocalDate dateDeNaissance, int taille, double poids,
-			String caracteristiques, String etat, String famille, double latitude, double longitude, int parent1,
-			int parent2) {
-		super();
-		this.id = id;
-		this.sexe = sexe;
-		this.nom = nom;
-		this.dateDeNaissance = dateDeNaissance;
-		this.taille = taille;
-		this.poids = poids;
-		this.caracteristiques = caracteristiques;
-		this.etat = etat;
-		this.famille = famille;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.parent1 = parent1;
-		this.parent2 = parent2;
-	}
+	@Column
+	private LocalDate dernierScan;
 
 	public int getId() {
 		return id;
@@ -139,6 +156,14 @@ public class Lemurien {
 
 	public void setParent2(int parent2) {
 		this.parent2 = parent2;
+	}
+
+	public LocalDate getDernierScan() {
+		return dernierScan;
+	}
+
+	public void setDernierScan(LocalDate dernierScan) {
+		this.dernierScan = dernierScan;
 	}
 
 }
