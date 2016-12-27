@@ -13,7 +13,7 @@ import javax.validation.constraints.Null;
 import org.jboss.arquillian.junit.InSequence;
 
 @Entity
-@Table(name = "Lemurien")
+@Table(name = "E_S_Lemurien")
 public class LemurienEntity implements Serializable {
 
 	/**
@@ -24,50 +24,36 @@ public class LemurienEntity implements Serializable {
 	@Id
 	@NotNull
 	@Column
-	private int id;
-	@Column
-	private boolean sexe;
+	private int idDB;
 	@Column
 	private String nom;
 	@Column
-	private LocalDate dateDeNaissance;
+	private String numeroIdentification;
 	@Column
-	private int taille;
+	private String sexe;
 	@Column
-	private double poids;
+	private String dateDeNaissance;
 	@Column
-	private String caracteristiques;
+	private String dateEntree;
 	@Column
-	private String etat;
+	private String origine;
 	@Column
-	private String famille;
+	private String natureEntree;
 	@Column
-	private double latitude;
+	private String ancienProprietaire;
 	@Column
-	private double longitude;
-	@Null
+	private String dateSortie;
 	@Column
-	private int parent1;
-	@Null
+	private String natureSortie;
 	@Column
-	private int parent2;
-	@Column
-	private LocalDate dernierScan;
+	private String commentaireSortie;
 
-	public int getId() {
-		return id;
+	public int getIdDB() {
+		return idDB;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public boolean isSexe() {
-		return sexe;
-	}
-
-	public void setSexe(boolean sexe) {
-		this.sexe = sexe;
+	public void setIdDB(int idDB) {
+		this.idDB = idDB;
 	}
 
 	public String getNom() {
@@ -78,92 +64,84 @@ public class LemurienEntity implements Serializable {
 		this.nom = nom;
 	}
 
-	public LocalDate getDateDeNaissance() {
+	public String getNumeroIdentification() {
+		return numeroIdentification;
+	}
+
+	public void setNumeroIdentification(String numeroIdentification) {
+		this.numeroIdentification = numeroIdentification;
+	}
+
+	public String getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(String sexe) {
+		this.sexe = sexe;
+	}
+
+	public String getDateDeNaissance() {
 		return dateDeNaissance;
 	}
 
-	public void setDateDeNaissance(LocalDate dateDeNaissance) {
+	public void setDateDeNaissance(String dateDeNaissance) {
 		this.dateDeNaissance = dateDeNaissance;
 	}
 
-	public int getTaille() {
-		return taille;
+	public String getDateEntree() {
+		return dateEntree;
 	}
 
-	public void setTaille(int taille) {
-		this.taille = taille;
+	public void setDateEntree(String dateEntree) {
+		this.dateEntree = dateEntree;
 	}
 
-	public double getPoids() {
-		return poids;
+	public String getOrigine() {
+		return origine;
 	}
 
-	public void setPoids(double poids) {
-		this.poids = poids;
+	public void setOrigine(String origine) {
+		this.origine = origine;
 	}
 
-	public String getCaracteristiques() {
-		return caracteristiques;
+	public String getNatureEntree() {
+		return natureEntree;
 	}
 
-	public void setCaracteristiques(String caracteristiques) {
-		this.caracteristiques = caracteristiques;
+	public void setNatureEntree(String natureEntree) {
+		this.natureEntree = natureEntree;
 	}
 
-	public String getEtat() {
-		return etat;
+	public String getAncienProprietaire() {
+		return ancienProprietaire;
 	}
 
-	public void setEtat(String etat) {
-		this.etat = etat;
+	public void setAncienProprietaire(String ancienProprietaire) {
+		this.ancienProprietaire = ancienProprietaire;
 	}
 
-	public String getFamille() {
-		return famille;
+	public String getDateSortie() {
+		return dateSortie;
 	}
 
-	public void setFamille(String famille) {
-		this.famille = famille;
+	public void setDateSortie(String dateSortie) {
+		this.dateSortie = dateSortie;
 	}
 
-	public double getLatitude() {
-		return latitude;
+	public String getNatureSortie() {
+		return natureSortie;
 	}
 
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
+	public void setNatureSortie(String natureSortie) {
+		this.natureSortie = natureSortie;
 	}
 
-	public double getLongitude() {
-		return longitude;
+	public String getCommentaireSortie() {
+		return commentaireSortie;
 	}
 
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
-	public int getParent1() {
-		return parent1;
-	}
-
-	public void setParent1(int parent1) {
-		this.parent1 = parent1;
-	}
-
-	public int getParent2() {
-		return parent2;
-	}
-
-	public void setParent2(int parent2) {
-		this.parent2 = parent2;
-	}
-
-	public LocalDate getDernierScan() {
-		return dernierScan;
-	}
-
-	public void setDernierScan(LocalDate dernierScan) {
-		this.dernierScan = dernierScan;
+	public void setCommentaireSortie(String commentaireSortie) {
+		this.commentaireSortie = commentaireSortie;
 	}
 
 }

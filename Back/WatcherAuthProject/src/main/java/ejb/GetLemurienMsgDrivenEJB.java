@@ -71,7 +71,7 @@ public class GetLemurienMsgDrivenEJB implements MessageListener {
 				if (msg.getObject() instanceof LemurienModel) {
 					log.info("Lemurien");
 					LemurienModel lemurienM = (LemurienModel) msg.getObject();
-					LemurienEntity lemurienE = dao.getLemurienById(lemurienM.getId());
+					LemurienEntity lemurienE = dao.getLemurienById(lemurienM.getIdDB());
 
 					if (lemurienE != null) {
 						lemurienM = new LemurienModel(lemurienE);
