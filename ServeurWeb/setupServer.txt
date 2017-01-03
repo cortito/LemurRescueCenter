@@ -1,0 +1,14 @@
+Lancer un serveur express :
+
+Télécharger node.js :  https://nodejs.org
+
+Dans la console node.js écrire les commandes suivantes :
+- mkdir <nom du projet/serveur>
+- cd <nom du projet/serveur>
+- npm init 
+
+Remplir les champs (sur le champ entry point écrire server.js)
+ Copier le fichier server.js du git dans votre dossier et modifier le en fonction des routes que vous voulez ou du port d'écoute (1337 par défaut)
+Lancer la commande 'npm install --save express' pour récuperer les packages express.
+
+Lancer votre projet avec - npm start -
