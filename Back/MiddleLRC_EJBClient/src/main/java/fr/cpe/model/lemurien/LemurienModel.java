@@ -1,4 +1,4 @@
-package fr.cpe.model;
+package fr.cpe.model.lemurien;
 
 import java.io.Serializable;
 
@@ -174,6 +174,11 @@ public class LemurienModel implements Serializable {
 		.append("\"commentaireSortie\" : \"" + commentaireSortie + "\"}");
 
 		return s.toString();
+	}
+
+	@Override
+	public String toString() {
+		return toJSON();
 	}
 
 }

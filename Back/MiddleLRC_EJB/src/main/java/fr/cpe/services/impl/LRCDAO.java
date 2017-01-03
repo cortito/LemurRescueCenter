@@ -10,19 +10,17 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
 
-import fr.cpe.model.LemurienEntity;
-import fr.cpe.model.LemurienModel;
-import fr.cpe.services.ILemurienDAO;
+import fr.cpe.model.lemurien.LemurienEntity;
+import fr.cpe.model.poids.PoidsEntity;
+import fr.cpe.services.ILRCDAO;
 
 @Stateless
-public class LemurienDAO implements ILemurienDAO {
+public class LRCDAO implements ILRCDAO {
 
-	Logger log = Logger.getLogger(LemurienDAO.class);
+	Logger log = Logger.getLogger(LRCDAO.class);
 
 	@PersistenceContext
 	EntityManager em;
-
-	// private final String qry = "SELECT * FROM `Lemurien`";
 
 	@Override
 	public LemurienEntity getLemurienById(int id) {
@@ -48,5 +46,18 @@ public class LemurienDAO implements ILemurienDAO {
 			log.warn(e.getMessage());
 		}
 		return lemurienList;
+	}
+
+	@Override
+	public List<PoidsEntity> getPoidsByName(String nom) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom ";
+
+		List<PoidsEntity> poidsList = new ArrayList<>();
+		try {
+			poidsList.addAll(em.createQuery(qry).setParameter("nom", nom).getResultList());
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return poidsList;
 	}
 }

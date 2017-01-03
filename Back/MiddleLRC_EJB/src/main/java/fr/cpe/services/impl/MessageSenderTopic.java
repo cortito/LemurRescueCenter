@@ -1,5 +1,7 @@
 package fr.cpe.services.impl;
 
+import java.io.Serializable;
+
 import javax.annotation.Resource;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -12,7 +14,6 @@ import javax.jms.Topic;
 
 import org.jboss.logging.Logger;
 
-import fr.cpe.model.LemurienModel;
 import fr.cpe.services.IMessageSenderTopic;
 
 @Stateless
@@ -24,28 +25,18 @@ public class MessageSenderTopic implements IMessageSenderTopic {
 	@Inject
 	JMSContext context;
 
-	@Resource(mappedName = "java:/jms/lemurienTopic")
+	@Resource(mappedName = "java:/jms/LRCTopic")
 	Topic topic;
 
-	@Override
-	public void sendMessage(String message) {
-		log.info("Envoi au Topic d'un message");
-		JMSProducer prod = context.createProducer();
-		prod.send(topic, message);
-	}
-
-	@Override
-	public void sendMessage(LemurienModel lemurienM) {
-		log.info("Envoi au Topic d'un Lemurien");
-
+	public void sendMessage(Serializable o) {
+		log.info("Envoi d'un message au Topic");
 		try {
 			JMSProducer prod = context.createProducer();
 			ObjectMessage message = context.createObjectMessage();
-			message.setObject(lemurienM);
+			message.setObject(o);
 			prod.send(topic, message);
 		} catch (NullPointerException | JMSException e) {
 			e.printStackTrace();
 		}
 	}
-
 }

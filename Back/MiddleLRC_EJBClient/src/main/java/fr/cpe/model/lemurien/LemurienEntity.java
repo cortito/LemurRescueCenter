@@ -1,4 +1,4 @@
-package fr.cpe.model;
+package fr.cpe.model.lemurien;
 
 import java.io.Serializable;
 
@@ -140,4 +140,5 @@ public class LemurienEntity implements Serializable {
 		this.commentaireSortie = commentaireSortie;
 	}
 
+	
 }

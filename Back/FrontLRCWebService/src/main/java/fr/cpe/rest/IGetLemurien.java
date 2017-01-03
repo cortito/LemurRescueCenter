@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.cpe.model.LemurienModel;
+import fr.cpe.model.lemurien.LemurienModel;
 
 @Path("/getLemurien")
 public interface IGetLemurien {

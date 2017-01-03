@@ -2,7 +2,7 @@ package fr.cpe.rest.impl;
 
 import javax.inject.Inject;
 
-import fr.cpe.model.LemurienModel;
+import fr.cpe.model.lemurien.LemurienModel;
 import fr.cpe.rest.IGetLemurien;
 import fr.cpe.services.IMessageReceiverQueue;
 import fr.cpe.services.IMessageSenderTopic;

@@ -8,13 +8,11 @@ import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.TextMessage;
 
 import org.jboss.logging.Logger;
 
-import fr.cpe.model.LemurienModel;
 import fr.cpe.services.IMessageReceiverQueue;
 
 @Stateless
@@ -26,29 +24,22 @@ public class MessageReceiverQueue implements IMessageReceiverQueue {
 	@Inject
 	JMSContext context;
 
-	@Resource(mappedName = "java:/jms/lemurienQueue")
+	@Resource(mappedName = "java:/jms/lRCQueue")
 	Queue queue;
 
 	@Override
 	public String receiveMessage() {
 
 		JMSConsumer receiver = context.createConsumer(queue);
-		Message message = receiver.receive(5000);
+		Message message = receiver.receive(2000);
 		log.info("Reception de la Queue d'un Message");
 
 		String s = "";
 		try {
-			if (message instanceof ObjectMessage) {
-				ObjectMessage msg = (ObjectMessage) message;
-				try {
-					if (msg.getObject() instanceof LemurienModel) {
-						s = (String) ((LemurienModel) msg.getObject()).toJSON();
-					}
-				} catch (JMSException e) {
-					e.printStackTrace();
-				}
-			} else if (message instanceof TextMessage) {
+			if (message instanceof TextMessage) {
 				s = (String) ((TextMessage) message).getText();
+			} else {
+				log.info("Unreadable for the Queue");
 			}
 		} catch (JMSException e) {
 			e.printStackTrace();

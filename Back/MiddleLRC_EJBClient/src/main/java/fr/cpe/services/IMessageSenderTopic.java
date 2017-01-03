@@ -1,14 +1,11 @@
 package fr.cpe.services;
 
-import javax.ejb.Local;
+import java.io.Serializable;
 
-import fr.cpe.model.LemurienModel;
+import javax.ejb.Local;
 
 @Local
 public interface IMessageSenderTopic {
 
-	public void sendMessage(String message);
-
-	public void sendMessage(LemurienModel lemurienM);
-
+	public void sendMessage(Serializable message);
 }
