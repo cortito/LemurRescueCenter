@@ -33,11 +33,11 @@
         </license>
     </licenses>
     <modules>
-        <module>MiddleAuthWatcherEJBClient</module>
-        <module>MiddleAuthWatcherEJB</module>
-        <module>WatcherAuthProject</module>
-        <module>FrontAuthWatcherWebService</module>
-        <module>WatcherAuthJ2E</module>
+        <module>MiddleLRC_EJBClient</module>
+        <module>MiddleLRC_EJB</module>
+        <module>LRCProject</module>
+        <module>FrontLRCWebService</module>
+        <module>LRC_J2E</module>
     </modules>
 
     <properties>
@@ -75,18 +75,18 @@
                 to repeat ourselves in every module -->
             <dependency>
                 <groupId>fr.cpe</groupId>
-                <artifactId>MiddleAuthWatcherEJBClient</artifactId>
+                <artifactId>MiddleLRC_EJBClient</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>fr.cpe</groupId>
-                <artifactId>MiddleAuthWatcherEJB</artifactId>
+                <artifactId>MiddleLRC_EJB</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
             <dependency>
                 <groupId>fr.cpe</groupId>
-                <artifactId>WatcherAuthProject</artifactId>
+                <artifactId>LRCProject</artifactId>
                 <version>${project.version}</version>
                 <type>ejb</type>
             </dependency>
@@ -94,7 +94,7 @@
                 ourselves in every module -->
             <dependency>
                 <groupId>fr.cpe</groupId>
-                <artifactId>FrontAuthWatcherWebService</artifactId>
+                <artifactId>FrontLRCWebService</artifactId>
                 <version>${project.version}</version>
                 <type>war</type>
                 <scope>compile</scope>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="LRC_J2E">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="MiddleLRC_EJBClient.jar" deploy-path="/lib" handle="module:/resource/MiddleLRC_EJBClient/MiddleLRC_EJBClient">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="FrontLRCWebService.war" deploy-path="/" handle="module:/resource/FrontLRCWebService/FrontLRCWebService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="MiddleLRC_EJB.jar" deploy-path="/" handle="module:/resource/MiddleLRC_EJB/MiddleLRC_EJB">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="LRCProject.jar" deploy-path="/" handle="module:/resource/LRCProject/LRCProject">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>
