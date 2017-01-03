@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-		 <head>
+	<head>
 			 <title>Tableau de Bord - Lemur Rescue Center</title>
 			 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			 
@@ -11,14 +11,16 @@
 			 <script src="js/lib/ui-bootstrap-tpls-2.3.1.min.js"></script>	
 			 <script src="js/lib/angular-animate.js"></script>	
 			 <script src="js/lib/angular-sanitize.js"></script>	
+			 
 			 <link href="css/bootstrap.css" rel='stylesheet' type='text/css'>
 			 <link href="css/bootstrap-theme.css" rel='stylesheet' type='text/css'>
    		     <link href="css/table-pagination.css" rel='stylesheet' type='text/css'>
    		     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+   		     
    </head>
    
-   <body  ng-app="dashboard">
-      <div class="container" ng-controller="ctrlDashboard as ctrl">
+   <body ng-app="dashboard">
+      <div class="container" ng-controller="dashboardCtrl as ctrl">
       <br/>
       <div class="row">
         <div class="col-md-12">
@@ -40,10 +42,10 @@
                     <tr>
                         <th><em class="fa fa-cog"></em></th>
                         <th class="hidden-xs">
-                        	<a href="" ng-click="sortType = 'id'; sortReverse = !sortReverse">
+                        	<a href="" ng-click="sortType = 'idDB'; sortReverse = !sortReverse">
                         	ID
-                        	<span ng-show="sortType == 'id' && !sortReverse" class="caret"></span>
-                        	<span ng-show="sortType == 'id' && sortReverse" class="dropup">
+                        	<span ng-show="sortType == 'idDB' && !sortReverse" class="caret"></span>
+                        	<span ng-show="sortType == 'idDB' && sortReverse" class="dropup">
                             	<span class="caret"></span>
                         	</span>
                         	</a>
@@ -53,6 +55,15 @@
                         	Nom
                         	<span ng-show="sortType == 'nom' && !sortReverse" class="caret"></span>
                         	<span ng-show="sortType == 'nom' && sortReverse" class="dropup">
+                            	<span class="caret"></span>
+                        	</span>
+                        	</a>
+                        </th>
+                        <th>
+                        	<a href="" ng-click="sortType = 'numeroIdentification'; sortReverse = !sortReverse">
+                        	Numéro d'identification
+                        	<span ng-show="sortType == 'numeroIdentification' && !sortReverse" class="caret"></span>
+                        	<span ng-show="sortType == 'numeroIdentification' && sortReverse" class="dropup">
                             	<span class="caret"></span>
                         	</span>
                         	</a>
@@ -78,37 +89,21 @@
                         	</a>
                         </th>
                         <th>
-                        	<a href="" ng-click="sortType = 'taille'; sortReverse = !sortReverse">
-                        	Taille
-                        	<span ng-show="sortType == 'taille' && !sortReverse" class="caret">
+                        	<a href="" ng-click="sortType = 'dateEntree'; sortReverse = !sortReverse">
+                        	Date d'entrée
+                        	<span ng-show="sortType == 'dateEntree' && !sortReverse" class="caret">
                         	</span>
-                        	<span ng-show="sortType == 'taille' && sortReverse" class="dropup">
+                        	<span ng-show="sortType == 'dateEntree' && sortReverse" class="dropup">
                             	<span class="caret"></span>
                         	</span>
                         	</a>
                         </th> 
                         <th>
-                        	<a href="" ng-click="sortType = 'poids'; sortReverse = !sortReverse">
-                        	Poids
-                        	<span ng-show="sortType == 'poids' && !sortReverse" class="caret">
+                        	<a href="" ng-click="sortType = 'origine'; sortReverse = !sortReverse">
+                        	Origine
+                        	<span ng-show="sortType == 'origine' && !sortReverse" class="caret">
                         	</span>
-                        	<span ng-show="sortType == 'poids' && sortReverse" class="dropup">
-                            	<span class="caret"></span>
-                        	</span>
-                        	</a>
-                        </th>
-                        <!--<th>Caractéristiques</th>
-                        <th>Etat</th>
-                        <th>Famille</th>
-                        <th>Latitude</th>
-                        <th>Longitude</th>
-                        <th>Parents</th>-->
-                        <th>
-                        	<a href="" ng-click="sortType = 'dernierScan'; sortReverse = !sortReverse">
-                        	Dernier scan
-                        	<span ng-show="sortType == 'dernierScan' && !sortReverse" class="caret">
-                        	</span>
-                        	<span ng-show="sortType == 'dernierScan' && sortReverse" class="dropup">
+                        	<span ng-show="sortType == 'origine' && sortReverse" class="dropup">
                             	<span class="caret"></span>
                         	</span>
                         	</a>
@@ -116,34 +111,60 @@
                     </tr> 
                   </thead>
                   <tbody>
-                          <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse">
-                            <td class="col-md-2" align="center">
-                              <a class="btn btn-info"><em class="fa fa-eye"></em></a>
-                              <a ng-show="admin" class="btn btn-default"><em class="fa fa-pencil"></em></a>    
-                              <a ng-show="admin" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+       <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse">
+                           
+		<td class="col-md-2" align="center">
+                              
+		<button type="button" class="btn btn-info" ng-click="open('', lemur)">
+			<em class="fa fa-eye"></em>
+		</button>
+
+
+    	<script type="text/ng-template" id="myModalContent.html">
+       	 <div class="modal-header">
+       	     <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.idDB}}</h3>
+       	 </div>
+       	 <div class="modal-body" id="modal-body">
+            {{$ctrl.lemur.nom}}<br/>
+            {{$ctrl.lemur.numeroIdentification}}<br/>
+            <span ng-if="$ctrl.lemur.sexe.includes('M')">Masculin</span>
+	        <span ng-if="$ctrl.lemur.sexe.includes('F')">Féminin</span><br/>
+	        {{$ctrl.lemur.dateDeNaissance}}<br/>
+            {{$ctrl.lemur.origine}}<br/>
+            {{$ctrl.lemur.dateEntree}}<br/>
+            {{$ctrl.lemur.natureEntree}}<br/>
+            {{$ctrl.lemur.ancienProprietaire}}<br/>
+            {{$ctrl.lemur.dateSortie}}<br/>
+            {{$ctrl.lemur.natureSortie}}<br/>
+            {{$ctrl.lemur.commentaireSortie}}<br/>
+            
+            <hr>
+            	Évolution du poids
+        	</div>
+        	<div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+       	 </div>
+    	</script>
+    
+    
+						<a ng-show="admin" class="btn btn-default"><em class="fa fa-pencil"></em></a>    
+                        <a ng-show="admin" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+
                             </td>
-                            <td class="hidden-xs">{{lemur.id}}</td>
+                            
+                            <td class="hidden-xs">{{lemur.idDB}}</td>
                             <td>{{lemur.nom}}</td>
+                            <td>{{lemur.numeroIdentification}}</td>
                             <td> 
-                            	<span ng-if="lemur.sexe == 1">Masculin</span>
-	         					<span ng-if="lemur.sexe == 0">Féminin</span>
+                            	<span ng-if="lemur.sexe.includes('M')">Masculin</span>
+	         					<span ng-if="lemur.sexe.includes('F')">Féminin</span>
 	         				</td>
 	         				<td>{{lemur.dateDeNaissance}}</td>
-	         				<td>{{lemur.taille}}</td>
-	         				<td>{{lemur.poids}}</td>
-	         				<!--<td>{{lemur.caracteristiques}}</td>
-	         				<td>{{lemur.etat}}</td>
-	         				<td>{{lemur.famille}}</td>
-	         				<td>{{lemur.latitude}}</td>
-	         				<td>{{lemur.longitude}}</td>
-	         				<td>
-	         					<span ng-if="lemur.parent1">{{lemur.parent1}}</span>
-	         					<span ng-if="lemur.parent2">{{lemur.parent2}}</span>
-	         					<span ng-if="lemur.parent1==null && lemur.parent2==null">Aucun</span>
-							</td>-->
-							<td>{{lemur.dernierScan}}</td>
-                          </tr>
-                        </tbody>
+	         				<td>{{lemur.dateEntree}}</td>
+	         				<td>{{lemur.origine}}</td>
+                       </tr>
+                    </tbody>
                 </table>
             
               </div>
