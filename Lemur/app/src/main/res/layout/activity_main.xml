@@ -13,11 +13,6 @@
         layout="@layout/app_bar"
         android:id="@+id/app_toolbar" />
 
-    <!--<include
-        layout="@layout/content_profile"
-        android:id="@+id/contentProfile"
-        />-->
-
     <include
         layout="@layout/header_profile"
         android:id="@+id/headerProfile"
@@ -31,22 +26,4 @@
         layout="@layout/description_profile"
         android:id="@+id/descProf"
         />
-
-    <!--android:layout_alignParentTop="true"-->
-
-
-
-    <!--<TextView
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/title"
-        android:textColor="#ffffff"
-        android:textSize="20dp" />-->
-
-
-
 </RelativeLayout>
