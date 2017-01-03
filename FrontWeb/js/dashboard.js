@@ -20,8 +20,9 @@ app.controller('dashboardCtrl',function($scope, $http){
 
 app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $document){
 	var list = [];
-	
-	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
+	//http://localhost:8080/FrontLRCWebService/rest/getLemurien
+  //http://bab-laboratory.com/lrc/getAllLemurien.html
+	$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
  		$scope.lemurList = res.data;
     	console.log($scope.lemurList);
 	});
