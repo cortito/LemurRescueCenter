@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+
+
+    tools:context="com.example.corto_000.lemurrescuecenter.MainActivity">
+
+    <include
+        layout="@layout/app_bar"
+        android:id="@+id/app_toolbar" />
+
+    <include
+        layout="@layout/header_profile"
+        android:id="@+id/headerProfile"
+        />
+
+    <include
+        layout="@layout/buttons_profile"
+        />
+
+    <include
+        layout="@layout/description_profile"
+        android:id="@+id/descProf"
+        />
+</RelativeLayout>
