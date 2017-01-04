@@ -29,7 +29,9 @@
       <br/>
       <div class="row">
         <div class="col-md-12">
-	 		<label>Recherche:</label> <input type="text" ng-model="rechercheLemur">
+        
+        
+	 		<label>Recherche:</label> <input type="text" ng-model="rechercheLemur" placeholder="recherche">
             <div class="panel panel-default panel-table">
               <div class="panel-heading">
                 <div class="row">
@@ -37,7 +39,7 @@
                     <h3 class="panel-title">Liste des lémuriens</h3>
                   </div>
                   <div class="col col-xs-6 text-right">
-                    <button type="button" class="btn btn-sm btn-primary btn-create">Nouveau</button>
+                    <button type="button" class="btn btn-sm btn-primary btn-create"  ng-click="open('', lemur, 'ajout')">Nouveau</button>
                   </div>
                 </div>
               </div>
@@ -119,7 +121,7 @@
        <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse">
                            
 		<td class="col-md-2" align="center">
-			<button type="button" class="btn btn-info" ng-click="open('', lemur)">
+			<button type="button" class="btn btn-info" ng-click="open('', lemur, 'details')">
 				<em class="fa fa-eye"></em>
 			</button>
 			<a ng-show="admin" class="btn btn-default"><em class="fa fa-pencil"></em></a>    

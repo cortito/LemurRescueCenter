@@ -15,15 +15,15 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
     $scope.numeroFictif = 23;
   
       
-    $scope.open = function (size, lemur, parentSelector) {
+    $scope.open = function (size, lemur, type, parentSelector) {
     var parentElem = parentSelector ? 
       angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
     var modalInstance = $uibModal.open({
       animation: $ctrl.animationsEnabled,
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: "modal/detailsModal.html",
-      controller: 'detailsModalCtrl',
+      templateUrl: 'modal/' + type + 'Modal.html',
+      controller: type + 'ModalCtrl',
       controllerAs: '$ctrl',
       size: size,
       appendTo: parentElem,
@@ -95,9 +95,9 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
 
 	$scope.getPoids = $scope.getPoidsLemurien($ctrl.lemur);
 
-  $scope.data = [ $scope.poids, $scope.moyenne];
-    $scope.onClick = function (points, evt) {
-  };
+  	$scope.data = [ $scope.poids, $scope.moyenne];
+    $scope.onClick = function (points, evt) {};
+    
   $scope.datasetOverride = [{ yAxisID: 'Poids' }];
   
   function isFloat(n){
@@ -148,3 +148,40 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
   
 });
 
+
+app.controller('ajoutModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
+  var $ctrl = this;
+  $scope.empty = {};
+
+      $scope.add = function(lemur) {
+        $scope.empty = angular.copy(lemur);
+        
+        var url = ""; //remplir url
+        var parameter = JSON.stringify(lemur);
+    		return $http.post(url, parameter)
+
+        .success(function (response) {
+        	console.log(response);
+            return response;
+        })
+
+        .error(function (response)
+        {
+        	console.log(response);
+        });
+      };
+
+      $scope.reset = function() {
+        $scope.user = angular.copy($scope.empty);
+      };
+
+      $scope.reset();
+   
+  $ctrl.ok = function () {
+    $uibModalInstance.close($ctrl.numero);
+  };
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('Fermer');
+  };
+  });
