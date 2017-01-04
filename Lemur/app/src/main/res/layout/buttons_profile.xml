@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttons"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAccent"
+    android:layout_below="@+id/descProf"
+    android:columnCount="2"
+    android:rowCount="2"
+    android:layout_gravity="center"
+    android:layout_alignParentBottom="true"
+    android:layout_weight="1"
+    >
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/settingButton"
+            android:src="@drawable/ic_settings"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:layout_columnWeight="1"
+
+            />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/walpButton"
+            android:src="@drawable/ic_wallpaper"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:foregroundGravity="center_vertical"
+
+            />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/visButton"
+            android:src="@drawable/ic_visibility"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:foregroundGravity="center_vertical"
+
+            />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/customButton"
+            android:src="@drawable/ic_settings"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:foregroundGravity="center_vertical"
+
+            />
+</GridLayout>
+
+
+    <!--android:layout_width="wrap_content"
+        android:layout_height="wrap_content"-->
