@@ -8,4 +8,6 @@ import javax.ejb.Local;
 public interface IMessageSenderTopic {
 
 	public void sendMessage(Serializable message);
+	public void sendMessageAdd(Serializable message);
+
 }

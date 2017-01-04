@@ -44,6 +44,24 @@ public class LemurienEntity implements Serializable {
 	@Column
 	private String commentaireSortie;
 
+	public LemurienEntity() {
+	}
+
+	public LemurienEntity(LemurienModel lemurienM) {
+		super();
+		this.nom = lemurienM.getNom();
+		this.numeroIdentification = lemurienM.getNumeroIdentification();
+		this.sexe = lemurienM.getSexe();
+		this.dateDeNaissance = lemurienM.getDateDeNaissance();
+		this.dateEntree = lemurienM.getDateEntree();
+		this.origine = lemurienM.getOrigine();
+		this.natureEntree = lemurienM.getNatureEntree();
+		this.ancienProprietaire = lemurienM.getAncienProprietaire();
+		this.dateSortie = lemurienM.getDateSortie();
+		this.natureSortie = lemurienM.getNatureSortie();
+		this.commentaireSortie = lemurienM.getCommentaireSortie();
+	}
+
 	public int getIdDB() {
 		return idDB;
 	}
@@ -140,5 +158,4 @@ public class LemurienEntity implements Serializable {
 		this.commentaireSortie = commentaireSortie;
 	}
 
-	
 }

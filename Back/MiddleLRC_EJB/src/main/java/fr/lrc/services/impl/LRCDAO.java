@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.logging.Logger;
 
 import fr.lrc.model.lemurien.LemurienEntity;
+import fr.lrc.model.lemurien.LemurienModel;
 import fr.lrc.model.poids.PoidsEntity;
 import fr.lrc.services.ILRCDAO;
 
@@ -59,5 +60,30 @@ public class LRCDAO implements ILRCDAO {
 			log.warn(e.getMessage());
 		}
 		return poidsList;
+	}
+
+	@Override
+	public LemurienEntity addLemurien(LemurienModel lemurienM) {
+
+		LemurienEntity lemurienE = new LemurienEntity(lemurienM);
+		try {
+			em.persist(lemurienE);
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return getLemurienByName(lemurienE.getNom());
+	}
+
+	@Override
+	public LemurienEntity getLemurienByName(String nom) {
+		String qry = "SELECT u FROM LemurienEntity u WHERE u.nom=:nom ";
+
+		LemurienEntity lemurienE = null;
+		try {
+			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("nom", nom).getSingleResult();
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return lemurienE;
 	}
 }

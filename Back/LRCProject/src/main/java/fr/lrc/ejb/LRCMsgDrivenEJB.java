@@ -66,21 +66,29 @@ public class LRCMsgDrivenEJB implements MessageListener {
 							s.replace(s.length() - 1, s.length(), "]");
 						}
 					}
-				}
-				/**
-				 * Get Lemurien By Id
-				 */
-				else if (msg.getObject() instanceof LemurienModel) {
+				} else if (msg.getObject() instanceof LemurienModel) {
 					log.info("Lemurien");
 					LemurienModel lemurienM = (LemurienModel) msg.getObject();
-					LemurienEntity lemurienE = dao.getLemurienById(lemurienM.getIdDB());
-
+					LemurienEntity lemurienE = null;
+					/**
+					 * ADD Lemurien
+					 */
+					if (msg.getBooleanProperty("add")) {
+						log.info(lemurienM.toString());
+						lemurienE = dao.addLemurien(lemurienM);
+					}
+					/**
+					 * Get Lemurien By Id
+					 */
+					else {
+						lemurienE = dao.getLemurienById(lemurienM.getIdDB());
+					}
+					s.append(lemurienM.toString());
 					if (lemurienE != null) {
 						lemurienM = new LemurienModel(lemurienE);
 					} else {
 						lemurienM = null;
 					}
-					s.append(lemurienM.toString());
 				}
 				/**
 				 * Get Poids By Name
