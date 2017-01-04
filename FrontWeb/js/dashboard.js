@@ -4,7 +4,7 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
 	var list = [];
 	//http://localhost:8080/FrontLRCWebService/rest/getLemurien
   //http://bab-laboratory.com/lrc/getAllLemurien.html
-	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
+	$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
  		$scope.lemurList = res.data;
 	});
         
@@ -156,7 +156,7 @@ app.controller('ajoutModalCtrl', function ($http, $scope, $uibModalInstance, lem
       $scope.add = function(lemur) {
         $scope.empty = angular.copy(lemur);
         
-        var url = ""; //remplir url
+        var url = "http://localhost:8080/FrontLRCWebService/rest/addLemurien"; 
         var parameter = JSON.stringify(lemur);
     		return $http.post(url, parameter)
 
