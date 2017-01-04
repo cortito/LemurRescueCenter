@@ -1,28 +1,10 @@
 var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'chart.js']);
 
-/*
-app.controller('dashboardCtrl',function($scope, $http){
-	var list = [];
-	
-	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
-
- 		$scope.lemurList = res.data;
-        console.log($scope.lemurList);
-
-        });
-        
-        $scope.sortType = 'idDB';
-        $scope.sortReverse = false;
-        
-        $scope.admin = 1;
-});
-*/
-
 app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $document){
 	var list = [];
 	//http://localhost:8080/FrontLRCWebService/rest/getLemurien
   //http://bab-laboratory.com/lrc/getAllLemurien.html
-	$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
+	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
  		$scope.lemurList = res.data;
     	console.log($scope.lemurList);
 	});
@@ -41,8 +23,8 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
       animation: $ctrl.animationsEnabled,
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
+      templateUrl: "modal/detailsModal.html",
+      controller: 'detailsModalCtrl',
       controllerAs: '$ctrl',
       size: size,
       appendTo: parentElem,
@@ -65,7 +47,7 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
 });
    
  
-app.controller('ModalInstanceCtrl', function ($http, $scope, $uibModalInstance, lemur) {
+app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
   var $ctrl = this;
   $ctrl.lemur = lemur;
   
@@ -77,6 +59,39 @@ app.controller('ModalInstanceCtrl', function ($http, $scope, $uibModalInstance, 
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('Fermer');
   };
+  
+  
+ /*
+ var url = "http://localhost:8080/FrontLRCWebService/rest/getLemurien";
+  
+  $scope.getPoidsLemurien = function (lemur) {
+  var parameter = JSON.stringify({nom: lemur.nom});
+    return $http.post(url, parameter)
+        .success(function (response) {
+            return response;
+        })
+        .error(function (response)
+        {
+        	console.log(response);
+        });
+	};
+	
+*/
+	/*
+$scope.getPoids = $scope.getPoidsLemurien($ctrl.lemur);
+	$scope.getPoids.forEach(function(json){
+ 		 $scope.labels.push(json.date);
+ 		 $scope.poids.push(parseFloat(json.poids));
+	});
+	console.log($scope.poids.length);
+
+	$scope.poids.forEach(function(){
+		$scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
+	});
+    console.log($scope.moyenne);
+*/
+
+	
   
    $http.get('https://trello-attachments.s3.amazonaws.com/58532b6c95e4b53eb15676bb/586b574e130cd59c7da0f167/b27300ac81659c46c095015b83e6dd63/PoidsNAME.json').then(function(res) {
 

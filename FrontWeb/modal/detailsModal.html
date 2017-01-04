@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body ng-app="dashboard">
+<div ng-controller="dashboardCtrl as ctrl"> 
+
+	<div class="modal-header">
+       	     <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.idDB}}</h3>
+       	 </div>
+       	 <div class="modal-body" id="modal-body">
+            {{$ctrl.lemur.nom}}<br/>
+            {{$ctrl.lemur.numeroIdentification}}<br/>
+            <span ng-if="$ctrl.lemur.sexe.includes('M')">Masculin</span>
+	        <span ng-if="$ctrl.lemur.sexe.includes('F')">Féminin</span><br/>
+	        {{$ctrl.lemur.dateDeNaissance}}<br/>
+            {{$ctrl.lemur.origine}}<br/>
+            {{$ctrl.lemur.dateEntree}}<br/>
+            {{$ctrl.lemur.natureEntree}}<br/>
+            {{$ctrl.lemur.ancienProprietaire}}<br/>
+            {{$ctrl.lemur.dateSortie}}<br/>
+            {{$ctrl.lemur.natureSortie}}<br/>
+            {{$ctrl.lemur.commentaireSortie}}<br/>
+            
+            <hr>
+            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-				series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick">
+			</canvas>
+        	</div>
+        	<div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+      
+     </div>
+</div>
+
+</body>
+</html>
