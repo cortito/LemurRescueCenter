@@ -48,17 +48,17 @@ public class LemurienModel implements Serializable {
 
 	public LemurienModel(LemurienEntity lemurienE) {
 		this.idDB = lemurienE.getIdDB();
-		this.nom = lemurienE.getNom();
-		this.numeroIdentification = lemurienE.getNumeroIdentification();
-		this.sexe = lemurienE.getSexe();
-		this.dateDeNaissance = lemurienE.getDateDeNaissance();
-		this.dateEntree = lemurienE.getDateEntree();
-		this.origine = lemurienE.getOrigine();
-		this.natureEntree = lemurienE.getNatureEntree();
-		this.ancienProprietaire = lemurienE.getAncienProprietaire();
-		this.dateSortie = lemurienE.getDateSortie();
-		this.natureSortie = lemurienE.getNatureSortie();
-		this.commentaireSortie = lemurienE.getCommentaireSortie();
+		this.nom = controleNotNull(lemurienE.getNom());
+		this.numeroIdentification = controleNotNull(lemurienE.getNumeroIdentification());
+		this.sexe = controleNotNull(lemurienE.getSexe());
+		this.dateDeNaissance = controleNotNull(lemurienE.getDateDeNaissance());
+		this.dateEntree = controleNotNull(lemurienE.getDateEntree());
+		this.origine = controleNotNull(lemurienE.getOrigine());
+		this.natureEntree = controleNotNull(lemurienE.getNatureEntree());
+		this.ancienProprietaire = controleNotNull(lemurienE.getAncienProprietaire());
+		this.dateSortie = controleNotNull(lemurienE.getDateSortie());
+		this.natureSortie = controleNotNull(lemurienE.getNatureSortie());
+		this.commentaireSortie = controleNotNull(lemurienE.getCommentaireSortie());
 
 	}
 
@@ -160,20 +160,21 @@ public class LemurienModel implements Serializable {
 
 	public String toJSON() {
 		StringBuilder s = new StringBuilder();
-		s.append("{ \"idDB\" : " + idDB + ", ")
-		.append("\"nom\" : \"" + nom + "\", ")
-		.append("\"numeroIdentification\" : \"" + numeroIdentification + "\", ")
-		.append("\"sexe\" : \"" + sexe + "\", ")
-		.append("\"dateDeNaissance\" : \"" + dateDeNaissance + "\", ")
-		.append("\"dateEntree\" : \"" + dateEntree + "\", ")
-		.append("\"origine\" : \"" + origine + "\", ")
-		.append("\"natureEntree\" : \"" + natureEntree + "\", ")
-		.append("\"ancienProprietaire\" : \"" + ancienProprietaire + "\", ")
-		.append("\"dateSortie\" : \"" + dateSortie + "\", ")
-		.append("\"natureSortie\" : \"" + natureSortie + "\", ")
-		.append("\"commentaireSortie\" : \"" + commentaireSortie + "\"}");
+		s.append("{ \"idDB\" : " + idDB + ", ").append("\"nom\" : \"" + nom + "\", ")
+				.append("\"numeroIdentification\" : \"" + numeroIdentification + "\", ")
+				.append("\"sexe\" : \"" + sexe + "\", ").append("\"dateDeNaissance\" : \"" + dateDeNaissance + "\", ")
+				.append("\"dateEntree\" : \"" + dateEntree + "\", ").append("\"origine\" : \"" + origine + "\", ")
+				.append("\"natureEntree\" : \"" + natureEntree + "\", ")
+				.append("\"ancienProprietaire\" : \"" + ancienProprietaire + "\", ")
+				.append("\"dateSortie\" : \"" + dateSortie + "\", ")
+				.append("\"natureSortie\" : \"" + natureSortie + "\", ")
+				.append("\"commentaireSortie\" : \"" + commentaireSortie + "\"}");
 
 		return s.toString();
+	}
+
+	private String controleNotNull(String s) {
+		return s == null ? "" : s;
 	}
 
 	@Override

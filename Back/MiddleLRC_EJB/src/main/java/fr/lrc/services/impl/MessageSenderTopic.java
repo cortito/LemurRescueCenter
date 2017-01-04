@@ -52,4 +52,19 @@ public class MessageSenderTopic implements IMessageSenderTopic {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public void sendMessageUpdate(Serializable o) {
+		log.info("Envoi d'un message au Topic");
+		try {
+			JMSProducer prod = context.createProducer();
+			ObjectMessage message = context.createObjectMessage();
+			message.setObject(o);
+			message.setBooleanProperty("update", true);
+			prod.send(topic, message);
+		} catch (NullPointerException | JMSException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

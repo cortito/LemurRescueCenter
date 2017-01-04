@@ -47,19 +47,22 @@ public class LemurienEntity implements Serializable {
 	public LemurienEntity() {
 	}
 
-	public LemurienEntity(LemurienModel lemurienM) {
+	public LemurienEntity(LemurienModel lemurienM, String paramNull) {
 		super();
-		this.nom = lemurienM.getNom();
-		this.numeroIdentification = lemurienM.getNumeroIdentification();
-		this.sexe = lemurienM.getSexe();
-		this.dateDeNaissance = lemurienM.getDateDeNaissance();
-		this.dateEntree = lemurienM.getDateEntree();
-		this.origine = lemurienM.getOrigine();
-		this.natureEntree = lemurienM.getNatureEntree();
-		this.ancienProprietaire = lemurienM.getAncienProprietaire();
-		this.dateSortie = lemurienM.getDateSortie();
-		this.natureSortie = lemurienM.getNatureSortie();
-		this.commentaireSortie = lemurienM.getCommentaireSortie();
+		if (!paramNull.equals(("id"))) {
+			this.idDB = lemurienM.getIdDB();
+		}
+		this.nom = controleNotNull(lemurienM.getNom());
+		this.numeroIdentification = controleNotNull(lemurienM.getNumeroIdentification());
+		this.sexe = controleNotNull(lemurienM.getSexe());
+		this.dateDeNaissance = controleNotNull(lemurienM.getDateDeNaissance());
+		this.dateEntree = controleNotNull(lemurienM.getDateEntree());
+		this.origine = controleNotNull(lemurienM.getOrigine());
+		this.natureEntree = controleNotNull(lemurienM.getNatureEntree());
+		this.ancienProprietaire = controleNotNull(lemurienM.getAncienProprietaire());
+		this.dateSortie = controleNotNull(lemurienM.getDateSortie());
+		this.natureSortie = controleNotNull(lemurienM.getNatureSortie());
+		this.commentaireSortie = controleNotNull(lemurienM.getCommentaireSortie());
 	}
 
 	public int getIdDB() {
@@ -156,6 +159,10 @@ public class LemurienEntity implements Serializable {
 
 	public void setCommentaireSortie(String commentaireSortie) {
 		this.commentaireSortie = commentaireSortie;
+	}
+
+	private String controleNotNull(String s) {
+		return s == null ? "" : s;
 	}
 
 }

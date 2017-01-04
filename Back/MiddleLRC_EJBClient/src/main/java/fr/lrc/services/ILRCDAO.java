@@ -20,4 +20,7 @@ public interface ILRCDAO {
 	public List<PoidsEntity> getPoidsByName(String nom);
 
 	public LemurienEntity addLemurien(LemurienModel lemurienM);
+	
+	public LemurienEntity updateLemurien(LemurienModel lemurienM);
+
 }
