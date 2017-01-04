@@ -1,30 +1,11 @@
 var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'chart.js']);
 
-/*
-app.controller('dashboardCtrl',function($scope, $http){
-	var list = [];
-	
-	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
-
- 		$scope.lemurList = res.data;
-        console.log($scope.lemurList);
-
-        });
-        
-        $scope.sortType = 'idDB';
-        $scope.sortReverse = false;
-        
-        $scope.admin = 1;
-});
-*/
-
 app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $document){
 	var list = [];
 	//http://localhost:8080/FrontLRCWebService/rest/getLemurien
   //http://bab-laboratory.com/lrc/getAllLemurien.html
-	$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
+	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
  		$scope.lemurList = res.data;
-    	console.log($scope.lemurList);
 	});
         
     $scope.sortType = 'idDB';
@@ -34,15 +15,15 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
     $scope.numeroFictif = 23;
   
       
-    $scope.open = function (size, lemur, parentSelector) {
+    $scope.open = function (size, lemur, type, parentSelector) {
     var parentElem = parentSelector ? 
       angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
     var modalInstance = $uibModal.open({
       animation: $ctrl.animationsEnabled,
       ariaLabelledBy: 'modal-title',
       ariaDescribedBy: 'modal-body',
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
+      templateUrl: 'modal/' + type + 'Modal.html',
+      controller: type + 'ModalCtrl',
       controllerAs: '$ctrl',
       size: size,
       appendTo: parentElem,
@@ -56,7 +37,7 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
       modalInstance.result.then(function (selectedItem) {
       $ctrl.selected = selectedItem;
     }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
+    	// quit modal
     });
  };
  
@@ -65,7 +46,7 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
 });
    
  
-app.controller('ModalInstanceCtrl', function ($http, $scope, $uibModalInstance, lemur) {
+app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
   var $ctrl = this;
   $ctrl.lemur = lemur;
   
@@ -78,34 +59,45 @@ app.controller('ModalInstanceCtrl', function ($http, $scope, $uibModalInstance, 
     $uibModalInstance.dismiss('Fermer');
   };
   
-   $http.get('https://trello-attachments.s3.amazonaws.com/58532b6c95e4b53eb15676bb/586b574e130cd59c7da0f167/b27300ac81659c46c095015b83e6dd63/PoidsNAME.json').then(function(res) {
 
- 		$scope.getPoids = res.data;
- 		$scope.getPoids.forEach(function(json){
- 		 $scope.labels.push(json.date);
- 		 $scope.poids.push(parseFloat(json.poids));
-		 
- 		});
 
-        console.log($scope.poids.length);
+ var url = "http://localhost:8080/FrontLRCWebService/rest/getPoids";
+  
+	$scope.getPoids = [];
 
-$scope.poids.forEach(function(){
-$scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
-});
- 
- 		console.log($scope.moyenne);
+
+  $scope.getPoidsLemurien = function (lemur) {
+  var parameter = JSON.stringify({nom: lemur.nom});
+    return $http.post(url, parameter)
+
+        .success(function (response) {
+        	$scope.getPoids = response;
+        	$scope.getPoids.forEach(function(json){
+    			$scope.labels.push(json.date);
+				$scope.poids.push(parseFloat(json.poids));
+        	});
+        	$scope.poids.forEach(function(){
+				$scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
+			});
+            return response;
+        })
+
+        .error(function (response)
+        {
+        	console.log(response);
         });
+	};
+	
+	$scope.labels = []
+	$scope.series = ['Poids', 'Moyenne'];
+	$scope.poids = [];
+	$scope.moyenne = [];
 
+	$scope.getPoids = $scope.getPoidsLemurien($ctrl.lemur);
 
- 
-$scope.labels = []
-  $scope.series = ['Poids', 'Moyenne'];
-  $scope.poids = [];
-  $scope.moyenne = [];
-  $scope.data = [ $scope.poids, $scope.moyenne];
-    $scope.onClick = function (points, evt) {
-    console.log(points, evt);
-  };
+  	$scope.data = [ $scope.poids, $scope.moyenne];
+    $scope.onClick = function (points, evt) {};
+    
   $scope.datasetOverride = [{ yAxisID: 'Poids' }];
   
   function isFloat(n){
@@ -122,11 +114,7 @@ $scope.labels = []
         		{
         		taille = taille + 1;
         		somme = somme + item;}
-
-
-			console.log(item);
         	});
-        	console.log(somme + " long: " + length);
         	return somme / taille;
         }
   
@@ -160,3 +148,40 @@ $scope.labels = []
   
 });
 
+
+app.controller('ajoutModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
+  var $ctrl = this;
+  $scope.empty = {};
+
+      $scope.add = function(lemur) {
+        $scope.empty = angular.copy(lemur);
+        
+        var url = ""; //remplir url
+        var parameter = JSON.stringify(lemur);
+    		return $http.post(url, parameter)
+
+        .success(function (response) {
+        	console.log(response);
+            return response;
+        })
+
+        .error(function (response)
+        {
+        	console.log(response);
+        });
+      };
+
+      $scope.reset = function() {
+        $scope.user = angular.copy($scope.empty);
+      };
+
+      $scope.reset();
+   
+  $ctrl.ok = function () {
+    $uibModalInstance.close($ctrl.numero);
+  };
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('Fermer');
+  };
+  });

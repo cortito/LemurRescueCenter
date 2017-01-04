@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body ng-app="dashboard">
+<div ng-controller="dashboardCtrl as ctrl"> 
+
+	<div class="modal-header">
+	   	<h3 class="modal-title" id="modal-title">Ajout d'un lémurien</h3>
+	</div>
+	<div class="modal-body" id="modal-body">
+		<form novalidate class="css-form">
+    		<label>Nom: <input type="text" ng-model="lemur.nom" required /></label><br />
+    		<label>Identification: <input type="text" ng-model="lemur.numeroIdentification"/></label><br />
+    		Sexe: <label><input type="radio" ng-model="lemur.sexe" value="Mâle" />Mâle</label>
+    		<label><input type="radio" ng-model="lemur.sexe" value="Femelle" />Femelle</label><br />
+    		<label>Date de naissance<input type="text" ng-model="lemur.dateDeNaissance"/></label><br />
+    		<label>Origine <input type="text" ng-model="lemur.origine"/></label><br />
+    		<label>Date d'entrée<input type="text" ng-model="lemur.dateEntree"/></label><br />
+    		<label>Nature de l'entrée<input type="text" ng-model="lemur.natureEntree"/></label><br />
+    		<label>Ancien propriétaire<input type="text" ng-model="lemur.ancienProprietaire"/></label><br/>
+    		<label>Date de sortie<input type="text" ng-model="lemur.dateSortie"/></label><br />
+    		<label>Nature de sortie<input type="text" ng-model="lemur.natureSortie"/></label><br />
+    		<label>Commentaire de sortie<input type="text" ng-model="lemur.commentaireSortie"/></label><br />
+    	
+    	<input type="button" ng-click="reset()" value="Reset" />
+    	<input type="submit" ng-click="add(lemur)" value="Envoyer" />
+  		</form>
+  	<pre>lémurien = {{lemur | json}}</pre>
+		<pre>empty = {{empty | json}}</pre>   
+	</div>
+	<div class="modal-footer">
+			<button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+			<button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+	 </div>
+</div>
+
+</body>
+</html>
