@@ -9,7 +9,7 @@ var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'
 		//http://localhost:8080/FrontLRCWebService/rest/getLemurien
 		//http://bab-laboratory.com/lrc/getAllLemurien.html
 		$scope.getData = function(){
-			$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
+			$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
 			$scope.lemurList = res.data;
 			});
 		};
@@ -82,7 +82,11 @@ var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'
 				$scope.getPoids = response;
 				$scope.getPoids.forEach(function(json){
 					$scope.labels.push(json.date);
-					$scope.poids.push(parseFloat(json.poids));
+					if(json.poids == 0.0){
+						$scope.poids.push(null);
+					}else{
+						$scope.poids.push(json.poids);
+					}
 				});
 				$scope.poids.forEach(function(){
 					$scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
@@ -107,20 +111,16 @@ var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'
 
 		$scope.datasetOverride = [{ yAxisID: 'Poids' }];
 
-		function isFloat(n){
-			return Number(n) === n && n % 1 !== 0;
-		}
-
 		$scope.getMoyenne = function(array, length){
 			var somme = 0;
 			var taille = 0;
 			array.forEach(function(item){
-				if(isFloat(item)){
+				if(item != null){
 					taille = taille + 1;
-					somme = somme + item;
+					somme = somme + parseFloat(item);
 				}
 			});
-			return somme / taille;
+			return (parseFloat(somme) / parseFloat(taille));
 		}
 
 		$scope.options = {
@@ -286,7 +286,7 @@ var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'
 		
 		$scope.addWeight = function(nom, data) {     
 			  
-			var url = ""; ///URL 
+			var url = "http://localhost:8080/FrontLRCWebService/rest/addPoids";
 			var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
 			console.log(parameter);
 			
