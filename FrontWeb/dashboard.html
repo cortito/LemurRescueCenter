@@ -29,8 +29,6 @@
       <br/>
       <div class="row">
         <div class="col-md-12">
-        
-        
 	 		<label>Recherche:</label> <input type="text" ng-model="rechercheLemur" placeholder="recherche">
             <div class="panel panel-default panel-table">
               <div class="panel-heading">
@@ -124,7 +122,7 @@
 			<button type="button" class="btn btn-info" ng-click="open('', lemur, 'details')">
 				<em class="fa fa-eye"></em>
 			</button>
-			<a ng-show="admin" class="btn btn-default"><em class="fa fa-pencil"></em></a>    
+			<a ng-show="admin" class="btn btn-default" ng-click="open('', lemur, 'modification')"><em class="fa fa-pencil"></em></a>    
             <a ng-show="admin" class="btn btn-danger"><em class="fa fa-trash"></em></a>
 		</td>
         <td class="hidden-xs">{{lemur.idDB}}</td>

@@ -4,7 +4,7 @@
 <div ng-controller="dashboardCtrl as ctrl"> 
 
 	<div class="modal-header">
-	   	<h3 class="modal-title" id="modal-title">Ajout d'un lémurien</h3>
+	   	<h3 class="modal-title" id="modal-title">Modification d'un lémurien</h3>
 	</div>
 	<div class="modal-body" id="modal-body">
 		<form novalidate class="css-form">
@@ -24,8 +24,8 @@
     	<input type="button" ng-click="reset()" value="Reset" />
     	<input type="submit" ng-click="update(lemur)" value="Envoyer" />
   		</form>
-  	<pre>lémurien = {{lemur | json}}</pre>
-		<pre>empty = {{empty | json}}</pre>   
+  		<pre>lémurien = {{lemur | json}}</pre>
+		<pre>ancien = {{ancien | json}}</pre>   
 	</div>
 	<div class="modal-footer">
 			<button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
