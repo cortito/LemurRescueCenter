@@ -11,6 +11,7 @@
     android:layout_gravity="center"
     android:layout_alignParentBottom="true"
     android:padding="3dp"
+    android:layout_alignParentEnd="true"
     >
     <RelativeLayout
         android:id="@+id/col"

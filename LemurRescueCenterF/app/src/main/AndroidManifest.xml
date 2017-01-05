@@ -20,7 +20,12 @@
         <activity android:name=".activity.SettingsActivity" />
         <activity android:name=".activity.VetoFileActivity" />
         <activity android:name=".activity.StatsActivity" />
-        <activity android:name=".activity.CustomActivity"></activity>
+        <activity android:name=".activity.CustomActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileActivity" />
+        </activity>
+        <activity android:name=".activity.Customtest"></activity>
     </application>
 
 </manifest>

@@ -85,7 +85,7 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.searchLemur) {
             Toast.makeText(this,"it works great",Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -97,7 +97,12 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
     public void onLemurRetrieved(LemurModel lemurModel) {
 
         AppCompatTextView name = (AppCompatTextView) findViewById(R.id.lemurName);
-        name.setText(lemurModel.getName());
+        if(!lemurModel.getName().equals("")){
+            name.setText(lemurModel.getName());
+        }
+        else {
+            name.setText("Non déterminé");
+        }
 
         AppCompatTextView age = (AppCompatTextView) findViewById(R.id.lemureAge);
         if(!lemurModel.getBirthDate().equals("")){
@@ -108,9 +113,74 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
         }
 
         AppCompatTextView sexe = (AppCompatTextView) findViewById(R.id.lemurGender);
-        sexe.setText(lemurModel.getGender());
+        if(!lemurModel.getGender().equals("")){
+            sexe.setText(lemurModel.getGender());
+        }
+        else {
+            sexe.setText("Non déterminé");
+        }
 
         AppCompatTextView numIdentification = (AppCompatTextView) findViewById(R.id.num_Identification);
-        numIdentification.setText(lemurModel.getIdLemur());
+        if(!lemurModel.getIdLemur().equals("")){
+            numIdentification.setText(lemurModel.getIdLemur());
+        }
+        else {
+            numIdentification.setText("Non déterminé");
+        }
+
+        AppCompatTextView origine = (AppCompatTextView) findViewById(R.id.LemurOrigin);
+        if(!lemurModel.getOrigin().equals("")){
+            origine.setText(lemurModel.getOrigin());
+        }
+        else {
+            origine.setText("Non déterminé");
+        }
+
+        AppCompatTextView entryDate = (AppCompatTextView) findViewById(R.id.lemurEntryDate);
+        if(!lemurModel.getEntryDate().equals("")){
+            entryDate.setText(lemurModel.getEntryDate());
+        }
+        else {
+            entryDate.setText("Non déterminé");
+        }
+
+        AppCompatTextView entryNature = (AppCompatTextView) findViewById(R.id.LemurEntryNature);
+        if(!lemurModel.getEntryNature().equals("")){
+            entryNature.setText(lemurModel.getEntryNature());
+        }
+        else {
+            entryNature.setText("Non déterminé");
+        }
+
+        AppCompatTextView lastOwner = (AppCompatTextView) findViewById(R.id.LemurLastOwner);
+        if(!lemurModel.getLastOwner().equals("")){
+            lastOwner.setText(lemurModel.getLastOwner());
+        }
+        else {
+            lastOwner.setText("Non déterminé");
+        }
+
+        AppCompatTextView leavingDate = (AppCompatTextView) findViewById(R.id.LemurLeavingDate);
+        if(!lemurModel.getLeaveDate().equals("")){
+            leavingDate.setText(lemurModel.getLeaveDate());
+        }
+        else {
+            leavingDate.setText("Non déterminé");
+        }
+
+        AppCompatTextView leavingNature = (AppCompatTextView) findViewById(R.id.LemurLeavingNature);
+        if(!lemurModel.getLeaveNature().equals("")){
+            leavingNature.setText(lemurModel.getLeaveNature());
+        }
+        else {
+            leavingNature.setText("Non déterminé");
+        }
+        AppCompatTextView leavingCommentary = (AppCompatTextView) findViewById(R.id.LemurLeavingCommentary);
+        if(!lemurModel.getLeaveCommentary().equals("")){
+            leavingCommentary.setText(lemurModel.getLeaveCommentary());
+        }
+        else {
+            leavingCommentary.setText("Non déterminé");
+        }
     }
 }

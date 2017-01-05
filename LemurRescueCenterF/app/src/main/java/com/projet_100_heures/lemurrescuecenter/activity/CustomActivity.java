@@ -3,10 +3,12 @@ package com.projet_100_heures.lemurrescuecenter.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.projet_100_heures.lemurrescuecenter.R;
 import com.projet_100_heures.lemurrescuecenter.business.dao.CustomizeLemurTask;
@@ -24,6 +26,13 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
     EditText age;
     EditText sex;
     EditText name;
+    EditText entryDate;
+    EditText origin;
+    EditText entryNature;
+    EditText lastOwner;
+    EditText leavingDate;
+    EditText leavingNature;
+    EditText leavingCommentary;
 
     JSONObject jsonObject = new JSONObject();
     LemurModel lemurModelBuffer = new LemurModel();
@@ -34,15 +43,27 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
 
-        numId = (EditText)findViewById(R.id.num_Identification_custom);
-        age = (EditText) findViewById(R.id.editlemureAge);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
+
+        numId = (EditText)findViewById(R.id.editLemurNumId);
+        age = (EditText) findViewById(R.id.editLemurAge);
         sex = (EditText) findViewById(R.id.editLemurGender);
-        name = (EditText) findViewById(R.id.editlemurName);
+        name = (EditText) findViewById(R.id.editLemurName);
+        entryDate = (EditText) findViewById(R.id.editlemurEntryDate);
+        origin = (EditText) findViewById(R.id.editLemurOrigin);
+        entryNature = (EditText) findViewById(R.id.editLemurEntryNature);
+        lastOwner = (EditText) findViewById(R.id.editLemurLastOwner);
+        leavingDate = (EditText) findViewById(R.id.editLemurLeavingDate);
+        leavingNature = (EditText) findViewById(R.id.editLemurLeavingNature);
+        leavingCommentary = (EditText) findViewById(R.id.editLemurLeavingCommentary);
+
+
 
         RetrieveLemurTask retrieveLemurTask = new RetrieveLemurTask(this);
         retrieveLemurTask.execute();
 
-        Button submitButton = (Button) findViewById(R.id.submitButton);
+        ImageButton submitButton = (ImageButton) findViewById(R.id.submitEdit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -52,6 +73,14 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
                     jsonObject.put("dateDeNaissance", age.getText());
                     jsonObject.put("sexe", sex.getText());
                     jsonObject.put("nom", name.getText());
+                    jsonObject.put("dateEntree", entryDate.getText());
+                    jsonObject.put("origine", origin.getText());
+                    jsonObject.put("natureEntree", entryNature.getText());
+                    jsonObject.put("ancienProprietaire", lastOwner.getText());
+                    jsonObject.put("dateSortie", leavingDate.getText());
+                    jsonObject.put("natureSortie", leavingNature.getText());
+                    jsonObject.put("commentaireSortie", leavingCommentary.getText());
+
                 }
                 catch (JSONException e){
                     e.printStackTrace();
@@ -70,7 +99,13 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
                 }
             }
         });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_custom, menu);
+        return true;
     }
 
     @Override
@@ -98,6 +133,35 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
         if(lemurModel.getName() != null) {
             name.setHint(lemurModel.getName());
             name.setHintTextColor(Color.BLACK);
+        }
+
+        if(lemurModel.getEntryDate() != null) {
+            entryDate.setHint(lemurModel.getEntryDate());
+            entryDate.setHintTextColor(Color.BLACK);
+        }
+        if (lemurModel.getOrigin() != null) {
+            origin.setHint(lemurModel.getOrigin());
+            origin.setHintTextColor(Color.BLACK);
+        }
+        if (lemurModel.getEntryNature() != null) {
+            entryNature.setHint(lemurModel.getEntryNature());
+            entryNature.setHintTextColor(Color.BLACK);
+        }
+        if (lemurModel.getLastOwner() != null) {
+            lastOwner.setHint(lemurModel.getLastOwner());
+            lastOwner.setHintTextColor(Color.BLACK);
+        }
+        if (lemurModel.getLeaveDate() != null) {
+            leavingDate.setHint(lemurModel.getLeaveDate());
+            leavingDate.setHintTextColor(Color.BLACK);
+        }
+        if (lemurModel.getLeaveNature() != null) {
+            leavingNature.setHint(lemurModel.getLeaveNature());
+            leavingNature.setHintTextColor(Color.BLACK);
+        }
+        if (lemurModel.getLeaveCommentary() != null) {
+            leavingCommentary.setHint(lemurModel.getLeaveCommentary());
+            leavingCommentary.setHintTextColor(Color.BLACK);
         }
     }
 

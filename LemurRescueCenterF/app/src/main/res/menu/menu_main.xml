@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Settings"
-
-        />
-
-    <item
-        android:id="@+id/action_search_lemur"
-        android:title="Chercher un Lemurien"
-        />
+        android:icon="@drawable/ic_search"
+        android:title="SearchLemur"
+        app:showAsAction="always"
+        android:id="@+id/searchLemur"/>
 </menu>

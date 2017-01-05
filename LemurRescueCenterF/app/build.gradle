@@ -31,4 +31,6 @@ dependencies {
     compile 'com.androidplot:androidplot-core:1.4.0'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile files('libs/CircleImageView-master/gradle/wrapper/gradle-wrapper.jar')
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.android.support:design:24.0.0'
 }
