@@ -115,25 +115,44 @@ public class LRCMsgDrivenEJB implements MessageListener {
 					}
 				}
 				/**
-				 * Get Poids By Name
+				 * Poids
 				 */
 				else if (msg.getObject() instanceof PoidsModel) {
 					log.info("Poids");
 					PoidsModel poidsM = (PoidsModel) msg.getObject();
-					List<PoidsEntity> poidsEList = dao.getPoidsByName(poidsM.getNom());
+					PoidsEntity poidsE = null;
+					/**
+					 * ADD Poids
+					 */
+					if (msg.getBooleanProperty("add")) {
+						log.info(poidsM.toString());
+						if (poidsM.getNom() != null || !poidsM.getNom().isEmpty()) {
+							poidsE = dao.addPoids(poidsM);
 
-					s.append("[");
-					if (poidsEList != null) {
-
-						for (PoidsEntity pE : poidsEList) {
-							s.append(new PoidsModel(pE).toJSON());
-							s.append(",");
+							if (poidsE != null) {
+								poidsM = new PoidsModel(poidsE);
+								s.append(poidsM.toString());
+							} else {
+								poidsM = null;
+							}
 						}
-					}
-					if (s.length() == 1) {
-						s.append("]");
 					} else {
-						s.replace(s.length() - 1, s.length(), "]");
+						log.info("Poids");
+						List<PoidsEntity> poidsEList = dao.getPoidsByName(poidsM.getNom());
+
+						s.append("[");
+						if (poidsEList != null) {
+
+							for (PoidsEntity pE : poidsEList) {
+								s.append(new PoidsModel(pE).toJSON());
+								s.append(",");
+							}
+						}
+						if (s.length() == 1) {
+							s.append("]");
+						} else {
+							s.replace(s.length() - 1, s.length(), "]");
+						}
 					}
 				}
 			} else {

@@ -28,6 +28,9 @@ public class PoidsEntity implements Serializable {
 	@Column
 	private Double poids;
 
+	public PoidsEntity() {
+	}
+
 	public PoidsEntity(int idDB, String nom, String date, Double poids) {
 		this.idDB = idDB;
 		this.nom = nom;
@@ -35,7 +38,13 @@ public class PoidsEntity implements Serializable {
 		this.poids = poids;
 	}
 
-	public PoidsEntity() {
+	public PoidsEntity(PoidsModel poidsM, String paramNull) {
+		if (!paramNull.equals(("id"))) {
+			this.idDB = poidsM.getIdDB();
+		}
+		this.nom = poidsM.getNom();
+		this.date = poidsM.getDate();
+		this.poids = poidsM.getPoids();
 	}
 
 	public int getIdDB() {

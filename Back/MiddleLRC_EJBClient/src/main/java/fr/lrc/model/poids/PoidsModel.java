@@ -73,4 +73,11 @@ public class PoidsModel implements Serializable {
 		return s.toString();
 	}
 
+	@Override
+	public String toString() {
+		return toJSON();
+	}
+	
+	
+
 }

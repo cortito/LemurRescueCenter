@@ -13,6 +13,7 @@ import org.jboss.logging.Logger;
 import fr.lrc.model.lemurien.LemurienEntity;
 import fr.lrc.model.lemurien.LemurienModel;
 import fr.lrc.model.poids.PoidsEntity;
+import fr.lrc.model.poids.PoidsModel;
 import fr.lrc.services.ILRCDAO;
 
 @Stateless
@@ -25,11 +26,11 @@ public class LRCDAO implements ILRCDAO {
 
 	@Override
 	public LemurienEntity getLemurienById(int id) {
-		String qry = "SELECT u FROM LemurienEntity u WHERE u.id=:id ";
+		String qry = "SELECT u FROM LemurienEntity u WHERE u.idDB=:idDB ";
 
 		LemurienEntity lemurienE = null;
 		try {
-			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("id", id).getSingleResult();
+			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("idDB", id).getSingleResult();
 		} catch (NoResultException e) {
 			log.warn(e.getMessage());
 		}
@@ -112,5 +113,30 @@ public class LRCDAO implements ILRCDAO {
 			log.warn(e.getMessage());
 		}
 		return ret;
+	}
+
+	@Override
+	public PoidsEntity addPoids(PoidsModel poidsM) {
+
+		PoidsEntity poidsE = new PoidsEntity(poidsM, "id");
+		try {
+			em.persist(poidsE);
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return poidsE;
+	}
+
+	@Override
+	public PoidsEntity getPoidsById(int id) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.idDB=:idDB ";
+
+		PoidsEntity poidsE = null;
+		try {
+			poidsE = (PoidsEntity) em.createQuery(qry).setParameter("idDB", id).getSingleResult();
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return poidsE;
 	}
 }

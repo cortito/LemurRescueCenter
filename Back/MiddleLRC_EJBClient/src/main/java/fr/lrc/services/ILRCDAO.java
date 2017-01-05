@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import fr.lrc.model.lemurien.LemurienEntity;
 import fr.lrc.model.lemurien.LemurienModel;
 import fr.lrc.model.poids.PoidsEntity;
+import fr.lrc.model.poids.PoidsModel;
 
 @Local
 public interface ILRCDAO {
@@ -24,5 +25,9 @@ public interface ILRCDAO {
 	public LemurienEntity updateLemurien(LemurienModel lemurienM);
 
 	public boolean deleteLemurien(LemurienModel lemurienM);
+
+	public PoidsEntity addPoids(PoidsModel poidsM);
+
+	public PoidsEntity getPoidsById(int id);
 
 }
