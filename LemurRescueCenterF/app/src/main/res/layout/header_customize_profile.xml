@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/app_toolbar"
+    android:background="@color/colorBackground"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    >
+    <RelativeLayout
+        android:id="@+id/profileImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/colorBackground"
+        android:layout_alignParentTop="true">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileImage"
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:src="@drawable/makicatta3"
+            app:civ_border_color="@color/colorPrimary"
+            app:civ_border_width="3dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileImg"
+        android:id="@+id/profileName"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            >
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/lemuridTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="@string/id_Title"
+                android:textColor="#000"
+                />
+            <EditText
+                android:hint="0123456789"
+                android:labelFor="@+id/num_Identification_customize"
+                android:inputType="number"
+                android:id="@+id/num_Identification_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#000"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

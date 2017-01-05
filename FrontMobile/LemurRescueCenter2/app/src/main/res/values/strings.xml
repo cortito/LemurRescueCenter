@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">Lemur Rescue Center 2</string>
-    <string name="name_Title">Nom :  </string>
-    <string name="age_Title">Age :  </string>
-    <string name="description_Title">Description :  </string>
-    <string name="gender_Title">Sexe :  </string>
-    <string name="id_Title">Id :  </string>
-</resources>

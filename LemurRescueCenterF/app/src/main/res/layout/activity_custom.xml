@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_custom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.projet_100_heures.lemurrescuecenter.activity.CustomActivity">
+
+    <include
+        layout="@layout/app_bar"
+        android:id="@+id/app_toolbar" />
+
+    <include
+        layout="@layout/header_customize_profile"
+        android:id="@+id/headerCustomizeProfile"
+        />
+    <include
+        layout="@layout/description_customize_profile"
+        android:id="@+id/descriptionCustomProfile"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptionCustomProfile">
+
+        <Button
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="55dp"
+            android:id="@+id/submitButton"
+
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
