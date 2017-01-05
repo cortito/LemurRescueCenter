@@ -48,10 +48,24 @@ public class LemurienEntity implements Serializable {
 	}
 
 	public LemurienEntity(LemurienModel lemurienM, String paramNull) {
-		super();
 		if (!paramNull.equals(("id"))) {
 			this.idDB = lemurienM.getIdDB();
 		}
+		this.nom = controleNotNull(lemurienM.getNom());
+		this.numeroIdentification = controleNotNull(lemurienM.getNumeroIdentification());
+		this.sexe = controleNotNull(lemurienM.getSexe());
+		this.dateDeNaissance = controleNotNull(lemurienM.getDateDeNaissance());
+		this.dateEntree = controleNotNull(lemurienM.getDateEntree());
+		this.origine = controleNotNull(lemurienM.getOrigine());
+		this.natureEntree = controleNotNull(lemurienM.getNatureEntree());
+		this.ancienProprietaire = controleNotNull(lemurienM.getAncienProprietaire());
+		this.dateSortie = controleNotNull(lemurienM.getDateSortie());
+		this.natureSortie = controleNotNull(lemurienM.getNatureSortie());
+		this.commentaireSortie = controleNotNull(lemurienM.getCommentaireSortie());
+	}
+
+	public LemurienEntity(LemurienModel lemurienM) {
+		this.idDB = lemurienM.getIdDB();
 		this.nom = controleNotNull(lemurienM.getNom());
 		this.numeroIdentification = controleNotNull(lemurienM.getNumeroIdentification());
 		this.sexe = controleNotNull(lemurienM.getSexe());

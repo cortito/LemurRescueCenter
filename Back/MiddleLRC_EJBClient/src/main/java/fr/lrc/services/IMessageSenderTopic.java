@@ -12,4 +12,6 @@ public interface IMessageSenderTopic {
 	public void sendMessageAdd(Serializable o);
 
 	public void sendMessageUpdate(Serializable o);
+
+	public void sendMessageDelete(Serializable o);
 }

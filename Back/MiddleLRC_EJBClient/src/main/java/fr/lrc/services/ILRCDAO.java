@@ -23,4 +23,6 @@ public interface ILRCDAO {
 	
 	public LemurienEntity updateLemurien(LemurienModel lemurienM);
 
+	public boolean deleteLemurien(LemurienModel lemurienM);
+
 }

@@ -93,6 +93,15 @@ public class LRCMsgDrivenEJB implements MessageListener {
 						lemurienE = dao.updateLemurien(lemurienM);
 					}
 					/**
+					 * DELETE Lemurien
+					 */
+					else if (msg.getBooleanProperty("delete")) {
+						log.info(lemurienM.toString());
+						s.append("{ \"delete\":");
+						s.append(dao.deleteLemurien(lemurienM));
+						s.append("}");
+					}
+					/**
 					 * GET Lemurien By Id
 					 */
 					else {
