@@ -120,11 +120,18 @@
        <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse | filter: rechercheLemur">
                            
 		<td class="col-md-2" align="center">
-			<button type="button" class="btn btn-info" ng-click="open('', lemur, 'details')">
+			<a class="btn btn-info" ng-click="open('', lemur, 'details')">
 				<em class="fa fa-eye"></em>
-			</button>
-			<a ng-show="admin" class="btn btn-default" ng-click="open('', lemur, 'modification')"><em class="fa fa-pencil"></em></a>    
-            <a ng-show="admin" class="btn btn-danger" ng-click="open('', lemur, 'suppression')"><em class="fa fa-trash"></em></a>
+			</a>
+			<a ng-show="admin" class="btn btn-warning" ng-click="open('', lemur, 'poids')">
+				<em class="fa fa-balance-scale"></em>
+			</a>
+			<a ng-show="admin" class="btn btn-default" ng-click="open('', lemur, 'modification')">
+				<em class="fa fa-pencil"></em>
+				</a>    
+            <a ng-show="admin" class="btn btn-danger" ng-click="open('', lemur, 'suppression')">
+            	<em class="fa fa-trash"></em>
+            </a>
 		</td>
         <td class="hidden-xs">{{lemur.idDB}}</td>
         <td>{{lemur.nom}}</td>

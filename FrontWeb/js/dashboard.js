@@ -9,7 +9,7 @@ var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'
 		//http://localhost:8080/FrontLRCWebService/rest/getLemurien
 		//http://bab-laboratory.com/lrc/getAllLemurien.html
 		$scope.getData = function(){
-			$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
+			$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
 			$scope.lemurList = res.data;
 			});
 		};
@@ -264,5 +264,56 @@ var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap'
 			$uibModalInstance.dismiss('Fermer');
 		};
 	});
+	
+	
+	/**
+	/* WEIGHT LEMURIEN
+	**/  
+	app.controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) {
+		var $ctrl = this;
+		$ctrl.lemur = lemur;
+		
+		var today = new Date();
+		var mm = today.getMonth()+1; //January is 0!
+		var yy = today.getFullYear().toString().substr(2, 2);
+
+		if(mm<10) {
+    		mm='0'+mm
+		} 
+
+		$scope.data = {};
+		$scope.data.date = mm + '/' + yy;
+		
+		$scope.addWeight = function(nom, data) {     
+			  
+			var url = ""; ///URL 
+			var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
+			console.log(parameter);
+			
+			return $http.post(url, parameter)
+
+			.success(function (response) {
+				$ctrl.ok();
+				alert("Poids ajouté");
+				$rootScope.$broadcast('refresh');
+				return response;
+			})
+
+			.error(function (response)
+			{
+				console.log(response);
+			});
+		};
+
+
+		$ctrl.ok = function () {
+			$uibModalInstance.close($ctrl.numero);
+		};
+
+		$ctrl.cancel = function () {
+			$uibModalInstance.dismiss('Fermer');
+		};
+	});
+
 
 
