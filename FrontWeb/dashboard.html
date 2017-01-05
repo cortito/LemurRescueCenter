@@ -11,6 +11,7 @@
 			 <script src="js/lib/ui-bootstrap-tpls-2.3.1.min.js"></script>	
 			 <script src="js/lib/angular-animate.js"></script>	
 			 <script src="js/lib/angular-sanitize.js"></script>	
+       <script src="js/lib/angular-route.js"></script> 
 
 			 <script src="node_modules/chart.js/dist/Chart.js"></script>
 			 <script src="node_modules/angular-chart.js/dist/angular-chart.min.js"></script>
@@ -29,9 +30,7 @@
       <br/>
       <div class="row">
         <div class="col-md-12">
-        
-        
-	 		<label>Recherche:</label> <input type="text" ng-model="rechercheLemur" placeholder="recherche">
+	 		<label>Recherche:</label> <input type="text" ng-model="rechercheLemur" placeholder="Recherche">
             <div class="panel panel-default panel-table">
               <div class="panel-heading">
                 <div class="row">
@@ -118,14 +117,21 @@
                     </tr> 
                   </thead>
                   <tbody>
-       <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse">
+       <tr ng-repeat="lemur in lemurList | orderBy:sortType:sortReverse | filter: rechercheLemur">
                            
 		<td class="col-md-2" align="center">
-			<button type="button" class="btn btn-info" ng-click="open('', lemur, 'details')">
+			<a class="btn btn-info" ng-click="open('', lemur, 'details')">
 				<em class="fa fa-eye"></em>
-			</button>
-			<a ng-show="admin" class="btn btn-default"><em class="fa fa-pencil"></em></a>    
-            <a ng-show="admin" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+			</a>
+			<a ng-show="admin" class="btn btn-warning" ng-click="open('', lemur, 'poids')">
+				<em class="fa fa-balance-scale"></em>
+			</a>
+			<a ng-show="admin" class="btn btn-default" ng-click="open('', lemur, 'modification')">
+				<em class="fa fa-pencil"></em>
+				</a>    
+            <a ng-show="admin" class="btn btn-danger" ng-click="open('', lemur, 'suppression')">
+            	<em class="fa fa-trash"></em>
+            </a>
 		</td>
         <td class="hidden-xs">{{lemur.idDB}}</td>
         <td>{{lemur.nom}}</td>
