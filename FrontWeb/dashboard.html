@@ -123,7 +123,7 @@
 				<em class="fa fa-eye"></em>
 			</button>
 			<a ng-show="admin" class="btn btn-default" ng-click="open('', lemur, 'modification')"><em class="fa fa-pencil"></em></a>    
-            <a ng-show="admin" class="btn btn-danger"><em class="fa fa-trash"></em></a>
+            <a ng-show="admin" class="btn btn-danger" ng-click="open('', lemur, 'suppression')"><em class="fa fa-trash"></em></a>
 		</td>
         <td class="hidden-xs">{{lemur.idDB}}</td>
         <td>{{lemur.nom}}</td>

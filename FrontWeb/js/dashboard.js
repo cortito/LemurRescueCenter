@@ -4,7 +4,7 @@ app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $documen
 	var list = [];
 	//http://localhost:8080/FrontLRCWebService/rest/getLemurien
   //http://bab-laboratory.com/lrc/getAllLemurien.html
-	$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
+	$http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function(res) {
  		$scope.lemurList = res.data;
 	});
         
@@ -219,4 +219,36 @@ app.controller('ajoutModalCtrl', function ($http, $scope, $uibModalInstance, lem
     $uibModalInstance.dismiss('Fermer');
   };
   });
+  
+   app.controller('suppressionModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
+  var $ctrl = this;
+  $ctrl.lemur = lemur;
+
+      $scope.delete = function(id) {        
+        var url = ""; //URL à changer
+        var parameter = angular.toJson(id);
+    		return $http.post(url, parameter)
+
+        .success(function (response) {
+        	$ctrl.ok();
+        	alert("Lémurien supprimé");
+            return response;
+        })
+
+        .error(function (response)
+        {
+        	console.log(response);
+        });
+      };
+
+   
+  $ctrl.ok = function () {
+    $uibModalInstance.close($ctrl.numero);
+  };
+
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('Fermer');
+  };
+  });
+
 
