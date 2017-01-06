@@ -118,9 +118,14 @@ public class LRCDAO implements ILRCDAO {
 	@Override
 	public PoidsEntity addPoids(PoidsModel poidsM) {
 
-		PoidsEntity poidsE = new PoidsEntity(poidsM, "id");
+		PoidsEntity poidsE = getPoidsByNameAndDate(poidsM.getNom(), poidsM.getDate());
+		if (poidsE == null) {
+			poidsE = new PoidsEntity(poidsM, "id");
+		} else {
+			poidsE.setPoids(poidsM.getPoids());
+		}
 		try {
-			em.persist(poidsE);
+			em.merge(poidsE);
 		} catch (NoResultException e) {
 			log.warn(e.getMessage());
 		}
@@ -134,6 +139,19 @@ public class LRCDAO implements ILRCDAO {
 		PoidsEntity poidsE = null;
 		try {
 			poidsE = (PoidsEntity) em.createQuery(qry).setParameter("idDB", id).getSingleResult();
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return poidsE;
+	}
+
+	public PoidsEntity getPoidsByNameAndDate(String nom, String date) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom AND u.date=:date ";
+
+		PoidsEntity poidsE = null;
+		try {
+			poidsE = (PoidsEntity) em.createQuery(qry).setParameter("nom", nom).setParameter("date", date)
+					.getSingleResult();
 		} catch (NoResultException e) {
 			log.warn(e.getMessage());
 		}
