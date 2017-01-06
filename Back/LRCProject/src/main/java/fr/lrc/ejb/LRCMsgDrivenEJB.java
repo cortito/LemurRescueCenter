@@ -136,7 +136,17 @@ public class LRCMsgDrivenEJB implements MessageListener {
 								poidsM = null;
 							}
 						}
-					} else {
+					} 
+					/**
+					 * DELETE Poids
+					 */
+					else if (msg.getBooleanProperty("delete")) {
+						log.info(poidsM.toString());
+						s.append("{ \"delete\":");
+						s.append(dao.deletePoids(poidsM));
+						s.append("}");
+					}
+					else {
 						log.info("Poids");
 						List<PoidsEntity> poidsEList = dao.getPoidsByName(poidsM.getNom());
 

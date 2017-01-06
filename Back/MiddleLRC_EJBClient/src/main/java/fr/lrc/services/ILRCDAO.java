@@ -30,4 +30,6 @@ public interface ILRCDAO {
 
 	public PoidsEntity getPoidsById(int id);
 
+	public Object deletePoids(PoidsModel poidsM);
+
 }

@@ -157,4 +157,19 @@ public class LRCDAO implements ILRCDAO {
 		}
 		return poidsE;
 	}
+
+	@Override
+	public Object deletePoids(PoidsModel poidsM) {
+		PoidsEntity poidsE = getPoidsByNameAndDate(poidsM.getNom(), poidsM.getDate());
+		boolean ret = false;
+		try {
+			if (poidsE != null) {
+				em.remove(poidsE);
+				ret = true;
+			}
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return ret;
+	}
 }
