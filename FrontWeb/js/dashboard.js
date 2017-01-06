@@ -11,7 +11,7 @@ app.controller('dashboardCtrl', function ($scope, $http, $uibModal, $log, $docum
     //http://localhost:8080/FrontLRCWebService/rest/getLemurien
     //http://bab-laboratory.com/lrc/getAllLemurien.html
     $scope.getData = function () {
-        $http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function (res) {
+        $http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function (res) {
             $scope.lemurList = res.data;
         });
     };
@@ -83,50 +83,53 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
     var anneeCourante = parseInt(today.getFullYear().toString().substr(2, 2));
     var moisCourant = parseInt(today.getMonth() + 1);
 
-    //De 01/15 à aujourd'hui -> échelle
 
-    for (var annee=15; annee < anneeCourante; annee++)
-    {
-        for (var mois = 1; mois <= 12; mois++)
-        {
-            if (mois < 10)
-            {
-                mois='0' + mois;
-            }
 
-            $scope.labels.push(mois + '/' + annee);
-        }
-    }
-    for (var dernierMois = 1; dernierMois <= moisCourant; dernierMois ++)
-    {
-        if (dernierMois < 10)
-        {
-            dernierMois = '0' + dernierMois;
-        }
-        $scope.labels.push(dernierMois + '/' + anneeCourante);
-    }
+    function checkForValue(json, value) {
+	    for (key in json) {
+	        if (typeof (json[key]) === "object") {
+	            return checkForValue(json[key], value);
+	        } else if (json[key] === value) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 
     $scope.getPoidsLemurien = function (lemur) {
         var parameter = JSON.stringify({nom: lemur.nom});
         return $http.post(url, parameter)
             .success(function (response) {
             $scope.getPoids = response;
-            $scope.labels.forEach(function (label) {
-                $scope.getPoids.forEach(function (json) {
-                    if(json.date == label)
-                    {
-                        if(json.poids == 0.0){
-                            $scope.poids.push(null);
-                        } else{
-                            $scope.poids.push(json.poids);
-                        }
-                    }
-                    else 
-                    {
-                        $scope.poids.push(null);
-                    }
-                })
-            });
+
+		    //De 01/15 à aujourd'hui -> échelle
+		    for (var annee=15; annee < anneeCourante; annee++)
+		    {
+		        for (var mois = 1; mois <= 12; mois++)
+		        {
+		            if (mois < 10)
+		            {
+		                mois='0' + mois;
+		            }
+		            var date = mois + '/' + annee;
+		            $scope.labels.push(date);
+
+					$scope.poids.push($scope.remplirPoids(date));
+		        }
+		    }
+		    for (var dernierMois = 1; dernierMois <= moisCourant; dernierMois ++)
+		    {
+		        if (dernierMois < 10)
+		        {
+		            dernierMois = '0' + dernierMois;
+		        }
+		        var date = dernierMois + '/' + anneeCourante;
+		        $scope.labels.push(date);
+		        
+				$scope.poids.push($scope.remplirPoids(date));
+
+		    }
+
             $scope.poids.forEach(function () {
                 $scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
             });
@@ -139,9 +142,8 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
     };
 
     $scope.series = ['Poids', 'Moyenne'];
-    $scope.poids = [];
     $scope.moyenne = [];
-
+    $scope.poids = [];
     $scope.getPoids = $scope.getPoidsLemurien($ctrl.lemur);
 
     $scope.data = [ $scope.poids, $scope.moyenne ];
@@ -160,6 +162,16 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
         });
         return (parseFloat(somme) / parseFloat(taille));
     }
+
+    $scope.remplirPoids = function(date){
+		var currentPoids = null;
+		$scope.getPoids.forEach(function (json) {
+			if(json.date === date && json.poids != 0.0){
+				currentPoids = json.poids;
+			}
+		});
+		return currentPoids;
+    };
 
     $scope.options = {
         title: {
