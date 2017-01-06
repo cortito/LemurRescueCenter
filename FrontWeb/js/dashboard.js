@@ -21,9 +21,6 @@ app.controller('dashboardCtrl', function ($scope, $http, $uibModal, $log, $docum
     $scope.sortReverse = false;
     $scope.admin = 1;
 
-    $scope.numeroFictif = 23;
-
-
     $scope.open = function (size, lemur, type, parentSelector) {
         var parentElem = parentSelector ? angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
         var modalInstance = $uibModal.open({
@@ -74,9 +71,6 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
     var url = "http://localhost:8080/FrontLRCWebService/rest/getPoids";
 
     $scope.getPoids = [];
-
-
-
     $scope.labels = [];
 
     var today = new Date();
@@ -86,15 +80,15 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
 
 
     function checkForValue(json, value) {
-	    for (key in json) {
-	        if (typeof (json[key]) === "object") {
-	            return checkForValue(json[key], value);
-	        } else if (json[key] === value) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
+        for (key in json) {
+            if (typeof (json[key]) === "object") {
+                return checkForValue(json[key], value);
+            } else if (json[key] === value) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     $scope.getPoidsLemurien = function (lemur) {
         var parameter = JSON.stringify({nom: lemur.nom});
@@ -102,33 +96,32 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
             .success(function (response) {
             $scope.getPoids = response;
 
-		    //De 01/15 à aujourd'hui -> échelle
-		    for (var annee=15; annee < anneeCourante; annee++)
-		    {
-		        for (var mois = 1; mois <= 12; mois++)
-		        {
-		            if (mois < 10)
-		            {
-		                mois='0' + mois;
-		            }
-		            var date = mois + '/' + annee;
-		            $scope.labels.push(date);
+            //De 01/15 à aujourd'hui -> échelle
+            for (var annee=15; annee < anneeCourante; annee++)
+            {
+                for (var mois = 1; mois <= 12; mois++)
+                {
+                    if (mois < 10)
+                    {
+                        mois='0' + mois;
+                    }
+                    var date = mois + '/' + annee;
+                    $scope.labels.push(date);
 
-					$scope.poids.push($scope.remplirPoids(date));
-		        }
-		    }
-		    for (var dernierMois = 1; dernierMois <= moisCourant; dernierMois ++)
-		    {
-		        if (dernierMois < 10)
-		        {
-		            dernierMois = '0' + dernierMois;
-		        }
-		        var date = dernierMois + '/' + anneeCourante;
-		        $scope.labels.push(date);
-		        
-				$scope.poids.push($scope.remplirPoids(date));
+                    $scope.poids.push($scope.remplirPoids(date));
+                }
+            }
+            for (var dernierMois = 1; dernierMois <= moisCourant; dernierMois ++)
+            {
+                if (dernierMois < 10)
+                {
+                    dernierMois = '0' + dernierMois;
+                }
+                var date = dernierMois + '/' + anneeCourante;
+                $scope.labels.push(date);
 
-		    }
+                $scope.poids.push($scope.remplirPoids(date));
+            }
 
             $scope.poids.forEach(function () {
                 $scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
@@ -164,13 +157,13 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
     }
 
     $scope.remplirPoids = function(date){
-		var currentPoids = null;
-		$scope.getPoids.forEach(function (json) {
-			if(json.date === date && json.poids != 0.0){
-				currentPoids = json.poids;
-			}
-		});
-		return currentPoids;
+        var currentPoids = null;
+        $scope.getPoids.forEach(function (json) {
+            if(json.date === date && json.poids != 0.0){
+                currentPoids = json.poids;
+            }
+        });
+        return currentPoids;
     };
 
     $scope.options = {
@@ -203,7 +196,7 @@ app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, l
 
 
 /**
-	/* ADD LEMURIEN
+	 ADD LEMURIEN
 	**/
 app.controller('ajoutModalCtrl', function ($http, $scope, $route, $rootScope, $uibModalInstance, lemur) 	{
     var $ctrl = this;
@@ -338,7 +331,6 @@ app.controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $ro
     $scope.data.poids = '';
 
     $scope.addWeight = function(nom, data) {     
-
         var url = "http://localhost:8080/FrontLRCWebService/rest/addPoids";
         var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
         console.log(parameter);
@@ -348,6 +340,26 @@ app.controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $ro
             .success(function (response) {
             $ctrl.ok();
             alert("Poids ajouté");
+            $rootScope.$broadcast('refresh');
+            return response;
+        })
+
+            .error(function (response)
+                   {
+            console.log(response);
+        });
+    };
+
+    $scope.deleteWeight = function(nom, data) {     
+        var url = "http://localhost:8080/FrontLRCWebService/rest/deletePoids";
+        var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
+        console.log(parameter);
+
+        return $http.post(url, parameter)
+
+            .success(function (response) {
+            $ctrl.ok();
+            alert("Poids supprimé");
             $rootScope.$broadcast('refresh');
             return response;
         })
