@@ -335,6 +335,7 @@ app.controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $ro
 
     $scope.data = {};
     $scope.data.date = mm + '/' + yy;
+    $scope.data.poids = '';
 
     $scope.addWeight = function(nom, data) {     
 
