@@ -1,319 +1,359 @@
-var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'chart.js','ngRoute']);
+/*jslint node: true */
+'use strict';
+var app = angular.module('dashboard', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'chart.js', 'ngRoute']);
 
-	/**
-	/* DASHBOARD
+/**
+	 DASHBOARD
 	**/
-	app.controller('dashboardCtrl',function($scope, $http, $uibModal, $log, $document, $route){
-		var list = [];
-	
-		//http://localhost:8080/FrontLRCWebService/rest/getLemurien
-		//http://bab-laboratory.com/lrc/getAllLemurien.html
-		$scope.getData = function(){
-			$http.get('http://localhost:8080/FrontLRCWebService/rest/getLemurien').then(function(res) {
-			$scope.lemurList = res.data;
-			});
-		};
-		$scope.getData();
+app.controller('dashboardCtrl', function ($scope, $http, $uibModal, $log, $document, $route) {
+    var list = [];
+    var $ctrl = this;
+    //http://localhost:8080/FrontLRCWebService/rest/getLemurien
+    //http://bab-laboratory.com/lrc/getAllLemurien.html
+    $scope.getData = function () {
+        $http.get('http://bab-laboratory.com/lrc/getAllLemurien.html').then(function (res) {
+            $scope.lemurList = res.data;
+        });
+    };
+    $scope.getData();
 
-		$scope.sortType = 'idDB';
-		$scope.sortReverse = false;
-		$scope.admin = 1;
-		var $ctrl = this;
-		$scope.numeroFictif = 23;
+    $scope.sortType = 'idDB';
+    $scope.sortReverse = false;
+    $scope.admin = 1;
+
+    $scope.numeroFictif = 23;
 
 
-		$scope.open = function (size, lemur, type, parentSelector) {
-			var parentElem = parentSelector ? 
-			angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
-			var modalInstance = $uibModal.open({
-				animation: $ctrl.animationsEnabled,
-				ariaLabelledBy: 'modal-title',
-				ariaDescribedBy: 'modal-body',
-				templateUrl: 'modal/' + type + 'Modal.html',
-				controller: type + 'ModalCtrl',
-				controllerAs: '$ctrl',
-				size: size,
-				appendTo: parentElem,
-				resolve: {
-					lemur: function () {
-						return lemur;
-					}
-				}
-			});  
+    $scope.open = function (size, lemur, type, parentSelector) {
+        var parentElem = parentSelector ? angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
+        var modalInstance = $uibModal.open({
+            animation: $ctrl.animationsEnabled,
+            ariaLabelledBy: 'modal-title',
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'modal/' + type + 'Modal.html',
+            controller: type + 'ModalCtrl',
+            controllerAs: '$ctrl',
+            size: size,
+            appendTo: parentElem,
+            resolve: {
+                lemur: function () {
+                    return lemur;
+                }
+            }
+        });
 
-			modalInstance.result.then(function (selectedItem) {
-				$ctrl.selected = selectedItem;
-			}, function () {
-				// quit modal
-			});
-		};
+        modalInstance.result.then(function (selectedItem) {
+            $ctrl.selected = selectedItem;
+        }, function () {
+            // quit modal
+        });
+    };
 
-		$scope.$on('refresh',function(event){
-			$scope.getData();
-		});
+    $scope.$on('refresh', function (event) {
+        $scope.getData();
+    });
 
-	});
-   
+});
 
-	/**
-	/* DETAILS
+
+/**
+	DETAILS
 	**/
-	app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
-		var $ctrl = this;
-		$ctrl.lemur = lemur;
+app.controller('detailsModalCtrl', function ($http, $scope, $uibModalInstance, lemur) {
+    var $ctrl = this;
+    $ctrl.lemur = lemur;
 
-		$ctrl.ok = function () {
-			$uibModalInstance.close($ctrl.numero);
-		};
+    $ctrl.ok = function () {
+        $uibModalInstance.close($ctrl.numero);
+    };
 
-		$ctrl.cancel = function () {
-			$uibModalInstance.dismiss('Fermer');
-		};
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('Fermer');
+    };
 
-		var url = "http://localhost:8080/FrontLRCWebService/rest/getPoids";
+    var url = "http://localhost:8080/FrontLRCWebService/rest/getPoids";
 
-		$scope.getPoids = [];
-
-		$scope.getPoidsLemurien = function (lemur) {
-			var parameter = JSON.stringify({nom: lemur.nom});
-			return $http.post(url, parameter)
-
-			.success(function (response) {
-				$scope.getPoids = response;
-				$scope.getPoids.forEach(function(json){
-					$scope.labels.push(json.date);
-					if(json.poids == 0.0){
-						$scope.poids.push(null);
-					}else{
-						$scope.poids.push(json.poids);
-					}
-				});
-				$scope.poids.forEach(function(){
-					$scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
-				});
-				return response;
-			})
-
-			.error(function (response){
-				console.log(response);
-			});
-		};
-
-		$scope.labels = []
-		$scope.series = ['Poids', 'Moyenne'];
-		$scope.poids = [];
-		$scope.moyenne = [];
-
-		$scope.getPoids = $scope.getPoidsLemurien($ctrl.lemur);
-
-		$scope.data = [ $scope.poids, $scope.moyenne];
-		$scope.onClick = function (points, evt) {};
-
-		$scope.datasetOverride = [{ yAxisID: 'Poids' }];
-
-		$scope.getMoyenne = function(array, length){
-			var somme = 0;
-			var taille = 0;
-			array.forEach(function(item){
-				if(item != null){
-					taille = taille + 1;
-					somme = somme + parseFloat(item);
-				}
-			});
-			return (parseFloat(somme) / parseFloat(taille));
-		}
-
-		$scope.options = {
-			title: {
-			display: true,
-			text: 'Évolution du poids'
-			},    scales: {
-				xAxes: [{
-					labels: {
-						userCallback: function(dataLabel, index) {
-							return index % 2 === 0 ? dataLabel : '';
-						}	
-					}
-				}],
-				yAxes: [
-				{
-				id: 'Poids',
-				type: 'linear',
-				display: true,
-				position: 'left',
-				ticks: {
-				beginAtZero: true
-				}
-				}
-				], 
-			}
-		};
-
-	});
+    $scope.getPoids = [];
 
 
-	/**
+
+    $scope.labels = [];
+
+    var today = new Date();
+    var anneeCourante = parseInt(today.getFullYear().toString().substr(2, 2));
+    var moisCourant = parseInt(today.getMonth() + 1);
+
+    //De 01/15 à aujourd'hui -> échelle
+
+    for (var annee=15; annee < anneeCourante; annee++)
+    {
+        for (var mois = 1; mois <= 12; mois++)
+        {
+            if (mois < 10)
+            {
+                mois='0' + mois;
+            }
+
+            $scope.labels.push(mois + '/' + annee);
+        }
+    }
+    for (var dernierMois = 1; dernierMois <= moisCourant; dernierMois ++)
+    {
+        if (dernierMois < 10)
+        {
+            dernierMois = '0' + dernierMois;
+        }
+        $scope.labels.push(dernierMois + '/' + anneeCourante);
+    }
+
+    $scope.getPoidsLemurien = function (lemur) {
+        var parameter = JSON.stringify({nom: lemur.nom});
+        return $http.post(url, parameter)
+            .success(function (response) {
+            $scope.getPoids = response;
+            $scope.labels.forEach(function (label) {
+                $scope.getPoids.forEach(function (json) {
+                    if(json.date == label)
+                    {
+                        if(json.poids == 0.0){
+                            $scope.poids.push(null);
+                        } else{
+                            $scope.poids.push(json.poids);
+                        }
+                    }
+                    else 
+                    {
+                        $scope.poids.push(null);
+                    }
+                })
+            });
+            $scope.poids.forEach(function () {
+                $scope.moyenne.push($scope.getMoyenne($scope.poids, $scope.poids.length));
+            });
+            return response;
+        })
+
+            .error(function (response){
+            console.log(response);
+        });
+    };
+
+    $scope.series = ['Poids', 'Moyenne'];
+    $scope.poids = [];
+    $scope.moyenne = [];
+
+    $scope.getPoids = $scope.getPoidsLemurien($ctrl.lemur);
+
+    $scope.data = [ $scope.poids, $scope.moyenne ];
+    $scope.onClick = function (points, evt) {};
+
+    $scope.datasetOverride = [{ yAxisID: 'Poids' }];
+
+    $scope.getMoyenne = function(array, length){
+        var somme = 0;
+        var taille = 0;
+        array.forEach(function(item){
+            if(item != null){
+                taille = taille + 1;
+                somme = somme + parseFloat(item);
+            }
+        });
+        return (parseFloat(somme) / parseFloat(taille));
+    }
+
+    $scope.options = {
+        title: {
+            display: true,
+            text: 'Évolution du poids'
+        },    scales: {
+            xAxes: [{
+                labels: {
+                    userCallback: function(dataLabel, index) {
+                        return index % 2 === 0 ? dataLabel : '';
+                    }	
+                }
+            }],
+            yAxes: [
+                {
+                    id: 'Poids',
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ], 
+        }
+    };
+
+});
+
+
+/**
 	/* ADD LEMURIEN
 	**/
-	app.controller('ajoutModalCtrl', function ($http, $scope, $route, $rootScope, $uibModalInstance, lemur) {
-		var $ctrl = this;
-		$scope.empty = {};
+app.controller('ajoutModalCtrl', function ($http, $scope, $route, $rootScope, $uibModalInstance, lemur) 	{
+    var $ctrl = this;
+    $scope.empty = {};
 
-		$scope.add = function(lemur) {
-			$scope.empty = angular.copy(lemur);
+    $scope.add = function(lemur) {
+        $scope.empty = angular.copy(lemur);
 
-			var url = "http://localhost:8080/FrontLRCWebService/rest/addLemurien"; 
-			var parameter = JSON.stringify(lemur);
-			return $http.post(url, parameter)
+        var url = "http://localhost:8080/FrontLRCWebService/rest/addLemurien"; 
+        var parameter = JSON.stringify(lemur);
+        return $http.post(url, parameter)
 
-			.success(function (response) {
-				$ctrl.ok();
-				$rootScope.$broadcast('refresh');
-				return response;
-			})
+            .success(function (response) {
+            $ctrl.ok();
+            $rootScope.$broadcast('refresh');
+            return response;
+        })
 
-			.error(function (response)
-			{
-				console.log(response);
-			});
-		};
+            .error(function (response)
+                   {
+            console.log(response);
+        });
+    };
 
-		$scope.reset = function() {
-			$scope.lemur = angular.copy($scope.empty);
-		};
+    $scope.reset = function() {
+        $scope.lemur = angular.copy($scope.empty);
+    };
 
-		$scope.reset();
+    $scope.reset();
 
-		$ctrl.ok = function () {
-			$uibModalInstance.close($ctrl.numero);
-		};
+    $ctrl.ok = function () {
+        $uibModalInstance.close($ctrl.numero);
+    };
 
-		$ctrl.cancel = function () {
-			$uibModalInstance.dismiss('Fermer');
-		};
-	});
-  
-  
- 	/**
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('Fermer');
+    };
+});
+
+
+/**
 	/* MODIFICATION LEMURIEN
 	**/ 
-	app.controller('modificationModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) {
-		var $ctrl = this;
-		$scope.lemur = lemur;
-		$scope.ancien = angular.copy(lemur);
+app.controller('modificationModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) 	{
+    var $ctrl = this;
+    $scope.lemur = lemur;
+    $scope.ancien = angular.copy(lemur);
 
-		$scope.update = function(lemur) {        
-			var url = "http://localhost:8080/FrontLRCWebService/rest/updateLemurien";
-			var parameter = angular.toJson(lemur);
-			return $http.post(url, parameter)
+    $scope.update = function(lemur) {        
+        var url = "http://localhost:8080/FrontLRCWebService/rest/updateLemurien";
+        var parameter = angular.toJson(lemur);
+        return $http.post(url, parameter)
 
-			.success(function (response) {
-				$ctrl.ok();
-				alert("Lémurien modifié");
-				$rootScope.$broadcast('refresh');
-				return response;
-			})
+            .success(function (response) {
+            $ctrl.ok();
+            alert("Lémurien modifié");
+            $rootScope.$broadcast('refresh');
+            return response;
+        })
 
-			.error(function (response)
-			{
-				console.log(response);
-			});
-		};
+            .error(function (response)
+                   {
+            console.log(response);
+        });
+    };
 
 
-		$ctrl.ok = function () {
-			$uibModalInstance.close($ctrl.numero);
-		};
+    $ctrl.ok = function () {
+        $uibModalInstance.close($ctrl.numero);
+    };
 
-		$ctrl.cancel = function () {
-			$uibModalInstance.dismiss('Fermer');
-		};
-	});
-  
-	/**
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('Fermer');
+    };
+});
+
+/**
 	/* DELETE LEMURIEN
 	**/  
-	app.controller('suppressionModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) {
-		var $ctrl = this;
-		$ctrl.lemur = lemur;
+app.controller('suppressionModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) 
+               {
+    var $ctrl = this;
+    $ctrl.lemur = lemur;
 
-		$scope.delete = function(id) {        
-			var url = "http://localhost:8080/FrontLRCWebService/rest/deleteLemurien"; 
-			var parameter = angular.toJson(id);
-			return $http.post(url, parameter)
+    $scope.delete = function(id) {        
+        var url = "http://localhost:8080/FrontLRCWebService/rest/deleteLemurien"; 
+        var parameter = angular.toJson(id);
+        return $http.post(url, parameter)
 
-			.success(function (response) {
-				$ctrl.ok();
-				alert("Lémurien supprimé");
-				$rootScope.$broadcast('refresh');
-				return response;
-			})
+            .success(function (response) {
+            $ctrl.ok();
+            alert("Lémurien supprimé");
+            $rootScope.$broadcast('refresh');
+            return response;
+        })
 
-			.error(function (response)
-			{
-				console.log(response);
-			});
-		};
+            .error(function (response)
+                   {
+            console.log(response);
+        });
+    };
 
 
-		$ctrl.ok = function () {
-			$uibModalInstance.close($ctrl.numero);
-		};
+    $ctrl.ok = function () {
+        $uibModalInstance.close($ctrl.numero);
+    };
 
-		$ctrl.cancel = function () {
-			$uibModalInstance.dismiss('Fermer');
-		};
-	});
-	
-	
-	/**
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('Fermer');
+    };
+});
+
+
+/**
 	/* WEIGHT LEMURIEN
 	**/  
-	app.controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) {
-		var $ctrl = this;
-		$ctrl.lemur = lemur;
-		
-		var today = new Date();
-		var mm = today.getMonth()+1; //January is 0!
-		var yy = today.getFullYear().toString().substr(2, 2);
+app.controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) 
+               {
+    var $ctrl = this;
+    $ctrl.lemur = lemur;
 
-		if(mm<10) {
-    		mm='0'+mm
-		} 
+    var today = new Date();
+    var mm = today.getMonth()+1; //January is 0!
+    var yy = today.getFullYear().toString().substr(2, 2);
 
-		$scope.data = {};
-		$scope.data.date = mm + '/' + yy;
-		
-		$scope.addWeight = function(nom, data) {     
-			  
-			var url = "http://localhost:8080/FrontLRCWebService/rest/addPoids";
-			var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
-			console.log(parameter);
-			
-			return $http.post(url, parameter)
+    if(mm<10) {
+        mm='0'+mm
+    } 
 
-			.success(function (response) {
-				$ctrl.ok();
-				alert("Poids ajouté");
-				$rootScope.$broadcast('refresh');
-				return response;
-			})
+    $scope.data = {};
+    $scope.data.date = mm + '/' + yy;
 
-			.error(function (response)
-			{
-				console.log(response);
-			});
-		};
+    $scope.addWeight = function(nom, data) {     
+
+        var url = "http://localhost:8080/FrontLRCWebService/rest/addPoids";
+        var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
+        console.log(parameter);
+
+        return $http.post(url, parameter)
+
+            .success(function (response) {
+            $ctrl.ok();
+            alert("Poids ajouté");
+            $rootScope.$broadcast('refresh');
+            return response;
+        })
+
+            .error(function (response)
+                   {
+            console.log(response);
+        });
+    };
 
 
-		$ctrl.ok = function () {
-			$uibModalInstance.close($ctrl.numero);
-		};
+    $ctrl.ok = function () {
+        $uibModalInstance.close($ctrl.numero);
+    };
 
-		$ctrl.cancel = function () {
-			$uibModalInstance.dismiss('Fermer');
-		};
-	});
+    $ctrl.cancel = function () {
+        $uibModalInstance.dismiss('Fermer');
+    };
+});
 
 
 
