@@ -12,8 +12,8 @@ import fr.lrc.model.poids.PoidsModel;
 public interface IAddPoids {
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public String addPoids(PoidsModel poidsM);
 }
