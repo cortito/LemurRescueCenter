@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.projet_100_heures.lemurrescuecenter.activity.CustomActivity">
+    tools:context="com.projet_100_heures.lemurrescuecenter.activity.CustomActivity"
+    android:background="@color/colorBackground">
 
     <include
         android:layout_width="0dp"
@@ -40,7 +41,8 @@
         app:layout_constraintRight_toLeftOf="@+id/editLemurNumId"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+        app:layout_constraintTop_toBottomOf="@+id/profileImage"
+        android:textColor="@color/ap_black"/>
 
     <EditText
         android:layout_width="186dp"

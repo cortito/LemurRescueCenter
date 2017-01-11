@@ -3,6 +3,7 @@
     package="com.projet_100_heures.lemurrescuecenter">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:allowBackup="true"
@@ -10,22 +11,33 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity">
+        <activity android:name=".ProfileActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SettingsActivity" />
-        <activity android:name=".activity.VetoFileActivity" />
-        <activity android:name=".activity.StatsActivity" />
-        <activity android:name=".activity.CustomActivity">
+        <activity android:name=".activity.NfcActivity"
+            android:screenOrientation="portrait">
+        <intent-filter>
+            <action android:name="android.nfc.action.TAG_DISCOVERED"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+        </activity>
+        <activity android:name=".activity.VetoFileActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.StatsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.CustomActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProfileActivity" />
         </activity>
-        <activity android:name=".activity.Customtest"></activity>
+        <activity android:name=".activity.Customtest"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

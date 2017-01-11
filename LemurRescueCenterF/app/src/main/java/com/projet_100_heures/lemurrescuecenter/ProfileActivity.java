@@ -5,21 +5,26 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.projet_100_heures.lemurrescuecenter.activity.CustomActivity;
-import com.projet_100_heures.lemurrescuecenter.activity.SettingsActivity;
+import com.projet_100_heures.lemurrescuecenter.activity.NfcActivity;
 import com.projet_100_heures.lemurrescuecenter.activity.StatsActivity;
 import com.projet_100_heures.lemurrescuecenter.activity.VetoFileActivity;
+import com.projet_100_heures.lemurrescuecenter.business.alertDialog.SearchLemurDialog;
 import com.projet_100_heures.lemurrescuecenter.business.dao.RetrieveLemurTask;
 import com.projet_100_heures.lemurrescuecenter.model.LemurModel;
 
-public class ProfileActivity extends AppCompatActivity implements RetrieveLemurTask.LemurListenner {
+import org.json.JSONException;
+import org.json.JSONObject;
 
+public class ProfileActivity extends AppCompatActivity implements RetrieveLemurTask.LemurListenner, SearchLemurDialog.SearchLemurIdListenner {
+    LemurModel lemurModelintent;
+    private static final String TAG = ProfileActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +34,6 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
         setSupportActionBar(toolbar);
 
 
-        RetrieveLemurTask retrieveLemurTask = new RetrieveLemurTask(this);
-        retrieveLemurTask.execute();
-
         ImageButton settingsButton = (ImageButton) findViewById(R.id.settingButton);
         ImageButton vetoFileButton = (ImageButton) findViewById(R.id.vetoButton);
         ImageButton statsButton = (ImageButton) findViewById(R.id.statButton);
@@ -40,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, NfcActivity.class);
                 startActivity(intent);
             }
         });
@@ -65,6 +67,9 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(ProfileActivity.this, CustomActivity.class);
+                intent.putExtra("idLemur",Integer.toString(lemurModelintent.getIdDB()));
+
+                String str = Integer.toString(lemurModelintent.getIdDB());
                 startActivity(intent);
             }
         });
@@ -86,8 +91,10 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.searchLemur) {
-            Toast.makeText(this,"it works great",Toast.LENGTH_SHORT).show();
-            return true;
+            SearchLemurDialog alertDialog = new SearchLemurDialog();
+            alertDialog.setmListener(ProfileActivity.this);
+
+            alertDialog.show(getFragmentManager(), TAG);
         }
 
         return super.onOptionsItemSelected(item);
@@ -95,6 +102,9 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
 
     @Override
     public void onLemurRetrieved(LemurModel lemurModel) {
+
+        lemurModelintent= new LemurModel();
+        lemurModelintent=lemurModel;
 
         AppCompatTextView name = (AppCompatTextView) findViewById(R.id.lemurName);
         if(!lemurModel.getName().equals("")){
@@ -183,4 +193,19 @@ public class ProfileActivity extends AppCompatActivity implements RetrieveLemurT
             leavingCommentary.setText("Non déterminé");
         }
     }
+
+    @Override
+    public void onIDBRetrieved(String idDB) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("idDB", idDB);
+        }catch (JSONException e) {
+            Log.e("Jobect", e.getMessage());
+        }
+
+        RetrieveLemurTask retrieveLemurTask = new RetrieveLemurTask(ProfileActivity.this);
+        retrieveLemurTask.execute(jsonObject);
+    }
+
 }

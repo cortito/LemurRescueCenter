@@ -1,5 +1,6 @@
 package com.projet_100_heures.lemurrescuecenter.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,7 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
     EditText leavingNature;
     EditText leavingCommentary;
 
-    JSONObject jsonObject = new JSONObject();
+    JSONObject jsonObject2 = new JSONObject();
     LemurModel lemurModelBuffer = new LemurModel();
     CustomizeLemurTask customizeLemurTask;
 
@@ -58,10 +59,20 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
         leavingNature = (EditText) findViewById(R.id.editLemurLeavingNature);
         leavingCommentary = (EditText) findViewById(R.id.editLemurLeavingCommentary);
 
+        String idLemur;
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        idLemur=bundle.getString("idLemur");
 
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("idDB", idLemur);
+        }catch (JSONException e) {
+            Log.e("Json", e.getMessage());
+        }
 
         RetrieveLemurTask retrieveLemurTask = new RetrieveLemurTask(this);
-        retrieveLemurTask.execute();
+        retrieveLemurTask.execute(jsonObject);
 
         ImageButton submitButton = (ImageButton) findViewById(R.id.submitEdit);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -69,24 +80,24 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
             public void onClick(View v){
 
                 try {
-                    jsonObject.put("numeroIdentification", numId.getText());
-                    jsonObject.put("dateDeNaissance", age.getText());
-                    jsonObject.put("sexe", sex.getText());
-                    jsonObject.put("nom", name.getText());
-                    jsonObject.put("dateEntree", entryDate.getText());
-                    jsonObject.put("origine", origin.getText());
-                    jsonObject.put("natureEntree", entryNature.getText());
-                    jsonObject.put("ancienProprietaire", lastOwner.getText());
-                    jsonObject.put("dateSortie", leavingDate.getText());
-                    jsonObject.put("natureSortie", leavingNature.getText());
-                    jsonObject.put("commentaireSortie", leavingCommentary.getText());
+                    jsonObject2.put("numeroIdentification", numId.getText());
+                    jsonObject2.put("dateDeNaissance", age.getText());
+                    jsonObject2.put("sexe", sex.getText());
+                    jsonObject2.put("nom", name.getText());
+                    jsonObject2.put("dateEntree", entryDate.getText());
+                    jsonObject2.put("origine", origin.getText());
+                    jsonObject2.put("natureEntree", entryNature.getText());
+                    jsonObject2.put("ancienProprietaire", lastOwner.getText());
+                    jsonObject2.put("dateSortie", leavingDate.getText());
+                    jsonObject2.put("natureSortie", leavingNature.getText());
+                    jsonObject2.put("commentaireSortie", leavingCommentary.getText());
 
                 }
                 catch (JSONException e){
                     e.printStackTrace();
                 }
-                LemurModel lemurModelupdate = new LemurModel();
-                lemurModelupdate = MappingLemur.updateLemurModel(lemurModelBuffer,jsonObject);
+                LemurModel lemurModelupdate;
+                lemurModelupdate = MappingLemur.updateLemurModel(lemurModelBuffer,jsonObject2);
                 //envoie du Json par post :
                 try {
                     JSONObject jsonObjectUpdate = new JSONObject(lemurModelupdate.toJSON());
@@ -112,11 +123,6 @@ public class CustomActivity extends AppCompatActivity implements RetrieveLemurTa
     public void onLemurRetrieved(final LemurModel lemurModel) {
 
         lemurModelBuffer = lemurModel;
-        Log.d("Tag",lemurModel.getIdLemur());
-        Log.d("Tag2",lemurModel.getBirthDate());
-        Log.d("Tag3",lemurModel.getGender());
-        Log.d("Tag4",lemurModel.getName());
-
 
         if(lemurModel.getIdLemur() != null){
             numId.setHint(lemurModel.getIdLemur());

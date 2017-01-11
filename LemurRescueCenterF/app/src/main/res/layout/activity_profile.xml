@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_profile"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.projet_100_heures.lemurrescuecenter.ProfileActivity">
 
     <include
         layout="@layout/app_bar"
-        android:id="@+id/app_toolbar" />
+        android:id="@+id/app_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="360dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp" />
 
     <include
         layout="@layout/header_profile"
         android:id="@+id/headerProfile"
-        />
-
-    <include
-        layout="@layout/buttons_profile"
-        />
-
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_constraintRight_toRightOf="@+id/app_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/app_toolbar" />
     <include
         layout="@layout/description_profile"
         android:id="@+id/descProf"
-        />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerProfile"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <include
+        layout="@layout/buttons_constraint"
+        android:id="@+id/include2"
+        android:layout_height="163dp"
+        android:layout_width="360dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descProf" />
+
+</android.support.constraint.ConstraintLayout>

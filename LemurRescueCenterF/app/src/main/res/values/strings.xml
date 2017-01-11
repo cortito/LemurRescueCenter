@@ -12,4 +12,7 @@
     <string name="leavingNature_Title">Nature de la sortie :   </string>
     <string name="leavingCommentary_Title">Commentaire de sortie :   </string>
     <string name="lastOwner_Title">Dernier propriétaire :   </string>
+    <string name="dialog_Message">Trouver un lemurien par son ID :   </string>
+    <string name="dialog_Pos_Button">Chercher  </string>
+    <string name="dialog_Neg_Button">Retour  </string>
 </resources>

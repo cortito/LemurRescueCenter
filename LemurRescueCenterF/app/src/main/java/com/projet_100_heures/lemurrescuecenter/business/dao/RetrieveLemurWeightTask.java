@@ -20,7 +20,7 @@ import okhttp3.Request;
 public class RetrieveLemurWeightTask extends AsyncTask<Void,Void, JSONArray> {
 
 
-    private static final String URL_GET_TEST_Weight ="https://trello-attachments.s3.amazonaws.com/58532b6c95e4b53eb15676bb/586b574e130cd59c7da0f167/b27300ac81659c46c095015b83e6dd63/PoidsNAME.json";
+    private static final String URL_GET_TEST_Weight ="https://trello-attachments.s3.amazonaws.com/58532b6c95e4b53eb15676bb/586b574e130cd59c7da0f167/7bb463a273eaa642593d483f7847e48d/PoidsMANOU.json";
     private final RetrieveLemurWeightTask.LemurWeightListenner lemurWeightListenner;
     private OkHttpClient client;
 
