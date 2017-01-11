@@ -15,8 +15,8 @@ angular.module('dashboard').controller('modificationModalCtrl', function ($http,
 
             .success(function (response) {
             $ctrl.ok();
-            alert("Lémurien modifié");
             $rootScope.$broadcast('refresh');
+            alert("Lémurien modifié");
             return response;
         })
 

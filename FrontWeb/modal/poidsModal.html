@@ -10,15 +10,12 @@
                 <form novalidate class="css-form">
                     <label>Date: <input type="text" ng-model="data.date"/></label><br />
                     <label>Poids: <input type="text" ng-model="data.poids" required /></label><br />
-
-                    <input type="submit" ng-click="addWeight($ctrl.lemur.nom, data)" value="Envoyer" />
-                    <input type="button" ng-click="deleteWeight($ctrl.lemur.nom, data)" value="Supprimer" />
                 </form>
-                <pre>data = {{data | json}}</pre>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-                <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+                <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+                <button class="btn btn-warning" type="button" ng-click="deleteWeight($ctrl.lemur.nom, data)">Supprimer</button>
+                <button class="btn btn-primary" type="button" ng-click="addWeight($ctrl.lemur.nom, data)">Envoyer</button>
             </div>
         </div>
 

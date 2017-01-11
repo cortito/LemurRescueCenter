@@ -3,7 +3,7 @@
 /**
 	/* AJOUT 
 	**/  
-angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope, $route, $uibModalInstance, lemur) 	{
+angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope, $route, $uibModalInstance,$rootScope, lemur) 	{
     var $ctrl = this;
     $scope.empty = {};
 
@@ -17,6 +17,7 @@ angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope
             .success(function (response) {
             $ctrl.ok();
             $rootScope.$broadcast('refresh');
+            alert("Lémurien ajouté");
             return response;
         })
 

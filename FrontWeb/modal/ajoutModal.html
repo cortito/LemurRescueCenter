@@ -20,16 +20,14 @@
     		<label>Date de sortie<input type="text" ng-model="lemur.dateSortie"/></label><br />
     		<label>Nature de sortie<input type="text" ng-model="lemur.natureSortie"/></label><br />
     		<label>Commentaire de sortie<input type="text" ng-model="lemur.commentaireSortie"/></label><br />
-    	
-    	<input type="button" ng-click="reset()" value="Reset" />
-    	<input type="submit" ng-click="add(lemur)" value="Envoyer" />
   		</form>
-  	<pre>lémurien = {{lemur | json}}</pre>
-		<pre>empty = {{empty | json}}</pre>   
 	</div>
 	<div class="modal-footer">
-			<button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
-			<button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+            <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+            <button class="btn btn-warning" type="button" ng-click="reset()">Reset</button>
+			<button class="btn btn-primary" type="button" ng-click="add(lemur)">Ajouter</button>
+
+
 	 </div>
 </div>
 
