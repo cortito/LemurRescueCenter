@@ -21,15 +21,20 @@
             {{$ctrl.lemur.commentaireSortie}}<br/>
             
             <hr>
-            <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-				series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick">
-			</canvas>
-        	</div>
+<!--              <a my-dir="$ctrl" ng-repeat="user in users"><br>{{user.name}}</a>-->
+             <div id="printGraphId" print-graph="$ctrl">
+             </div>
+             
+            
         	<div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
             <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
       
      </div>
 </div>
-
+    </div>
 </body>
 </html>
+    
+    
+    
