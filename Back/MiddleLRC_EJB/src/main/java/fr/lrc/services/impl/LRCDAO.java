@@ -52,19 +52,6 @@ public class LRCDAO implements ILRCDAO {
 	}
 
 	@Override
-	public List<PoidsEntity> getPoidsByName(String nom) {
-		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom ";
-
-		List<PoidsEntity> poidsList = new ArrayList<>();
-		try {
-			poidsList.addAll(em.createQuery(qry).setParameter("nom", nom).getResultList());
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
-		}
-		return poidsList;
-	}
-
-	@Override
 	public LemurienEntity addLemurien(LemurienModel lemurienM) {
 
 		LemurienEntity lemurienE = new LemurienEntity(lemurienM, "id");
@@ -118,7 +105,32 @@ public class LRCDAO implements ILRCDAO {
 		} catch (NoResultException e) {
 			log.warn(e.getMessage());
 		}
+		// DELETE all Poids
+		if (ret) {
+			ret = false;
+			try {
+				for (PoidsEntity p : getPoidsByName(lemurienE.getNom())) {
+					em.remove(p);
+				}
+				ret = true;
+			} catch (Exception e) {
+				log.warn(e.getMessage());
+			}
+		}
 		return ret;
+	}
+
+	@Override
+	public List<PoidsEntity> getPoidsByName(String nom) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom ";
+
+		List<PoidsEntity> poidsList = new ArrayList<>();
+		try {
+			poidsList.addAll(em.createQuery(qry).setParameter("nom", nom).getResultList());
+		} catch (NoResultException e) {
+			log.warn(e.getMessage());
+		}
+		return poidsList;
 	}
 
 	@Override
