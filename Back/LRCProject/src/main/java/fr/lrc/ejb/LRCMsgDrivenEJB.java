@@ -51,7 +51,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 				if (msg.getObject() instanceof String) {
 					String m = (String) msg.getObject();
 					log.info("String");
-					if (m.isEmpty()) {
+					if (m.isEmpty() && msg.getBooleanProperty("all")) {
 						List<LemurienEntity> lemurienEList = dao.getAllLemurien();
 						s.append("[");
 						if (lemurienEList != null) {
@@ -104,9 +104,16 @@ public class LRCMsgDrivenEJB implements MessageListener {
 					/**
 					 * GET Lemurien By Id
 					 */
-					else {
+					else if (msg.getBooleanProperty("id")) {
 						lemurienE = dao.getLemurienById(lemurienM.getIdDB());
 					}
+					/**
+					 * GET Lemurien By Name
+					 */
+					else if (msg.getBooleanProperty("name")) {
+						lemurienE = dao.getLemurienByName((lemurienM.getNom()));
+					}
+
 					if (lemurienE != null) {
 						lemurienM = new LemurienModel(lemurienE);
 						s.append(lemurienM.toString());
@@ -136,7 +143,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 								poidsM = null;
 							}
 						}
-					} 
+					}
 					/**
 					 * DELETE Poids
 					 */
@@ -146,7 +153,10 @@ public class LRCMsgDrivenEJB implements MessageListener {
 						s.append(dao.deletePoids(poidsM));
 						s.append("}");
 					}
-					else {
+					/**
+					 * GET Poids by Name
+					 */
+					else if (msg.getBooleanProperty("get")) {
 						log.info("Poids");
 						List<PoidsEntity> poidsEList = dao.getPoidsByName(poidsM.getNom());
 

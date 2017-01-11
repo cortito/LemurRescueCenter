@@ -16,7 +16,7 @@ public class GetPoids implements IGetPoids {
 
 	@Override
 	public String getPoidsByName(PoidsModel poidsM) {
-		messageSender.sendMessage(poidsM);
+		messageSender.sendMessage(poidsM, "get");
 		return messageReceiver.receiveMessage();
 	}
 

@@ -16,7 +16,7 @@ public class AddLemurien implements IAddLemurien {
 
 	@Override
 	public String addLemurien(LemurienModel lemurienM) {
-		messageSender.sendMessageAdd(lemurienM);
+		messageSender.sendMessage(lemurienM, "add");
 		return messageReceiver.receiveMessage();
 	}
 

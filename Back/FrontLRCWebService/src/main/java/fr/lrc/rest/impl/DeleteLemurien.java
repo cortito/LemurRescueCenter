@@ -16,7 +16,7 @@ public class DeleteLemurien implements IDeleteLemurien {
 
 	@Override
 	public String deleteLemurien(LemurienModel lemurienM) {
-		messageSender.sendMessageDelete(lemurienM);
+		messageSender.sendMessage(lemurienM, "delete");
 		return messageReceiver.receiveMessage();
 	}
 

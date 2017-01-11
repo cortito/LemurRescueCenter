@@ -34,6 +34,7 @@ public class LRCDAO implements ILRCDAO {
 		} catch (NoResultException e) {
 			log.warn(e.getMessage());
 		}
+		log.info("SELECT: " + lemurienE);
 		return lemurienE;
 	}
 
@@ -91,14 +92,19 @@ public class LRCDAO implements ILRCDAO {
 
 	@Override
 	public LemurienEntity updateLemurien(LemurienModel lemurienM) {
+		LemurienEntity lemurienMerge = getLemurienById(lemurienM.getIdDB());
 
-		LemurienEntity lemurienE = new LemurienEntity(lemurienM);
+		log.info("Model" + lemurienM);
+		log.info("Entity" + lemurienMerge);
+
+		LemurienEntity lemurienE = new LemurienEntity(lemurienMerge, lemurienM);
+
+		log.info("Merge: " + lemurienE);
 		try {
 			em.merge(lemurienE);
 		} catch (NoResultException e) {
 			log.warn(e.getMessage());
 		}
-		log.info(lemurienE);
 		return lemurienE;
 	}
 

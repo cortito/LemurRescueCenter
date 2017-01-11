@@ -10,17 +10,17 @@ public class LemurienModel implements Serializable {
 	private static final long serialVersionUID = 5698754191407303366L;
 
 	private int idDB;
-	private String nom;
-	private String numeroIdentification;
-	private String sexe;
-	private String dateDeNaissance;
-	private String dateEntree;
-	private String origine;
-	private String natureEntree;
-	private String ancienProprietaire;
-	private String dateSortie;
-	private String natureSortie;
-	private String commentaireSortie;
+	private String nom = "";
+	private String numeroIdentification = "";
+	private String sexe = "";
+	private String dateDeNaissance = "";
+	private String dateEntree = "";
+	private String origine = "";
+	private String natureEntree = "";
+	private String ancienProprietaire = "";
+	private String dateSortie = "";
+	private String natureSortie = "";
+	private String commentaireSortie = "";
 
 	public LemurienModel(int idDB, String nom, String numeroIdentification, String sexe, String dateDeNaissance,
 			String dateEntree, String origine, String natureEntree, String ancienProprietaire, String dateSortie,

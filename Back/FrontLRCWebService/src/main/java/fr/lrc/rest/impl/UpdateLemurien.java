@@ -17,7 +17,7 @@ public class UpdateLemurien implements IUpdateLemurien {
 	IMessageReceiverQueue messageReceiver;
 
 	public String updateLemurien(LemurienModel lemurienM) {
-		messageSender.sendMessageUpdate(lemurienM);
+		messageSender.sendMessage(lemurienM, "update");
 		return messageReceiver.receiveMessage();
 	}
 }

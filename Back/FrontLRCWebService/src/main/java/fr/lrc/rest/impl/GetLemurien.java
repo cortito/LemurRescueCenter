@@ -16,13 +16,20 @@ public class GetLemurien implements IGetLemurien {
 
 	@Override
 	public String getAllLemurien() {
-		messageSender.sendMessage("");
+		messageSender.sendMessage("", "all");
 		return messageReceiver.receiveMessage();
 	}
 
 	@Override
 	public String getLemurienById(LemurienModel lemurienM) {
-		messageSender.sendMessage(lemurienM);
+		if (lemurienM.getIdDB() != 0) {
+			messageSender.sendMessage(lemurienM, "id");
+		} else if (lemurienM.getNom() != null) {
+			messageSender.sendMessage(lemurienM, "name");
+
+		} else {
+			return "";
+		}
 		return messageReceiver.receiveMessage();
 	}
 
