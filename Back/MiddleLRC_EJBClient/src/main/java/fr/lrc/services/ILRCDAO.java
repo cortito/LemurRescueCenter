@@ -15,21 +15,23 @@ public interface ILRCDAO {
 	public List<LemurienEntity> getAllLemurien();
 
 	public LemurienEntity getLemurienById(int id);
-	
+
 	public LemurienEntity getLemurienByName(String nom);
+
+	public String addLemurien(LemurienModel lemurienM);
 
 	public List<PoidsEntity> getPoidsByName(String nom);
 
-	public LemurienEntity addLemurien(LemurienModel lemurienM);
-	
-	public LemurienEntity updateLemurien(LemurienModel lemurienM);
+	public PoidsEntity getPoidsByNameAndDate(String nom, String date);
 
-	public boolean deleteLemurien(LemurienModel lemurienM);
+	public String updateLemurien(LemurienModel lemurienM);
 
-	public PoidsEntity addPoids(PoidsModel poidsM);
+	public String deleteLemurien(LemurienModel lemurienM);
+
+	public String addPoids(PoidsEntity poidsE);
 
 	public PoidsEntity getPoidsById(int id);
 
-	public Object deletePoids(PoidsModel poidsM);
+	public String deletePoids(PoidsModel poidsM);
 
 }

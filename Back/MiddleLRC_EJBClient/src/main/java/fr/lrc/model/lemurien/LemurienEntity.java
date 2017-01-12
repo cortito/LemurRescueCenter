@@ -89,9 +89,9 @@ public class LemurienEntity implements Serializable {
 		this.origine = mergeData(lemurienE.getOrigine(), lemurienM.getOrigine());
 		this.natureEntree = mergeData(lemurienE.getNatureEntree(), lemurienM.getNatureEntree());
 		this.ancienProprietaire = mergeData(lemurienE.getAncienProprietaire(), lemurienM.getAncienProprietaire());
-		this.dateSortie = mergeData(lemurienE.getDateSortie(), lemurienM.getAncienProprietaire());
-		this.natureSortie = mergeData(lemurienE.getNatureSortie(), lemurienM.getAncienProprietaire());
-		this.commentaireSortie = mergeData(lemurienE.getCommentaireSortie(), lemurienM.getAncienProprietaire());
+		this.dateSortie = mergeData(lemurienE.getDateSortie(), lemurienM.getDateSortie());
+		this.natureSortie = mergeData(lemurienE.getNatureSortie(), lemurienM.getNatureSortie());
+		this.commentaireSortie = mergeData(lemurienE.getCommentaireSortie(), lemurienM.getCommentaireSortie());
 	}
 
 	private String mergeData(String defaut, String merge) {

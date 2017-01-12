@@ -1,5 +1,6 @@
 package fr.lrc.ejb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.ActivationConfigProperty;
@@ -12,6 +13,7 @@ import javax.jms.ObjectMessage;
 
 import org.jboss.logging.Logger;
 
+import fr.lrc.model.commentaire.StringReturn;
 import fr.lrc.model.lemurien.LemurienEntity;
 import fr.lrc.model.lemurien.LemurienModel;
 import fr.lrc.model.poids.PoidsEntity;
@@ -36,153 +38,192 @@ public class LRCMsgDrivenEJB implements MessageListener {
 	 */
 	@Override
 	public void onMessage(Message message) {
-		log.info("Reception d'un message");
-
-		StringBuilder s = new StringBuilder();
-
 		try {
 			if (message instanceof ObjectMessage) {
-				log.info("Objet Message");
 				ObjectMessage msg = (ObjectMessage) message;
 
 				/**
 				 * Get All Lemurien
 				 */
 				if (msg.getObject() instanceof String) {
-					String m = (String) msg.getObject();
-					log.info("String");
-					if (m.isEmpty() && msg.getBooleanProperty("all")) {
-						List<LemurienEntity> lemurienEList = dao.getAllLemurien();
-						s.append("[");
-						if (lemurienEList != null) {
-							for (LemurienEntity e : lemurienEList) {
-								s.append(new LemurienModel(e).toJSON());
-								s.append(",");
-							}
-						}
-						if (s.length() == 1) {
-							s.append("]");
-						} else {
-							s.replace(s.length() - 1, s.length(), "]");
-						}
+					try {
+						senderQueue.sendMessage(manageAllLemurien(msg));
+					} catch (JMSException e) {
 					}
 				}
 				/**
-				 * Get Lemurien by ID
-				 * 
-				 * Add Lemurien
-				 * 
-				 * Update Lemurien
+				 * Lemurien
 				 */
 				else if (msg.getObject() instanceof LemurienModel) {
-					log.info("Lemurien");
-					LemurienModel lemurienM = (LemurienModel) msg.getObject();
-					LemurienEntity lemurienE = null;
-					/**
-					 * ADD Lemurien
-					 */
-					if (msg.getBooleanProperty("add")) {
-						log.info(lemurienM.toString());
-						lemurienE = dao.addLemurien(lemurienM);
-					}
-					/**
-					 * UPDATE Lemurien
-					 */
-					else if (msg.getBooleanProperty("update")) {
-						log.info(lemurienM.toString());
-						lemurienE = dao.updateLemurien(lemurienM);
-					}
-					/**
-					 * DELETE Lemurien
-					 */
-					else if (msg.getBooleanProperty("delete")) {
-						log.info(lemurienM.toString());
-						s.append("{ \"delete\":");
-						s.append(dao.deleteLemurien(lemurienM));
-						s.append("}");
-					}
-					/**
-					 * GET Lemurien By Id
-					 */
-					else if (msg.getBooleanProperty("id")) {
-						lemurienE = dao.getLemurienById(lemurienM.getIdDB());
-					}
-					/**
-					 * GET Lemurien By Name
-					 */
-					else if (msg.getBooleanProperty("name")) {
-						lemurienE = dao.getLemurienByName((lemurienM.getNom()));
-					}
-
-					if (lemurienE != null) {
-						lemurienM = new LemurienModel(lemurienE);
-						s.append(lemurienM.toString());
-					} else {
-						lemurienM = null;
+					try {
+						senderQueue.sendMessage(manageLemurien(msg));
+					} catch (JMSException e) {
 					}
 				}
 				/**
 				 * Poids
 				 */
 				else if (msg.getObject() instanceof PoidsModel) {
-					log.info("Poids");
-					PoidsModel poidsM = (PoidsModel) msg.getObject();
-					PoidsEntity poidsE = null;
-					/**
-					 * ADD Poids
-					 */
-					if (msg.getBooleanProperty("add")) {
-						log.info(poidsM.toString());
-						if (poidsM.getNom() != null || !poidsM.getNom().isEmpty()) {
-							poidsE = dao.addPoids(poidsM);
-
-							if (poidsE != null) {
-								poidsM = new PoidsModel(poidsE);
-								s.append(poidsM.toString());
-							} else {
-								poidsM = null;
-							}
-						}
+					try {
+						senderQueue.sendMessage(managePoids(msg));
+					} catch (JMSException e) {
 					}
-					/**
-					 * DELETE Poids
-					 */
-					else if (msg.getBooleanProperty("delete")) {
-						log.info(poidsM.toString());
-						s.append("{ \"delete\":");
-						s.append(dao.deletePoids(poidsM));
-						s.append("}");
-					}
-					/**
-					 * GET Poids by Name
-					 */
-					else if (msg.getBooleanProperty("get")) {
-						log.info("Poids");
-						List<PoidsEntity> poidsEList = dao.getPoidsByName(poidsM.getNom());
-
-						s.append("[");
-						if (poidsEList != null) {
-
-							for (PoidsEntity pE : poidsEList) {
-								s.append(new PoidsModel(pE).toJSON());
-								s.append(",");
-							}
-						}
-						if (s.length() == 1) {
-							s.append("]");
-						} else {
-							s.replace(s.length() - 1, s.length(), "]");
-						}
-					}
+				} else {
+					senderQueue.sendMessage(new StringReturn(false, "Objet non pris en compte").message());
 				}
 			} else {
-				log.info("Message invalid pour la Queue");
+				senderQueue.sendMessage(new StringReturn(false, "Message non pris en compte").message());
 			}
-		} catch (NumberFormatException | JMSException e) {
+		} catch (JMSException e) {
 			e.printStackTrace();
-			senderQueue.sendMessage("");
+			senderQueue.sendMessage(new StringReturn(false, "Erreur").message());
 		}
-		log.info("Envoi to Queue " + s.toString());
-		senderQueue.sendMessage(s.toString());
 	}
+
+	private String manageAllLemurien(ObjectMessage msg) throws JMSException {
+		StringBuilder s = new StringBuilder();
+
+		String m = (String) msg.getObject();
+
+		if (m.isEmpty() && msg.getBooleanProperty("all")) {
+			List<LemurienEntity> lemurienEList = new ArrayList<>();
+			lemurienEList = dao.getAllLemurien();
+			if (lemurienEList == null) {
+				return new StringReturn(false, "Erreur acces base de donnée").message();
+			} else {
+				s.append("[");
+
+				for (LemurienEntity e : lemurienEList) {
+					s.append(new LemurienModel(e).toJSON());
+					s.append(",");
+				}
+			}
+			if (s.length() == 1) {
+				s.append("]");
+			} else {
+				s.replace(s.length() - 1, s.length(), "]");
+			}
+			return s.toString();
+		} else {
+			return new StringReturn(false, "Erreur - Message incompris").message();
+		}
+	}
+
+	private String manageLemurien(ObjectMessage msg) throws JMSException {
+		LemurienModel lemurienM = (LemurienModel) msg.getObject();
+		LemurienEntity lemurienE = null;
+
+		StringReturn ret = new StringReturn();
+
+		/**
+		 * ADD Lemurien
+		 */
+		if (msg.getBooleanProperty("add")) {
+			return dao.addLemurien(lemurienM);
+		}
+		/**
+		 * UPDATE Lemurien
+		 */
+		else if (msg.getBooleanProperty("update")) {
+			return dao.updateLemurien(lemurienM);
+		}
+		/**
+		 * DELETE Lemurien
+		 */
+		else if (msg.getBooleanProperty("delete")) {
+			return dao.deleteLemurien(lemurienM);
+		}
+		/**
+		 * GET Lemurien By Id
+		 */
+		else if (msg.getBooleanProperty("id")) {
+			try {
+				return new LemurienModel(dao.getLemurienById(lemurienM.getIdDB())).toJSON();
+			} catch (NullPointerException e) {
+				return new StringReturn(false, "Lémurien introuvable").message();
+			}
+		}
+		/**
+		 * GET Lemurien By Name
+		 */
+		else if (msg.getBooleanProperty("name")) {
+			try {
+				return new LemurienModel(dao.getLemurienByName((lemurienM.getNom()))).toJSON();
+			} catch (NullPointerException e) {
+				return new StringReturn(false, "Lémurien introuvable").message();
+			}
+		}
+		/**
+		 * DEFAULT
+		 */
+		else {
+			return new StringReturn(false, "Erreur - Message incompris").message();
+		}
+	}
+
+	private String managePoids(ObjectMessage msg) throws JMSException {
+
+		StringBuilder s = new StringBuilder();
+		StringReturn ret = new StringReturn();
+		PoidsModel poidsM = (PoidsModel) msg.getObject();
+		/**
+		 * ADD Poids
+		 */
+		if (msg.getBooleanProperty("add")) {
+			PoidsEntity poidsE = null;
+			if (poidsM.getNom() != null || !poidsM.getNom().isEmpty()) {
+				poidsE = dao.getPoidsByNameAndDate(poidsM.getNom(), poidsM.getDate());
+				// Add new poids
+				if (poidsE == null) {
+					poidsE = new PoidsEntity(poidsM, "id");
+				}
+				// Update poids
+				else {
+					poidsE.setPoids(poidsM.getPoids());
+				}
+				// Push to the DB
+				return dao.addPoids(poidsE);
+			} else {
+				return new StringReturn(false, "Nom introuvable").message();
+			}
+		}
+		/**
+		 * DELETE Poids
+		 */
+		else if (msg.getBooleanProperty("delete")) {
+			return dao.deletePoids(poidsM);
+		}
+		/**
+		 * GET Poids by Name
+		 */
+		else if (msg.getBooleanProperty("get")) {
+			List<PoidsEntity> poidsEList = new ArrayList<>();
+			poidsEList = dao.getPoidsByName(poidsM.getNom());
+
+			if (poidsEList == null) {
+				return new StringReturn(false, "Erreur acces base de donnée").message();
+			} else {
+				s.append("[");
+				for (PoidsEntity pE : poidsEList) {
+					s.append(new PoidsModel(pE).toJSON());
+					s.append(",");
+				}
+			}
+
+			if (s.length() == 1) {
+				s.append("]");
+			} else {
+				s.replace(s.length() - 1, s.length(), "]");
+			}
+
+			return s.toString();
+		}
+		/**
+		 * DEFAULT
+		 */
+		else {
+			return new StringReturn(false, "Erreur - Message incompris").message();
+		}
+	}
+
 }
