@@ -1,6 +1,8 @@
 package fr.lrc.model.lemurien;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LemurienModel implements Serializable {
 
@@ -180,6 +182,23 @@ public class LemurienModel implements Serializable {
 	@Override
 	public String toString() {
 		return toJSON();
+	}
+
+	public Map<String, String> getAllParameters() {
+		Map<String, String> mapParam = new HashMap<>();
+		mapParam.put("Nom", this.nom);
+		mapParam.put("Numero identification", this.numeroIdentification);
+		mapParam.put("Sexe", this.sexe);
+		mapParam.put("Date de naissance", this.dateDeNaissance);
+		mapParam.put("Date entrée", this.dateEntree);
+		mapParam.put("Origine", this.origine);
+		mapParam.put("Nature entrée", this.natureEntree);
+		mapParam.put("Ancien proprietaire", this.ancienProprietaire);
+		mapParam.put("Date sortie", this.dateSortie);
+		mapParam.put("Nature sortie", this.natureSortie);
+		mapParam.put("Commentaire sortie", this.commentaireSortie);
+
+		return mapParam;
 	}
 
 }

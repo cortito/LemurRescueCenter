@@ -2,6 +2,7 @@ package fr.lrc.rest.impl;
 
 import javax.inject.Inject;
 
+import fr.lrc.model.commentaire.StringReturn;
 import fr.lrc.model.lemurien.LemurienModel;
 import fr.lrc.rest.IGetLemurien;
 import fr.lrc.services.IMessageReceiverQueue;
@@ -26,9 +27,8 @@ public class GetLemurien implements IGetLemurien {
 			messageSender.sendMessage(lemurienM, "id");
 		} else if (lemurienM.getNom() != null) {
 			messageSender.sendMessage(lemurienM, "name");
-
 		} else {
-			return "";
+			return StringReturn.stringMessage(false, "Lemurien introuvale");
 		}
 		return messageReceiver.receiveMessage();
 	}

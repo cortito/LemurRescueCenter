@@ -69,14 +69,14 @@ public class LRCMsgDrivenEJB implements MessageListener {
 					} catch (JMSException e) {
 					}
 				} else {
-					senderQueue.sendMessage(new StringReturn(false, "Objet non pris en compte").message());
+					senderQueue.sendMessage(StringReturn.stringMessage(false, "Objet non pris en compte"));
 				}
 			} else {
-				senderQueue.sendMessage(new StringReturn(false, "Message non pris en compte").message());
+				senderQueue.sendMessage(StringReturn.stringMessage(false, "Message non pris en compte"));
 			}
 		} catch (JMSException e) {
 			e.printStackTrace();
-			senderQueue.sendMessage(new StringReturn(false, "Erreur").message());
+			senderQueue.sendMessage(StringReturn.stringMessage(false, "Erreur"));
 		}
 	}
 
@@ -89,7 +89,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 			List<LemurienEntity> lemurienEList = new ArrayList<>();
 			lemurienEList = dao.getAllLemurien();
 			if (lemurienEList == null) {
-				return new StringReturn(false, "Erreur acces base de donnée").message();
+				return StringReturn.stringMessage(false, "Erreur acces base de donnée");
 			} else {
 				s.append("[");
 
@@ -105,15 +105,12 @@ public class LRCMsgDrivenEJB implements MessageListener {
 			}
 			return s.toString();
 		} else {
-			return new StringReturn(false, "Erreur - Message incompris").message();
+			return StringReturn.stringMessage(false, "Erreur - Message incompris");
 		}
 	}
 
 	private String manageLemurien(ObjectMessage msg) throws JMSException {
 		LemurienModel lemurienM = (LemurienModel) msg.getObject();
-		LemurienEntity lemurienE = null;
-
-		StringReturn ret = new StringReturn();
 
 		/**
 		 * ADD Lemurien
@@ -140,7 +137,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 			try {
 				return new LemurienModel(dao.getLemurienById(lemurienM.getIdDB())).toJSON();
 			} catch (NullPointerException e) {
-				return new StringReturn(false, "Lémurien introuvable").message();
+				return StringReturn.stringMessage(false, "Lémurien introuvable");
 			}
 		}
 		/**
@@ -150,21 +147,20 @@ public class LRCMsgDrivenEJB implements MessageListener {
 			try {
 				return new LemurienModel(dao.getLemurienByName((lemurienM.getNom()))).toJSON();
 			} catch (NullPointerException e) {
-				return new StringReturn(false, "Lémurien introuvable").message();
+				return StringReturn.stringMessage(false, "Lémurien introuvable");
 			}
 		}
 		/**
 		 * DEFAULT
 		 */
 		else {
-			return new StringReturn(false, "Erreur - Message incompris").message();
+			return StringReturn.stringMessage(false, "Erreur - Message incompris");
 		}
 	}
 
 	private String managePoids(ObjectMessage msg) throws JMSException {
 
 		StringBuilder s = new StringBuilder();
-		StringReturn ret = new StringReturn();
 		PoidsModel poidsM = (PoidsModel) msg.getObject();
 		/**
 		 * ADD Poids
@@ -184,7 +180,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 				// Push to the DB
 				return dao.addPoids(poidsE);
 			} else {
-				return new StringReturn(false, "Nom introuvable").message();
+				return StringReturn.stringMessage(false, "Nom introuvable");
 			}
 		}
 		/**
@@ -201,7 +197,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 			poidsEList = dao.getPoidsByName(poidsM.getNom());
 
 			if (poidsEList == null) {
-				return new StringReturn(false, "Erreur acces base de donnée").message();
+				return StringReturn.stringMessage(false, "Erreur acces base de donnée");
 			} else {
 				s.append("[");
 				for (PoidsEntity pE : poidsEList) {
@@ -222,7 +218,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 		 * DEFAULT
 		 */
 		else {
-			return new StringReturn(false, "Erreur - Message incompris").message();
+			return StringReturn.stringMessage(false, "Erreur - Message incompris");
 		}
 	}
 

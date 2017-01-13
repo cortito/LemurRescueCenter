@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
@@ -64,34 +63,37 @@ public class LRCDAO implements ILRCDAO {
 	@Override
 	public String addLemurien(LemurienModel lemurienM) {
 		if (getLemurienByName(lemurienM.getNom()) != null) {
-			return new StringReturn(false, "Lémurien déjà existant").message();
+			return StringReturn.stringMessage(false, "Lémurien déjà existant");
 		}
 		LemurienEntity lemurienE = new LemurienEntity(lemurienM, "id");
 		try {
 			em.persist(lemurienE);
 		} catch (Exception e) {
-			return new StringReturn(false, "Erreur à la base de donnée").message();
+			return StringReturn.stringMessage(false, "Erreur à la base de donnée");
 		}
-		return new StringReturn(true, "Lémurien ajouté").message();
+		return StringReturn.stringMessage(true, "Lémurien ajouté");
 	}
 
 	@Override
 	public String updateLemurien(LemurienModel lemurienM) {
 		LemurienEntity lemurienMerge = getLemurienById(lemurienM.getIdDB());
+		if (lemurienMerge == null) {
+			return StringReturn.stringMessage(false, "Lémurien introuvable");
+		}
 		LemurienEntity lemurienE = new LemurienEntity(lemurienMerge, lemurienM);
 		try {
 			em.merge(lemurienE);
 		} catch (Exception e) {
-			return new StringReturn(false, "Erreur à la base de donnée").message();
+			return StringReturn.stringMessage(false, "Erreur à la base de donnée");
 		}
-		return new StringReturn(true, "Lémurien mis à jour").message();
+		return StringReturn.stringMessage(true, "Lémurien mis à jour");
 	}
 
 	@Override
 	public String deleteLemurien(LemurienModel lemurienM) {
 		LemurienEntity lemurienE = getLemurienById(lemurienM.getIdDB());
 		if (lemurienE == null) {
-			return new StringReturn(false, "Lémurien introuvable").message();
+			return StringReturn.stringMessage(false, "Lémurien introuvable");
 		} else {
 			boolean ret = false;
 			try {
@@ -104,9 +106,9 @@ public class LRCDAO implements ILRCDAO {
 					}
 				}
 			} catch (Exception e) {
-				return new StringReturn(false, "Erreur à la base de donnée").message();
+				return StringReturn.stringMessage(false, "Erreur à la base de donnée");
 			}
-			return new StringReturn(true, "Lémurien supprimé").message();
+			return StringReturn.stringMessage(true, "Lémurien supprimé");
 		}
 	}
 
@@ -124,12 +126,15 @@ public class LRCDAO implements ILRCDAO {
 
 	@Override
 	public String addPoids(PoidsEntity poidsE) {
+		if (getLemurienByName(poidsE.getNom()) == null) {
+			return StringReturn.stringMessage(false, "Lemurien introuvable");
+		}
 		try {
 			em.merge(poidsE);
 		} catch (Exception e) {
-			return new StringReturn(false, "Erreur à la base de donnée").message();
+			return StringReturn.stringMessage(false, "Erreur à la base de donnée");
 		}
-		return new StringReturn(true, "Poids ajouté ").message();
+		return StringReturn.stringMessage(true, "Poids ajouté ");
 	}
 
 	@Override
@@ -162,12 +167,11 @@ public class LRCDAO implements ILRCDAO {
 			try {
 				em.remove(poidsE);
 			} catch (Exception e) {
-				return new StringReturn(false, "Erreur à la base de donnée").message();
-
+				return StringReturn.stringMessage(false, "Erreur à la base de donnée");
 			}
-			return new StringReturn(true, "Poids supprimé").message();
+			return StringReturn.stringMessage(true, "Poids supprimé");
 		} else {
-			return new StringReturn(false, "Poids introuvable").message();
+			return StringReturn.stringMessage(false, "Poids introuvable");
 		}
 	}
 }
