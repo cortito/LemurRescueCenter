@@ -14,15 +14,19 @@ angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope
         var parameter = JSON.stringify(lemur);
         return $http.post(url, parameter)
 
-            .success(function (response) {
-            $ctrl.ok();
+            .success(function (res) {
+
             $rootScope.$broadcast('refresh');
-            alert("Lémurien ajouté");
-            return response;
+            alert(res.commentaire);
+
+            if(res.response)
+            {
+                $ctrl.ok();
+            }
+            return res;
         })
 
-            .error(function (response)
-                   {
+            .error(function (response) {
             console.log(response);
         });
     };

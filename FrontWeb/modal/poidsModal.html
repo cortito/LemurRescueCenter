@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <body ng-app="dashboard">
-        <div ng-controller="dashboardCtrl as ctrl"> 
+
 
             <div class="modal-header">
                 <h3 class="modal-title" id="modal-title">Poids du lémurien {{$ctrl.lemur.nom}}</h3>
@@ -13,11 +10,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Annuler</button>
-                <button class="btn btn-warning" type="button" ng-click="deleteWeight($ctrl.lemur.nom, data)">Supprimer</button>
+                <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+                <button class="btn btn-danger" type="button" ng-click="deleteWeight($ctrl.lemur.nom, data)">Supprimer</button>
                 <button class="btn btn-primary" type="button" ng-click="addWeight($ctrl.lemur.nom, data)">Envoyer</button>
             </div>
-        </div>
-
-    </body>
-</html>

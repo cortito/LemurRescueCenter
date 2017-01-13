@@ -146,12 +146,15 @@ angular.module('dashboard').directive('printGraph', function($compile, $http, $q
         return $http.post(url, parameter)
             .success(function (res) {
             $ctrl.getPoids = res;
+
             var arrayAnnee = [];
             var labels = [];
             var donnees = [];
             var moyenne = [];
+
             var moy = $ctrl.getMoyenne($ctrl.getPoids).toString();
             var mois = 1;
+
 
             for(mois=1; mois<=12; mois++)
             {
@@ -165,14 +168,14 @@ angular.module('dashboard').directive('printGraph', function($compile, $http, $q
                 donnees.push($ctrl.remplirPoids(date, $ctrl.getPoids));
                 moyenne.push(moy);
             }
-            
+
             $ctrl.moyenne.push(moyenne);
             $ctrl.annees.push(annee);
             $ctrl.arrayPoidsAnnee.push(donnees);
             $ctrl.arrayLabelsAnnee.push(labels);
-            
+
             ($ctrl.promises[annee - $ctrl.anneeDebut]).resolve();
-            
+
             return res;
         })
 

@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-<body ng-app="dashboard">
-<div ng-controller="dashboardCtrl as ctrl"> 
+
 
 	<div class="modal-header">
 	   	<h3 class="modal-title" id="modal-title">Modification d'un lémurien</h3>
@@ -23,11 +20,7 @@
   		</form>
 	</div>
 	<div class="modal-footer">
-            <button class="btn btn-danger" type="button" ng-click="$ctrl.cancel()">Annuler</button>
-            <button class="btn btn-warning" type="button" ng-click="reset()">Reset</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+            <button class="btn btn-success" type="button" ng-click="reset()">Reset</button>
 			<button class="btn btn-primary" type="button" ng-click="update(lemur)">Modifier</button>
 	 </div>
-</div>
-
-</body>
-</html>

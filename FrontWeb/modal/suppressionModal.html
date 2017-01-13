@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-<body ng-app="dashboard">
-<div ng-controller="dashboardCtrl as ctrl"> 
+
 
 	<div class="modal-header">
        	     <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.idDB}}</h3>
@@ -10,11 +7,7 @@
             Êtes-vous sûr de vouloir supprimer le lémurien {{$ctrl.lemur.nom}} ?<br/>
             </div>
         	<div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="delete($ctrl.lemur.idDB)">Oui</button>
             <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+            <button class="btn btn-primary" type="button" ng-click="delete($ctrl.lemur.idDB)">Oui</button>
       
      </div>
-</div>
-
-</body>
-</html>

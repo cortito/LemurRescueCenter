@@ -4,7 +4,7 @@
 	/* WEIGHT LEMURIEN
 	**/  
 angular.module('dashboard').controller('poidsModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) 
-               {
+                                       {
     var $ctrl = this;
     $ctrl.lemur = lemur;
 
@@ -27,11 +27,17 @@ angular.module('dashboard').controller('poidsModalCtrl', function ($http, $scope
 
         return $http.post(url, parameter)
 
-            .success(function (response) {
-            $ctrl.ok();
-            alert("Poids ajouté");
+            .success(function (res) {
+
+
+            alert(res.commentaire);
+            if(res.response)
+            {
+                $ctrl.ok();
+            }
+
             $rootScope.$broadcast('refresh');
-            return response;
+            return res;
         })
 
             .error(function (response)
@@ -41,21 +47,27 @@ angular.module('dashboard').controller('poidsModalCtrl', function ($http, $scope
     };
 
     $scope.deleteWeight = function(nom, data) {     
-        var url = "http://192.168.1.101:8080/FrontLRCWebService/rest/deletePoids";
+        var url = $rootScope.addr + "FrontLRCWebService/rest/deletePoids";
         var parameter = JSON.stringify({ nom: nom, date: data.date, poids: data.poids});
         console.log(parameter);
 
         return $http.post(url, parameter)
 
-            .success(function (response) {
+            .success(function (res) {
             $ctrl.ok();
-            alert("Poids supprimé");
+
+            alert(res.commentaire);
+            if(res.response)
+            {
+                $ctrl.ok();
+            }
             $rootScope.$broadcast('refresh');
-            return response;
+
+
+            return res;
         })
 
-            .error(function (response)
-                   {
+            .error(function (response) {
             console.log(response);
         });
     };

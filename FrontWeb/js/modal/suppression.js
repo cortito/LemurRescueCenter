@@ -4,7 +4,7 @@
 	/* SUPPRESSION 
 	**/  
 angular.module('dashboard').controller('suppressionModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) 
-               {
+                                       {
     var $ctrl = this;
     $ctrl.lemur = lemur;
 
@@ -13,11 +13,16 @@ angular.module('dashboard').controller('suppressionModalCtrl', function ($http, 
         var parameter = angular.toJson(id);
         return $http.post(url, parameter)
 
-            .success(function (response) {
-            $ctrl.ok();
-            alert("Lémurien supprimé");
+            .success(function (res) {
+            alert(res.commentaire);
+
+            if(res.response)
+            {
+                $ctrl.ok();
+            }
+
             $rootScope.$broadcast('refresh');
-            return response;
+            return res;
         })
 
             .error(function (response)
