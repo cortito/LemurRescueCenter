@@ -1,6 +1,8 @@
 package fr.lrc.model.poids;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PoidsModel implements Serializable {
 
@@ -10,9 +12,9 @@ public class PoidsModel implements Serializable {
 	private static final long serialVersionUID = 1521490285320525552L;
 
 	private int idDB;
-	private String nom;
-	private String date;
-	private Double poids;
+	private String nom = "";
+	private String date = "";
+	private Double poids = 0.0;
 
 	public PoidsModel(int idDB, String nom, String date, Double poids) {
 		this.idDB = idDB;
@@ -65,12 +67,22 @@ public class PoidsModel implements Serializable {
 
 	public String toJSON() {
 		StringBuilder s = new StringBuilder();
-		s.append("{ \"idDB\" : " + idDB + ", ")
-		.append("\"nom\" : \"" + nom + "\", ")
-		.append("\"date\" : \"" + date + "\", ")
-		.append("\"poids\" : \"" + poids + "\"}");
+		s.append("{ \"idDB\" : " + idDB + ", ").append("\"nom\" : \"" + nom + "\", ")
+				.append("\"date\" : \"" + date + "\", ").append("\"poids\" : \"" + poids + "\"}");
 
 		return s.toString();
+	}
+
+	@Override
+	public String toString() {
+		return toJSON();
+	}
+
+	public Map<String, String> getAllParameters() {
+		Map<String, String> mapParam = new HashMap<>();
+		mapParam.put("Nom", this.nom);
+		mapParam.put("Date", this.date);
+		return mapParam;
 	}
 
 }

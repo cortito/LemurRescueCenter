@@ -22,33 +22,32 @@ public class LemurienEntity implements Serializable {
 	@Column
 	private int idDB;
 	@Column
-	private String nom;
+	private String nom = "";
 	@Column
-	private String numeroIdentification;
+	private String numeroIdentification = "";
 	@Column
-	private String sexe;
+	private String sexe = "";
 	@Column
-	private String dateDeNaissance;
+	private String dateDeNaissance = "";
 	@Column
-	private String dateEntree;
+	private String dateEntree = "";
 	@Column
-	private String origine;
+	private String origine = "";
 	@Column
-	private String natureEntree;
+	private String natureEntree = "";
 	@Column
-	private String ancienProprietaire;
+	private String ancienProprietaire = "";
 	@Column
-	private String dateSortie;
+	private String dateSortie = "";
 	@Column
-	private String natureSortie;
+	private String natureSortie = "";
 	@Column
-	private String commentaireSortie;
+	private String commentaireSortie = "";
 
 	public LemurienEntity() {
 	}
 
 	public LemurienEntity(LemurienModel lemurienM, String paramNull) {
-		super();
 		if (!paramNull.equals(("id"))) {
 			this.idDB = lemurienM.getIdDB();
 		}
@@ -63,6 +62,40 @@ public class LemurienEntity implements Serializable {
 		this.dateSortie = controleNotNull(lemurienM.getDateSortie());
 		this.natureSortie = controleNotNull(lemurienM.getNatureSortie());
 		this.commentaireSortie = controleNotNull(lemurienM.getCommentaireSortie());
+	}
+
+	public LemurienEntity(LemurienModel lemurienM) {
+		this.idDB = lemurienM.getIdDB();
+		this.nom = controleNotNull(lemurienM.getNom());
+		this.numeroIdentification = controleNotNull(lemurienM.getNumeroIdentification());
+		this.sexe = controleNotNull(lemurienM.getSexe());
+		this.dateDeNaissance = controleNotNull(lemurienM.getDateDeNaissance());
+		this.dateEntree = controleNotNull(lemurienM.getDateEntree());
+		this.origine = controleNotNull(lemurienM.getOrigine());
+		this.natureEntree = controleNotNull(lemurienM.getNatureEntree());
+		this.ancienProprietaire = controleNotNull(lemurienM.getAncienProprietaire());
+		this.dateSortie = controleNotNull(lemurienM.getDateSortie());
+		this.natureSortie = controleNotNull(lemurienM.getNatureSortie());
+		this.commentaireSortie = controleNotNull(lemurienM.getCommentaireSortie());
+	}
+
+	public LemurienEntity(LemurienEntity lemurienE, LemurienModel lemurienM) {
+		this.idDB = lemurienE.getIdDB();
+		this.nom = mergeData(lemurienE.getNom(), lemurienM.getNom());
+		this.numeroIdentification = mergeData(lemurienE.getNumeroIdentification(), lemurienM.getNumeroIdentification());
+		this.sexe = mergeData(lemurienE.getSexe(), lemurienM.getSexe());
+		this.dateDeNaissance = mergeData(lemurienE.getDateDeNaissance(), lemurienM.getDateDeNaissance());
+		this.dateEntree = mergeData(lemurienE.getDateEntree(), lemurienM.getDateEntree());
+		this.origine = mergeData(lemurienE.getOrigine(), lemurienM.getOrigine());
+		this.natureEntree = mergeData(lemurienE.getNatureEntree(), lemurienM.getNatureEntree());
+		this.ancienProprietaire = mergeData(lemurienE.getAncienProprietaire(), lemurienM.getAncienProprietaire());
+		this.dateSortie = mergeData(lemurienE.getDateSortie(), lemurienM.getDateSortie());
+		this.natureSortie = mergeData(lemurienE.getNatureSortie(), lemurienM.getNatureSortie());
+		this.commentaireSortie = mergeData(lemurienE.getCommentaireSortie(), lemurienM.getCommentaireSortie());
+	}
+
+	private String mergeData(String defaut, String merge) {
+		return merge.isEmpty() ? defaut : merge;
 	}
 
 	public int getIdDB() {
@@ -163,6 +196,15 @@ public class LemurienEntity implements Serializable {
 
 	private String controleNotNull(String s) {
 		return s == null ? "" : s;
+	}
+
+	@Override
+	public String toString() {
+		return "LemurienEntity [idDB=" + idDB + ", nom=" + nom + ", numeroIdentification=" + numeroIdentification
+				+ ", sexe=" + sexe + ", dateDeNaissance=" + dateDeNaissance + ", dateEntree=" + dateEntree
+				+ ", origine=" + origine + ", natureEntree=" + natureEntree + ", ancienProprietaire="
+				+ ancienProprietaire + ", dateSortie=" + dateSortie + ", natureSortie=" + natureSortie
+				+ ", commentaireSortie=" + commentaireSortie + "]";
 	}
 
 }

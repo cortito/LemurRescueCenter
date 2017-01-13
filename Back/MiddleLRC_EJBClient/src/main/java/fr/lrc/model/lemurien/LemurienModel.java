@@ -1,6 +1,8 @@
 package fr.lrc.model.lemurien;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LemurienModel implements Serializable {
 
@@ -10,17 +12,17 @@ public class LemurienModel implements Serializable {
 	private static final long serialVersionUID = 5698754191407303366L;
 
 	private int idDB;
-	private String nom;
-	private String numeroIdentification;
-	private String sexe;
-	private String dateDeNaissance;
-	private String dateEntree;
-	private String origine;
-	private String natureEntree;
-	private String ancienProprietaire;
-	private String dateSortie;
-	private String natureSortie;
-	private String commentaireSortie;
+	private String nom = "";
+	private String numeroIdentification = "";
+	private String sexe = "";
+	private String dateDeNaissance = "";
+	private String dateEntree = "";
+	private String origine = "";
+	private String natureEntree = "";
+	private String ancienProprietaire = "";
+	private String dateSortie = "";
+	private String natureSortie = "";
+	private String commentaireSortie = "";
 
 	public LemurienModel(int idDB, String nom, String numeroIdentification, String sexe, String dateDeNaissance,
 			String dateEntree, String origine, String natureEntree, String ancienProprietaire, String dateSortie,
@@ -180,6 +182,23 @@ public class LemurienModel implements Serializable {
 	@Override
 	public String toString() {
 		return toJSON();
+	}
+
+	public Map<String, String> getAllParameters() {
+		Map<String, String> mapParam = new HashMap<>();
+		mapParam.put("Nom", this.nom);
+		mapParam.put("Numero identification", this.numeroIdentification);
+		mapParam.put("Sexe", this.sexe);
+		mapParam.put("Date de naissance", this.dateDeNaissance);
+		mapParam.put("Date entrée", this.dateEntree);
+		mapParam.put("Origine", this.origine);
+		mapParam.put("Nature entrée", this.natureEntree);
+		mapParam.put("Ancien proprietaire", this.ancienProprietaire);
+		mapParam.put("Date sortie", this.dateSortie);
+		mapParam.put("Nature sortie", this.natureSortie);
+		mapParam.put("Commentaire sortie", this.commentaireSortie);
+
+		return mapParam;
 	}
 
 }

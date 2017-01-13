@@ -28,39 +28,13 @@ public class MessageSenderTopic implements IMessageSenderTopic {
 	@Resource(mappedName = "java:/jms/LRCTopic")
 	Topic topic;
 
-	public void sendMessage(Serializable o) {
+	public void sendMessage(Serializable o, String param) {
 		log.info("Envoi d'un message au Topic");
 		try {
 			JMSProducer prod = context.createProducer();
 			ObjectMessage message = context.createObjectMessage();
 			message.setObject(o);
-			prod.send(topic, message);
-		} catch (NullPointerException | JMSException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void sendMessageAdd(Serializable o) {
-		log.info("Envoi d'un message au Topic");
-		try {
-			JMSProducer prod = context.createProducer();
-			ObjectMessage message = context.createObjectMessage();
-			message.setObject(o);
-			message.setBooleanProperty("add", true);
-			prod.send(topic, message);
-		} catch (NullPointerException | JMSException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void sendMessageUpdate(Serializable o) {
-		log.info("Envoi d'un message au Topic");
-		try {
-			JMSProducer prod = context.createProducer();
-			ObjectMessage message = context.createObjectMessage();
-			message.setObject(o);
-			message.setBooleanProperty("update", true);
+			message.setBooleanProperty(param, true);
 			prod.send(topic, message);
 		} catch (NullPointerException | JMSException e) {
 			e.printStackTrace();

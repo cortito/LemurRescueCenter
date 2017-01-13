@@ -10,8 +10,8 @@ import fr.lrc.model.lemurien.LemurienModel;
 
 public interface IUpdateLemurien {
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/")
 	public String updateLemurien(LemurienModel lemurienM);
 }

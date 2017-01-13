@@ -5,14 +5,15 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
 
+import fr.lrc.model.commentaire.StringReturn;
 import fr.lrc.model.lemurien.LemurienEntity;
 import fr.lrc.model.lemurien.LemurienModel;
 import fr.lrc.model.poids.PoidsEntity;
+import fr.lrc.model.poids.PoidsModel;
 import fr.lrc.services.ILRCDAO;
 
 @Stateless
@@ -24,80 +25,153 @@ public class LRCDAO implements ILRCDAO {
 	EntityManager em;
 
 	@Override
-	public LemurienEntity getLemurienById(int id) {
-		String qry = "SELECT u FROM LemurienEntity u WHERE u.id=:id ";
-
-		LemurienEntity lemurienE = null;
-		try {
-			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("id", id).getSingleResult();
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
-		}
-		return lemurienE;
-	}
-
-	@Override
 	public List<LemurienEntity> getAllLemurien() {
 		String qry = "FROM LemurienEntity";
-
 		List<LemurienEntity> lemurienList = new ArrayList<>();
 		try {
 			lemurienList.addAll(em.createQuery(qry).getResultList());
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
+		} catch (Exception e) {
+			lemurienList = null;
 		}
 		return lemurienList;
 	}
 
 	@Override
-	public List<PoidsEntity> getPoidsByName(String nom) {
-		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom ";
-
-		List<PoidsEntity> poidsList = new ArrayList<>();
+	public LemurienEntity getLemurienById(int id) {
+		String qry = "SELECT u FROM LemurienEntity u WHERE u.idDB=:idDB ";
+		LemurienEntity lemurienE = null;
 		try {
-			poidsList.addAll(em.createQuery(qry).setParameter("nom", nom).getResultList());
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
+			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("idDB", id).getSingleResult();
+		} catch (Exception e) {
+			lemurienE = null;
 		}
-		return poidsList;
-	}
-
-	@Override
-	public LemurienEntity addLemurien(LemurienModel lemurienM) {
-
-		LemurienEntity lemurienE = new LemurienEntity(lemurienM,"id");
-		try {
-			em.persist(lemurienE);
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
-		}
-		return getLemurienByName(lemurienE.getNom());
+		return lemurienE;
 	}
 
 	@Override
 	public LemurienEntity getLemurienByName(String nom) {
 		String qry = "SELECT u FROM LemurienEntity u WHERE u.nom=:nom ";
-
 		LemurienEntity lemurienE = null;
 		try {
 			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("nom", nom).getSingleResult();
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
+		} catch (Exception e) {
+			lemurienE = null;
 		}
-		log.info(lemurienE);
 		return lemurienE;
 	}
 
 	@Override
-	public LemurienEntity updateLemurien(LemurienModel lemurienM) {
+	public String addLemurien(LemurienModel lemurienM) {
+		if (getLemurienByName(lemurienM.getNom()) != null) {
+			return StringReturn.stringMessage(false, "Lémurien déjà existant");
+		}
+		LemurienEntity lemurienE = new LemurienEntity(lemurienM, "id");
+		try {
+			em.persist(lemurienE);
+		} catch (Exception e) {
+			return StringReturn.stringMessage(false, "Erreur à la base de donnée");
+		}
+		return StringReturn.stringMessage(true, "Lémurien ajouté");
+	}
 
-		LemurienEntity lemurienE = new LemurienEntity(lemurienM,"");
+	@Override
+	public String updateLemurien(LemurienModel lemurienM) {
+		LemurienEntity lemurienMerge = getLemurienById(lemurienM.getIdDB());
+		if (lemurienMerge == null) {
+			return StringReturn.stringMessage(false, "Lémurien introuvable");
+		}
+		LemurienEntity lemurienE = new LemurienEntity(lemurienMerge, lemurienM);
 		try {
 			em.merge(lemurienE);
-		} catch (NoResultException e) {
-			log.warn(e.getMessage());
+		} catch (Exception e) {
+			return StringReturn.stringMessage(false, "Erreur à la base de donnée");
 		}
-		log.info(lemurienE);
-		return lemurienE;
+		return StringReturn.stringMessage(true, "Lémurien mis à jour");
+	}
+
+	@Override
+	public String deleteLemurien(LemurienModel lemurienM) {
+		LemurienEntity lemurienE = getLemurienById(lemurienM.getIdDB());
+		if (lemurienE == null) {
+			return StringReturn.stringMessage(false, "Lémurien introuvable");
+		} else {
+			boolean ret = false;
+			try {
+				em.remove(lemurienE);
+				ret = true;
+				// DELETE all Poids
+				if (ret) {
+					for (PoidsEntity p : getPoidsByName(lemurienE.getNom())) {
+						em.remove(p);
+					}
+				}
+			} catch (Exception e) {
+				return StringReturn.stringMessage(false, "Erreur à la base de donnée");
+			}
+			return StringReturn.stringMessage(true, "Lémurien supprimé");
+		}
+	}
+
+	@Override
+	public List<PoidsEntity> getPoidsByName(String nom) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom ";
+		List<PoidsEntity> poidsList = new ArrayList<>();
+		try {
+			poidsList.addAll(em.createQuery(qry).setParameter("nom", nom).getResultList());
+		} catch (Exception e) {
+			return null;
+		}
+		return poidsList;
+	}
+
+	@Override
+	public String addPoids(PoidsEntity poidsE) {
+		if (getLemurienByName(poidsE.getNom()) == null) {
+			return StringReturn.stringMessage(false, "Lemurien introuvable");
+		}
+		try {
+			em.merge(poidsE);
+		} catch (Exception e) {
+			return StringReturn.stringMessage(false, "Erreur à la base de donnée");
+		}
+		return StringReturn.stringMessage(true, "Poids ajouté ");
+	}
+
+	@Override
+	public PoidsEntity getPoidsById(int id) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.idDB=:idDB ";
+		PoidsEntity poidsE = null;
+		try {
+			poidsE = (PoidsEntity) em.createQuery(qry).setParameter("idDB", id).getSingleResult();
+		} catch (Exception e) {
+		}
+		return poidsE;
+	}
+
+	@Override
+	public PoidsEntity getPoidsByNameAndDate(String nom, String date) {
+		String qry = "SELECT u FROM PoidsEntity u WHERE u.nom=:nom AND u.date=:date ";
+		PoidsEntity poidsE = null;
+		try {
+			poidsE = (PoidsEntity) em.createQuery(qry).setParameter("nom", nom).setParameter("date", date)
+					.getSingleResult();
+		} catch (Exception e) {
+		}
+		return poidsE;
+	}
+
+	@Override
+	public String deletePoids(PoidsModel poidsM) {
+		PoidsEntity poidsE = getPoidsByNameAndDate(poidsM.getNom(), poidsM.getDate());
+		if (poidsE != null) {
+			try {
+				em.remove(poidsE);
+			} catch (Exception e) {
+				return StringReturn.stringMessage(false, "Erreur à la base de donnée");
+			}
+			return StringReturn.stringMessage(true, "Poids supprimé");
+		} else {
+			return StringReturn.stringMessage(false, "Poids introuvable");
+		}
 	}
 }

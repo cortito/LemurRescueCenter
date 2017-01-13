@@ -7,9 +7,6 @@ import javax.ejb.Local;
 @Local
 public interface IMessageSenderTopic {
 
-	public void sendMessage(Serializable o);
+	public void sendMessage(Serializable o, String param);
 
-	public void sendMessageAdd(Serializable o);
-
-	public void sendMessageUpdate(Serializable o);
 }

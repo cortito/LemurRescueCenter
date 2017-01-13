@@ -1,34 +1,29 @@
 package fr.lrc.rest.impl;
 
 import javax.inject.Inject;
-import javax.ws.rs.Path;
 
 import fr.lrc.controller.LemurienController;
 import fr.lrc.model.commentaire.StringReturn;
 import fr.lrc.model.lemurien.LemurienModel;
-import fr.lrc.rest.IUpdateLemurien;
+import fr.lrc.rest.IDeleteLemurien;
 import fr.lrc.services.IMessageReceiverQueue;
 import fr.lrc.services.IMessageSenderTopic;
 
-@Path("/updateLemurien")
-public class UpdateLemurien implements IUpdateLemurien {
+public class DeleteLemurien implements IDeleteLemurien {
 
 	@Inject
 	IMessageSenderTopic messageSender;
 	@Inject
 	IMessageReceiverQueue messageReceiver;
 
-	public String updateLemurien(LemurienModel lemurienM) {
+	@Override
+	public String deleteLemurien(LemurienModel lemurienM) {
 		StringReturn s = LemurienController.lemurienController(lemurienM);
 		if (s.isResponse()) {
 			System.out.println(lemurienM);
 			if (lemurienM.getIdDB() != 0) {
-				if (!lemurienM.getNom().isEmpty()) {
-					messageSender.sendMessage(lemurienM, "update");
-					return messageReceiver.receiveMessage();
-				} else {
-					return StringReturn.stringMessage(false, "Le nom ne peut pas être vide");
-				}
+				messageSender.sendMessage(lemurienM, "delete");
+				return messageReceiver.receiveMessage();
 			} else {
 				return StringReturn.stringMessage(false, "Id de base de donnée ne doit pas être null");
 			}
@@ -36,4 +31,5 @@ public class UpdateLemurien implements IUpdateLemurien {
 			return StringReturn.stringMessage(s.isResponse(), s.getCommentaire());
 		}
 	}
+
 }

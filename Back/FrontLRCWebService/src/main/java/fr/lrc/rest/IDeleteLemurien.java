@@ -8,12 +8,13 @@ import javax.ws.rs.core.MediaType;
 
 import fr.lrc.model.lemurien.LemurienModel;
 
-@Path("/addLemurien")
-public interface IAddLemurien {
 
+@Path("/deleteLemurien")
+public interface IDeleteLemurien {
+	
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/")
-	public String addLemurien(LemurienModel lemurienM);
+	public String deleteLemurien(LemurienModel lemurienM);
 }
