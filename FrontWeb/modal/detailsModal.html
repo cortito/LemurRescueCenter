@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
-<body ng-app="dashboard">
-<div ng-controller="dashboardCtrl as ctrl"> 
+
 
 	<div class="modal-header">
        	     <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.idDB}}</h3>
@@ -21,10 +18,7 @@
             {{$ctrl.lemur.commentaireSortie}}<br/>
             
             <hr>
-<!--              <a my-dir="$ctrl" ng-repeat="user in users"><br>{{user.name}}</a>-->
-             <div id="printGraphId" print-graph="$ctrl">
-             </div>
-             
+            <div id="printGraphId" print-graph="$ctrl"></div>
             
         	<div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
@@ -32,9 +26,6 @@
       
      </div>
 </div>
-    </div>
-</body>
-</html>
     
     
     
