@@ -1,0 +1,21 @@
+<resources>
+    <string name="id_Title">Id :  </string>
+    <string name="app_name">Lemur Rescue Center </string>
+    <string name="name_Title">Nom :  </string>
+    <string name="age_Title">Age :  </string>
+    <string name="description_Title">Description :  </string>
+    <string name="gender_Title">Sexe :  </string>
+    <string name="entryDate_Title">Date d\'entré :   </string>
+    <string name="entryNature_Title">Nature de l\'entré :   </string>
+    <string name="origin_Title">Origine :   </string>
+    <string name="leavingDate_Title">Date de sortie :   </string>
+    <string name="leavingNature_Title">Nature de la sortie :   </string>
+    <string name="leavingCommentary_Title">Commentaire de sortie :   </string>
+    <string name="lastOwner_Title">Dernier propriétaire :   </string>
+    <string name="dialog_Message">Trouver un lemurien par son ID :   </string>
+    <string name="dialog_Pos_Button">Chercher  </string>
+    <string name="dialog_Neg_Button">Retour  </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
