@@ -15,12 +15,13 @@ import java.io.IOException;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * Created by corto_000 on 05/01/2017.
  */
 
-public class RetrieveLemurTask extends AsyncTask<Void, Void, JSONObject> {
+public class RetrieveLemurTask extends AsyncTask<JSONObject, Void, JSONObject> {
 
     private static final String URL_RETRIEVE_POST = "http://192.168.1.20:1818/FrontLRCWebService/rest/getLemurien";
     private static final String URL_GET_TEST ="https://trello-attachments.s3.amazonaws.com/58532b6c95e4b53eb15676bb/586b574e130cd59c7da0f167/0409c5e38c6eca51449ffdb0cb04ae96/model.json";
@@ -35,9 +36,7 @@ public RetrieveLemurTask(LemurListenner callback , Activity activity) {
         this.activity = activity;
         }
 
-
-
-    /*@Override
+    @Override
     protected JSONObject doInBackground(JSONObject... params) {
 
         try {
@@ -49,10 +48,10 @@ public RetrieveLemurTask(LemurListenner callback , Activity activity) {
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
 
 
-    /*private JSONObject post(String url, String json) throws IOException {
+    private JSONObject post(String url, String json) throws IOException {
         client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, json);
         JSONObject jobject = new JSONObject();
@@ -73,7 +72,7 @@ public RetrieveLemurTask(LemurListenner callback , Activity activity) {
         }
 
         return jobject;
-    }*/
+    }
 
     @Override
     protected void onPreExecute() {
@@ -84,7 +83,7 @@ public RetrieveLemurTask(LemurListenner callback , Activity activity) {
         progressDialog.show();
     }
 
-    @Override
+    /*@Override
     protected JSONObject doInBackground(Void... params) {
 
 
@@ -116,7 +115,7 @@ public RetrieveLemurTask(LemurListenner callback , Activity activity) {
 
         return jobject;
 
-    }
+    }*/
 
 
     @Override

@@ -3,7 +3,7 @@ package com.projet_100_heures.lemurrescuecenter.activity.fragments;
 //import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +50,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public void displayLemurProf(){
-
-
 
         if(lemurModel != null) {
             TextView name = (TextView) getActivity().findViewById(R.id.lemurName);

@@ -1,6 +1,6 @@
 package com.projet_100_heures.lemurrescuecenter.activity.fragments;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.nfc.NdefMessage;
