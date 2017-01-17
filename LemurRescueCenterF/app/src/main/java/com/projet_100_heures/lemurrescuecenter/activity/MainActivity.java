@@ -1,8 +1,13 @@
 package com.projet_100_heures.lemurrescuecenter.activity;
 
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NfcA;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -36,36 +41,113 @@ import com.projet_100_heures.lemurrescuecenter.model.LemurModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+
 public  class MainActivity extends AppCompatActivity implements ISimpleDialogListener,IFragmentListener,RetrieveLemurTask.LemurListenner, SearchLemurDialog.SearchLemurIdListenner, Communicator {
 
     LemurModel lemurModelBuf;
     private static final String TAG = MainActivity.class.getSimpleName();
     private BottomNavigationView bottomNavigationView;
+    private int selector;
+    private int inter=0;
     Fragment fragment;
     ProfileFragment pF;
     StatsFragment statsFragment;
     CustomFragment customFragment;
     NFCFragment nfcFragment;
-    private int selector;
     NfcAdapter nfcAdapter;
-    private int inter=0;
+    PendingIntent pendingIntent;
+    IntentFilter[] intentFiltersArray;
+    String[][] techListsArray;
+    IntentFilter[] mFilters;
+    String[][] mTechLists;
+
     Menu menu;
 
     EditText searchId;
     EditText searchName;
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFiltersArray, techListsArray);
+        if(this.getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG) !=null) {
+            Intent intent = getIntent();
+            resolveIntent (intent);
+        }
+
+        /*if(this.getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG) !=null) {
+            Tag tagFromIntent = this.getIntent().getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+            Parcelable[] parcelables = this.getIntent().getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (parcelables != null && parcelables.length > 0) {
+                if (inter == 1) {
+                    nfcFragment.isTagDiscovered(true);
+                    nfcFragment.getTextFromNDEFMessage((NdefMessage) parcelables[0]);
+                }
+            } else {
+                Toast.makeText(this, "no NDEFMessage found !", Toast.LENGTH_SHORT).show();
+            }
+
+        }*/
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+         /*pendingIntent = PendingIntent.getActivity(
+                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            ndef.addDataType("/");    / Handles all MIME based dispatches.
+                                       You should specify only the ones that you need. /
+        }
+        catch (IntentFilter.MalformedMimeTypeException e) {
+            throw new RuntimeException("fail", e);
+        }
+        intentFiltersArray = new IntentFilter[] {ndef, };
+
+        techListsArray = new String[][] { new String[] { NfcF.class.getName() } };*/
+
+        // NFC TEST
+
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        pendingIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        IntentFilter ntech2 = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        IntentFilter ntech3 = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
+
+        mFilters = new IntentFilter[] {
+                ntech3, ntech2,
+        };
+
+        mTechLists = new String[][] { new String[] {
+                NfcA.class.getName(),
+                Ndef.class.getName() } };
+
+        Intent intent = getIntent();
+        resolveIntent (intent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.logolrc2);
 
 
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        // NFC/////////////////////////////////////////////////////////////////////
 
+        // Fragment par défaut
         selector = 1;
         pF = new ProfileFragment();
         FragmentManager manager = getSupportFragmentManager();
@@ -141,12 +223,40 @@ public  class MainActivity extends AppCompatActivity implements ISimpleDialogLis
         });
     }
 
+    private void resolveIntent (Intent intent)
+    {
+        String action = intent.getAction();
+        if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) ||
+                (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action))||
+                (NfcAdapter.ACTION_TAG_DISCOVERED.equals((action))))
+        {
+            Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            byte[] buffer = tagFromIntent.getId();
+
+            if(nfcFragment != null){
+            String fileString = new String(buffer, StandardCharsets.UTF_8);
+            nfcFragment.setIdTag(fileString);}
+
+            if(intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)!= null && nfcFragment != null) {
+                Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+                NdefMessage msg = (NdefMessage) rawMsgs[0];
+
+                nfcFragment.isTagDiscovered(true);
+                nfcFragment.getTextFromNDEFMessage(msg);
+            }
+
+        }
+    }
+
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        Parcelable[] parcelables = intent.getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
 
+        resolveIntent(intent);
+
+        /*Parcelable[] parcelables = intent.getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
         if(parcelables != null && parcelables.length >0) {
             if(inter == 1 ) {
                 nfcFragment.isTagDiscovered(true);
@@ -155,7 +265,7 @@ public  class MainActivity extends AppCompatActivity implements ISimpleDialogLis
         }
         else {
             Toast.makeText(this, "no NDEFMessage found !", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     @Override
@@ -227,7 +337,6 @@ public  class MainActivity extends AppCompatActivity implements ISimpleDialogLis
         inter = selector;
 
     }
-
 
     @Override
     public void onFragmentViewCreated(Fragment fragment) {
