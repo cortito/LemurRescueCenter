@@ -40,8 +40,8 @@ public class SearchLemurNameDialog extends DialogFragment {
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(viewInflater)
-                .setMessage(R.string.dialog_Message)
-                .setPositiveButton(R.string.dialog_Pos_Button, new DialogInterface.OnClickListener() {
+                .setMessage("Chercher un Lémurien par son Nom :")
+                .setPositiveButton("Chercher", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText et = (EditText) viewInflater.findViewById(R.id.name_Search);
                         mListener.onNameRetrieved(et.getText().toString());

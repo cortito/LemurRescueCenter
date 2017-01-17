@@ -40,8 +40,8 @@ public class AddWeightLemurDialog extends DialogFragment {
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(viewInflater)
-                .setMessage(R.string.dialog_Message)
-                .setPositiveButton(R.string.dialog_Pos_Button, new DialogInterface.OnClickListener() {
+                .setMessage("Ajouter un Lémurien")
+                .setPositiveButton("Ajouter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText date = (EditText) viewInflater.findViewById(R.id.date_add);
                         EditText weight = (EditText) viewInflater.findViewById(R.id.weight_add);
@@ -49,7 +49,7 @@ public class AddWeightLemurDialog extends DialogFragment {
 
                     }
                 })
-                .setNegativeButton(R.string.dialog_Neg_Button, new DialogInterface.OnClickListener() {
+                .setNegativeButton("Quitter", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
