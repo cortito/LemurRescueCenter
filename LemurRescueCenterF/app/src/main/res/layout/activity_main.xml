@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/act_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.projet_100_heures.lemurrescuecenter.activity.MainActivity">
+
+    <include
+        layout="@layout/app_bar" />
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom">
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        design:menu="@menu/menu_new"
+        android:background="@color/bar"
+        design:elevation="8dp">
+
+    </android.support.design.widget.BottomNavigationView>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<FrameLayout
+    android:id="@+id/profilLemur"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:design="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.fragments.ProfileFragment"
+    android:layout_below="@+id/app_toolbar">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/lemurCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        design:cardElevation="3dp"
+        design:cardUseCompatPadding="false"
+        design:cardPreventCornerOverlap="true"
+        design:cardCornerRadius="10dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:id="@+id/ImageCard">
+
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:id="@+id/image_profile"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/makicatta3"
+                android:scaleType="center"/>
+
+            <TextView
+                android:id="@+id/lemurName"
+                android:textColor="@color/ap_white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/cardTextOpacity"
+                android:text=""
+                android:paddingLeft="16dp"
+                android:textSize="24sp"
+                android:paddingTop="24dp"
+                android:layout_alignParentBottom="true"
+                />
+
+            </RelativeLayout>
+
+            <include
+                layout="@layout/description_profile"
+
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
