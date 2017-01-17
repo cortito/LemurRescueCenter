@@ -8,6 +8,7 @@ import fr.lrc.model.poids.PoidsModel;
 
 public class PoidsController {
 	private static final String REGEX_DATE = "^(1[0-2]|0[1-9]|\\d)\\/([0-9]\\d)$";
+	private static final String REGEX_POIDS = "(\\d)|([0-9]*\\.[0-9]*)";
 
 	private PoidsController() {
 	}
@@ -16,8 +17,10 @@ public class PoidsController {
 
 		if (poidsM == null) {
 			return StringReturn.stringReturnMessage(false, "Object null");
-		} else if (poidsM.getPoids() < 0) {
-			return StringReturn.stringReturnMessage(false, "Le poids ne peut pas être négatif");
+		} else if (poidsM.getPoids() == null) {
+			poidsM.setPoids("0.0");
+		} else if (!Pattern.matches(REGEX_POIDS, poidsM.getPoids())) {
+			return StringReturn.stringReturnMessage(false, "Poids non conforme");
 		}
 		poidsM.setUpperCaseNom();
 

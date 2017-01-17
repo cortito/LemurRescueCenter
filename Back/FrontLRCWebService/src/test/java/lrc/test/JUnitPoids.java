@@ -12,8 +12,8 @@ public class JUnitPoids {
 
 	@Test
 	public void poidsVide() {
-		PoidsModel PoidsM = new PoidsModel(1, "", "01/17", 0.0);
-		StringReturn poidsTest = PoidsController.poidsController(PoidsM);
+		PoidsModel poidsM = new PoidsModel(1, "", "01/17", "0.0");
+		StringReturn poidsTest = PoidsController.poidsController(poidsM);
 		StringReturn message = StringReturn.stringReturnMessage(true, "");
 
 		assertEquals(message.isResponse(), poidsTest.isResponse());
@@ -27,13 +27,29 @@ public class JUnitPoids {
 	}
 
 	@Test
-	public void poidsNegatif() {
-		PoidsModel PoidsM = new PoidsModel(1, "", "01/17", -10.0);
-		StringReturn poidsTest = PoidsController.poidsController(PoidsM);
-		StringReturn message = StringReturn.stringReturnMessage(false, "Le poids ne peut pas être négatif");
+	public void poidsNonConforme() {
+		PoidsModel poidsM = new PoidsModel(1, "", "01/17", "-10.0");
+		StringReturn poidsTest = PoidsController.poidsController(poidsM);
+		StringReturn message = StringReturn.stringReturnMessage(false, "Poids non conforme");
 
 		assertEquals(message.isResponse(), poidsTest.isResponse());
 		assertEquals(message.getCommentaire(), poidsTest.getCommentaire());
+
+		poidsM = new PoidsModel(1, "", "01/17", "sdfg");
+		poidsTest = PoidsController.poidsController(poidsM);
+
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		assertEquals(message.getCommentaire(), poidsTest.getCommentaire());
+
+		poidsM = new PoidsModel(1, "", "01/17", "2");
+		poidsTest = PoidsController.poidsController(poidsM);
+		message = StringReturn.stringReturnMessage(true, "");
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+
+		poidsM = new PoidsModel(1, "", "01/17", "1.2");
+		poidsTest = PoidsController.poidsController(poidsM);
+		message = StringReturn.stringReturnMessage(true, "");
+		assertEquals(message.isResponse(), poidsTest.isResponse());
 	}
 
 	@Test

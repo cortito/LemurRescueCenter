@@ -26,12 +26,12 @@ public class PoidsEntity implements Serializable {
 	@Column
 	private String date;
 	@Column
-	private Double poids;
+	private String poids;
 
 	public PoidsEntity() {
 	}
 
-	public PoidsEntity(int idDB, String nom, String date, Double poids) {
+	public PoidsEntity(int idDB, String nom, String date, String poids) {
 		this.idDB = idDB;
 		this.nom = nom;
 		this.date = date;
@@ -71,11 +71,11 @@ public class PoidsEntity implements Serializable {
 		this.date = date;
 	}
 
-	public Double getPoids() {
+	public String getPoids() {
 		return poids;
 	}
 
-	public void setPoids(Double poids) {
+	public void setPoids(String poids) {
 		this.poids = poids;
 	}
 
