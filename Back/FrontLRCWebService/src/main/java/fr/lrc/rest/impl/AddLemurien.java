@@ -22,6 +22,8 @@ public class AddLemurien implements IAddLemurien {
 		if (s.isResponse()) {
 			if (lemurienM.getIdDB() == 0) {
 				if (!lemurienM.getNom().isEmpty()) {
+					System.out.println(lemurienM);
+					System.out.println(messageSender);
 					messageSender.sendMessage(lemurienM, "add");
 					return messageReceiver.receiveMessage();
 				} else {

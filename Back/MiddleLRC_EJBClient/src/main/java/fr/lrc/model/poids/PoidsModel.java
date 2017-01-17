@@ -85,4 +85,8 @@ public class PoidsModel implements Serializable {
 		return mapParam;
 	}
 
+	public void setUpperCaseNom() {
+		this.nom = nom.toUpperCase();
+	}
+
 }

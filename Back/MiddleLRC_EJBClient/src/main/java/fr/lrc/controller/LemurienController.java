@@ -8,7 +8,12 @@ import fr.lrc.model.lemurien.LemurienModel;
 
 public class LemurienController {
 
-	private static final String REGEX_DATE = "^(?:(?:31(\\\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$";
+	private static final String REGEX_DATE_SHORT = "^(1[0-2]|0[1-9]|\\d)\\/([0-9]\\d)$";
+	// private static final String REGEX_DATE_LONG =
+	// "^(?:(?:31(\\\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$";
+	// private static final String REGEX_DATE_LONG =
+	// "^(?:(?:31(\\\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[1,3-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(1[0-2]|0[1-9]|\\d)\\/([0-9]\\d)$";
+	private static final String REGEX_DATE_LONG = "^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{2}$";
 
 	private LemurienController() {
 	}
@@ -18,7 +23,7 @@ public class LemurienController {
 		if (lemurienM == null) {
 			return StringReturn.stringReturnMessage(false, "Object null");
 		}
-
+		lemurienM.setUpperCaseNom();
 		Map<String, String> mapParam = lemurienM.getAllParameters();
 
 		StringReturn s = null;
@@ -49,8 +54,9 @@ public class LemurienController {
 
 		if (date == null) {
 			return StringReturn.stringReturnMessage(false, nomDate + " null");
-		} else if (!date.isEmpty() && !Pattern.matches(REGEX_DATE, date)) {
-			return StringReturn.stringReturnMessage(false, nomDate + " nom conforme");
+		} else if (!date.isEmpty()
+				&& (!Pattern.matches(REGEX_DATE_LONG, date) && !Pattern.matches(REGEX_DATE_SHORT, date))) {
+			return StringReturn.stringReturnMessage(false, nomDate + " non conforme");
 		} else {
 			return StringReturn.stringReturnMessage(true, "");
 		}

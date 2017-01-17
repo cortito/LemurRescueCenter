@@ -16,7 +16,10 @@ public class PoidsController {
 
 		if (poidsM == null) {
 			return StringReturn.stringReturnMessage(false, "Object null");
+		} else if (poidsM.getPoids() < 0) {
+			return StringReturn.stringReturnMessage(false, "Le poids ne peut pas être négatif");
 		}
+		poidsM.setUpperCaseNom();
 
 		Map<String, String> mapParam = poidsM.getAllParameters();
 

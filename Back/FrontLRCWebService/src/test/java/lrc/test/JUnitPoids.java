@@ -11,7 +11,7 @@ import fr.lrc.model.poids.PoidsModel;
 public class JUnitPoids {
 
 	@Test
-	public void PoidsVide() {
+	public void poidsVide() {
 		PoidsModel PoidsM = new PoidsModel(1, "", "01/17", 0.0);
 		StringReturn poidsTest = PoidsController.poidsController(PoidsM);
 		StringReturn message = StringReturn.stringReturnMessage(true, "");
@@ -27,7 +27,17 @@ public class JUnitPoids {
 	}
 
 	@Test
-	public void PoidsParam() {
+	public void poidsNegatif() {
+		PoidsModel PoidsM = new PoidsModel(1, "", "01/17", -10.0);
+		StringReturn poidsTest = PoidsController.poidsController(PoidsM);
+		StringReturn message = StringReturn.stringReturnMessage(false, "Le poids ne peut pas être négatif");
+
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		assertEquals(message.getCommentaire(), poidsTest.getCommentaire());
+	}
+
+	@Test
+	public void poidsParam() {
 		assertEquals(true, PoidsController.isStringValid("", "", 64).isResponse());
 		assertEquals(true, PoidsController.isStringValid("", "azerty", 64).isResponse());
 		assertEquals(false, PoidsController.isStringValid("", null, 64).isResponse());
@@ -36,7 +46,7 @@ public class JUnitPoids {
 	}
 
 	@Test
-	public void PoidsDate() {
+	public void poidsDate() {
 		assertEquals(true, PoidsController.isDateValide("", "01/15").isResponse());
 		assertEquals(false, PoidsController.isDateValide("", "011/15").isResponse());
 		assertEquals(false, PoidsController.isDateValide("", "01/151").isResponse());

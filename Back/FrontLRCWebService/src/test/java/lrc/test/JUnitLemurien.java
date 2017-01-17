@@ -38,8 +38,12 @@ public class JUnitLemurien {
 	@Test
 	public void lemurienDate() {
 		assertEquals(true, LemurienController.isDateValide("", "").isResponse());
-		// assertEquals(true, LemurienController.isDateValide("",
-		// "1/1/15").isResponse());
+		assertEquals(true, LemurienController.isDateValide("", "01/17").isResponse());
+		assertEquals(true, LemurienController.isDateValide("", "31/01/15").isResponse());
+		assertEquals(false, LemurienController.isDateValide("", "01/017").isResponse());
+		assertEquals(false, LemurienController.isDateValide("", "01/2017").isResponse());
+		assertEquals(false, LemurienController.isDateValide("", "1/1/115").isResponse());
+		assertEquals(false, LemurienController.isDateValide("", "1/1/2015").isResponse());
 		assertEquals(false, LemurienController.isDateValide("", "a").isResponse());
 		assertEquals(false, LemurienController.isDateValide("", null).isResponse());
 		assertEquals(false, LemurienController.isDateValide("", "1/1/1/1").isResponse());

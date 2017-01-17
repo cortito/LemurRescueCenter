@@ -201,4 +201,8 @@ public class LemurienModel implements Serializable {
 		return mapParam;
 	}
 
+	public void setUpperCaseNom() {
+		this.nom = nom.toUpperCase();
+	}
+
 }
