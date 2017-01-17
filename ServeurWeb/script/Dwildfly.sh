@@ -1,4 +1,7 @@
 #!/bin/bash
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
+apt-get update
+apt-get install oracle-java8-installer
 cd /opt
 wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.zip
 unzip wildfly-10.1.0.Final.zip
