@@ -41,11 +41,16 @@ public class JUnitPoids {
 		assertEquals(message.isResponse(), poidsTest.isResponse());
 		assertEquals(message.getCommentaire(), poidsTest.getCommentaire());
 
+		poidsM = new PoidsModel(1, "", "01/17", "20");
+		poidsTest = PoidsController.poidsController(poidsM);
+		message = StringReturn.stringReturnMessage(true, "");
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		
 		poidsM = new PoidsModel(1, "", "01/17", "2");
 		poidsTest = PoidsController.poidsController(poidsM);
 		message = StringReturn.stringReturnMessage(true, "");
 		assertEquals(message.isResponse(), poidsTest.isResponse());
-
+		
 		poidsM = new PoidsModel(1, "", "01/17", "1.2");
 		poidsTest = PoidsController.poidsController(poidsM);
 		message = StringReturn.stringReturnMessage(true, "");

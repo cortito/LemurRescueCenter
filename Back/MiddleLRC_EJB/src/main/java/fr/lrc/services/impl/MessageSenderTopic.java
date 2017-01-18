@@ -29,7 +29,6 @@ public class MessageSenderTopic implements IMessageSenderTopic {
 	Topic topic;
 
 	public void sendMessage(Serializable o, String param) {
-		log.info("Envoi d'un message au Topic");
 		try {
 			JMSProducer prod = context.createProducer();
 			ObjectMessage message = context.createObjectMessage();

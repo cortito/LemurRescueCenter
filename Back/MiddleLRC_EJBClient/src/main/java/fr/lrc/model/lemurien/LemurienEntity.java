@@ -95,7 +95,7 @@ public class LemurienEntity implements Serializable {
 	}
 
 	private String mergeData(String defaut, String merge) {
-		return merge.isEmpty() ? defaut : merge;
+		return merge;
 	}
 
 	public int getIdDB() {

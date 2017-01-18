@@ -21,7 +21,6 @@ public class UpdateLemurien implements IUpdateLemurien {
 	public String updateLemurien(LemurienModel lemurienM) {
 		StringReturn s = LemurienController.lemurienController(lemurienM);
 		if (s.isResponse()) {
-			System.out.println(lemurienM);
 			if (lemurienM.getIdDB() != 0) {
 				if (!lemurienM.getNom().isEmpty()) {
 					messageSender.sendMessage(lemurienM, "update");

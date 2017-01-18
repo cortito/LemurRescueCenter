@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.logging.Logger;
@@ -54,9 +55,13 @@ public class LRCDAO implements ILRCDAO {
 		LemurienEntity lemurienE = null;
 		try {
 			lemurienE = (LemurienEntity) em.createQuery(qry).setParameter("nom", nom).getSingleResult();
+		} catch (NoResultException e) {
+			lemurienE = null;
 		} catch (Exception e) {
+			e.printStackTrace();
 			lemurienE = null;
 		}
+		System.out.println(lemurienE);
 		return lemurienE;
 	}
 
@@ -80,6 +85,16 @@ public class LRCDAO implements ILRCDAO {
 		if (lemurienMerge == null) {
 			return StringReturn.stringMessage(false, "Lémurien introuvable");
 		}
+
+		log.info(lemurienMerge.getNom());
+		log.info(lemurienM.getNom());
+
+		if (!lemurienMerge.getNom().equals(lemurienM.getNom())) {
+			if (getLemurienByName(lemurienM.getNom()) != null) {
+				return StringReturn.stringMessage(false, "Nom déjà existant");
+			}
+		}
+
 		LemurienEntity lemurienE = new LemurienEntity(lemurienMerge, lemurienM);
 		try {
 			em.merge(lemurienE);
