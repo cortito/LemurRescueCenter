@@ -477,8 +477,5 @@
     </socket-binding-group>
 
     <deployments>
-        <deployment name="mysql-connector-java-5.1.40-bin.jar" runtime-name="mysql-connector-java-5.1.40-bin.jar">
-            <content sha1="7c6a4b402a1f6106ffaf8a957004f30f57d9bdc7"/>
-        </deployment>
     </deployments>
 </server>
