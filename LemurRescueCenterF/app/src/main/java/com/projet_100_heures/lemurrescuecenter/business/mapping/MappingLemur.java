@@ -3,12 +3,16 @@ package com.projet_100_heures.lemurrescuecenter.business.mapping;
 import android.util.Log;
 
 import com.projet_100_heures.lemurrescuecenter.model.LemurModel;
+import com.projet_100_heures.lemurrescuecenter.model.PoidsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by corto_000 on 05/01/2017.
@@ -17,7 +21,6 @@ import java.util.Iterator;
 public class MappingLemur {
 
     public static LemurModel mappingLemurModel(LemurModel lemurmodel, JSONObject resultPost) {
-
         try {
             lemurmodel.setIdDB(resultPost.getInt("idDB"));
             lemurmodel.setName(resultPost.getString("nom"));
@@ -39,20 +42,32 @@ public class MappingLemur {
     }
     public static LemurModel mappingWeightLemurModel (LemurModel lemurModel, JSONArray resultPost) {
         Integer arrayLenght = resultPost.length();
-
+        List<PoidsModel> poidsModels = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        int anneeCourante = calendar.get(Calendar.YEAR) -2000;
         try{
-            for ( int i=0 ; i< arrayLenght; i++) {
-                lemurModel.getWeightDate().add(resultPost.getJSONObject(i).getString("date").replace("\\",""));
-                if((!resultPost.getJSONObject(i).getString("poids").equals("null"))){
-                    if(resultPost.getJSONObject(i).getString("poids").equals("")){
+            for(int annee = 15 ; annee <= anneeCourante; annee++){
+                for(int mois = 1 ; mois <= 12; mois++){
+                    String moisStr = mois < 10 ? "0" + String.valueOf(mois) : String.valueOf(mois);
+                    lemurModel.getWeightDate().add(moisStr+"/"+annee);
+                    int i =0;
+                    for( i = 0 ; i< arrayLenght; i++){
+                        if(resultPost.getJSONObject(i).get("date").equals(moisStr + "/" + annee)) {
+                            if(resultPost.getJSONObject(i).getString("poids").equals("")){
+                                lemurModel.getWeight().add("0.00");
+                            }else {
+                                lemurModel.getWeight().add(resultPost.getJSONObject(i).getString("poids"));
+
+                            }
+                            break;
+                        }
+                    }
+                    if(i == arrayLenght){
                         lemurModel.getWeight().add("0.00");
-                    }else {
-                        lemurModel.getWeight().add(resultPost.getJSONObject(i).getString("poids"));
                     }
                 }
             }
-        }
-        catch (JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return lemurModel;

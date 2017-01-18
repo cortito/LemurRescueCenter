@@ -51,6 +51,7 @@
                         android:paddingTop="16dp">
 
                         <TextView
+                            android:id="@+id/year1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Année 2015"
@@ -79,6 +80,7 @@
                         android:paddingTop="16dp">
 
                         <TextView
+                            android:id="@+id/year2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Année 2016"
@@ -106,6 +108,7 @@
                         android:paddingTop="16dp">
 
                         <TextView
+                            android:id="@+id/year3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Année 2017"

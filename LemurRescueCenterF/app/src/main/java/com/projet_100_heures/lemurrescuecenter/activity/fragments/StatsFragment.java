@@ -1,15 +1,14 @@
 package com.projet_100_heures.lemurrescuecenter.activity.fragments;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -117,7 +116,7 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
         lineChart2 = (LineChart) getActivity().findViewById(R.id.chartYear2);
         lineChart3 = (LineChart) getActivity().findViewById(R.id.chartYear3);
 
-       /* parseValuesByYear(lemurModel,firstYear );
+      /*  parseValuesByYear(lemurModel,firstYear );
         parseValuesByYear(lemurModel,secondYear);
         parseValuesByYear(lemurModel,thirdYear);
 
@@ -141,9 +140,12 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
             Log.d("tag3", bufferYear3[i]);
         }*/
 
+
         generateLineChart(lemurModel,firstYear,lineChart1);
         generateLineChart(lemurModel,secondYear,lineChart2);
         generateLineChart(lemurModel,thirdYear, lineChart3);
+
+
 
     }
 
@@ -187,12 +189,13 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
 
     public void getYears(LemurModel lemurModel){
 
+        countdate = 0;
         for(String y : lemurModel.getWeightDate()){
             String[] dy = y.split("/");
             dates[countdate]= dy;
             countdate++;
         }
-        for( int i=0 ; i<countdate;i++ ){
+        for( int i=0 ; i<countdate-1;i++ ){
             firstYear = Integer.parseInt(dates[0][1]);
             bufferYear = Integer.parseInt(dates[i][1]);
             if(bufferYear != firstYear) {
@@ -206,6 +209,7 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
     }
 
     public void generateLineChart(LemurModel lemurModel , int year,LineChart lineChart){
+
 
         final String[] mMonths = new String[]{
                 "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -252,13 +256,16 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
                     }
                 }
             }
-
-
             if (yAxes.size() == 0) {
                 float buf = Float.parseFloat("0.00");
                 yAxes.add(new Entry(0, buf));
             }
         }
+
+        /*for(int i = 0 ; i<bufferYear.length; i++){
+            float buf = Float.parseFloat(bufferYear[i]);
+            yAxes.add(new Entry(i,buf));
+        }*/
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSet1 = new LineDataSet(yAxes,"poids(Kg)");

@@ -5,8 +5,8 @@
     <string name="age_Title">Age :  </string>
     <string name="description_Title">Description :  </string>
     <string name="gender_Title">Sexe :  </string>
-    <string name="entryDate_Title">Date d\'entré :   </string>
-    <string name="entryNature_Title">Nature de l\'entré :   </string>
+    <string name="entryDate_Title">Date d\'entrée :   </string>
+    <string name="entryNature_Title">Nature de l\'entrée :   </string>
     <string name="origin_Title">Origine :   </string>
     <string name="leavingDate_Title">Date de sortie :   </string>
     <string name="leavingNature_Title">Nature de la sortie :   </string>
