@@ -1,28 +1,122 @@
 
 
-	<div class="modal-header">
-	   	<h3 class="modal-title" id="modal-title">Ajout d'un lémurien</h3>
-	</div>
-	<div class="modal-body" id="modal-body">
-		<form novalidate class="css-form">
-    		<label>Nom: <input type="text" ng-model="lemur.nom" required /></label><br />
-    		<label>Identification: <input type="text" ng-model="lemur.numeroIdentification"/></label><br />
-    		Sexe: <label><input type="radio" ng-model="lemur.sexe" value="Mâle" />Mâle</label>
-    		<label><input type="radio" ng-model="lemur.sexe" value="Femelle" />Femelle</label><br />
-    		<label>Date de naissance<input type="text" ng-model="lemur.dateDeNaissance"/></label><br />
-    		<label>Origine <input type="text" ng-model="lemur.origine"/></label><br />
-    		<label>Date d'entrée<input type="text" ng-model="lemur.dateEntree"/></label><br />
-    		<label>Nature de l'entrée<input type="text" ng-model="lemur.natureEntree"/></label><br />
-    		<label>Ancien propriétaire<input type="text" ng-model="lemur.ancienProprietaire"/></label><br/>
-    		<label>Date de sortie<input type="text" ng-model="lemur.dateSortie"/></label><br />
-    		<label>Nature de sortie<input type="text" ng-model="lemur.natureSortie"/></label><br />
-    		<label>Commentaire de sortie<input type="text" ng-model="lemur.commentaireSortie"/></label><br />
-  		</form>
-	</div>
-	<div class="modal-footer">
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
-            <button class="btn btn-success" type="button" ng-click="reset()">Reset</button>
-			<button class="btn btn-primary" type="button" ng-click="add(lemur)">Ajouter</button>
+<div class="modal-header">
+    <div class="col-md-6 col-md-offset-4">
+        <h3 class="modal-title" id="modal-title">Ajout d'un lémurien</h3>
+    </div>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="container">
+        <form name="form">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <label for="nom">Nom:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.nom" placeholder="Nom" required />
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="col-md-12">
+                        <label for="identification">Identification: </label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.numeroIdentification" placeholder="Numéro d'identification" />
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <label for="sexe">Sexe:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.sexe" placeholder="Sexe" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="col-md-12">
+                        <label for="dateDeNaissance">Date de naissance: </label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.dateDeNaissance" placeholder="jj/mm/aa ou mm/aa" />
+                    
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <label for="origine">Origine:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.origine" placeholder="Origine" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="col-md-12">
+                        <label for="dateEntree">Date d'entrée: </label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.dateEntree" placeholder="jj/mm/aa ou mm/aa" ng-pattern="regexDate"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <label for="natureEntree">Nature d'entrée:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.natureEntree" placeholder="Nature d'entrée" />
+                    </div>
 
-	 </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="col-md-12">
+                        <label for="ancienProprietaire">Ancien propriétaire: </label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.ancienProprietaire" placeholder="Ancien propriétaire" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <label for="dateSortie">Date de sortie:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.dateSortie" placeholder="jj/mm/aa ou mm/aa" />
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <div class="col-md-12">
+                        <label for="natureSortie">Nature de sortie: </label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.natureSortie" placeholder="Nature de sortie" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <label for="commentaireSortie">Commentaire de sortie:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="lemur.commentaireSortie" placeholder="Commentaire de sortie" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+    <button class="btn btn-success" type="button" ng-click="reset(form)">Reset</button>
+    <button class="btn btn-primary" type="button" ng-click="add(lemur)">Ajouter</button>
+</div>

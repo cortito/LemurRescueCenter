@@ -1,13 +1,15 @@
 
 
 	<div class="modal-header">
-       	     <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.idDB}}</h3>
+        <div class="col-md-8 col-md-offset-2">
+       	     <h3 class="modal-title" id="modal-title">Suppression de: {{$ctrl.lemur.nom}}</h3>
        	 </div>
+        </div>
        	 <div class="modal-body" id="modal-body">
             Êtes-vous sûr de vouloir supprimer le lémurien {{$ctrl.lemur.nom}} ?<br/>
             </div>
         	<div class="modal-footer">
             <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
-            <button class="btn btn-primary" type="button" ng-click="delete($ctrl.lemur.idDB)">Oui</button>
+            <button class="btn btn-danger" type="button" ng-click="delete($ctrl.lemur.idDB)">Supprimer</button>
       
      </div>

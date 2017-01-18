@@ -6,11 +6,12 @@
 angular.module('dashboard').controller('modificationModalCtrl', function ($http, $scope, $uibModalInstance, $rootScope, lemur) 	{
     var $ctrl = this;
     $scope.lemur = lemur;
-    $scope.ancien = angular.copy(lemur);
+    $scope.empty = {};
 
     $scope.update = function(lemur) {        
         var url = $rootScope.addr + "FrontLRCWebService/rest/updateLemurien";
         var parameter = angular.toJson(lemur);
+        console.log(lemur);
         return $http.post(url, parameter)
 
             .success(function (res) {
@@ -28,6 +29,10 @@ angular.module('dashboard').controller('modificationModalCtrl', function ($http,
             .error(function (response) {
             console.log(response);
         });
+    };
+
+     $scope.reset = function() {
+        $scope.lemur = angular.copy($scope.empty);
     };
 
 

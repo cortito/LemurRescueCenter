@@ -1,30 +1,76 @@
 
 
-	<div class="modal-header">
-       	     <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.idDB}}</h3>
-       	 </div>
-       	 <div class="modal-body" id="modal-body">
-            {{$ctrl.lemur.nom}}<br/>
-            {{$ctrl.lemur.numeroIdentification}}<br/>
-            <span ng-if="$ctrl.lemur.sexe.includes('M')">Masculin</span>
-	        <span ng-if="$ctrl.lemur.sexe.includes('F')">Féminin</span><br/>
-	        {{$ctrl.lemur.dateDeNaissance}}<br/>
-            {{$ctrl.lemur.origine}}<br/>
-            {{$ctrl.lemur.dateEntree}}<br/>
-            {{$ctrl.lemur.natureEntree}}<br/>
-            {{$ctrl.lemur.ancienProprietaire}}<br/>
-            {{$ctrl.lemur.dateSortie}}<br/>
-            {{$ctrl.lemur.natureSortie}}<br/>
-            {{$ctrl.lemur.commentaireSortie}}<br/>
-            
-            <hr>
-            <div id="printGraphId" print-graph="$ctrl"></div>
-            
-        	<div class="modal-footer">
-            <button class="btn btn-warning" type="button" ng-click="$ctrl.ok()">Fermer</button>
-      
-     </div>
+<div class="modal-header">
+    <div class="col-md-6 col-md-offset-3">
+        <h3 class="modal-title" id="modal-title">Lémurien: {{$ctrl.lemur.nom}}</h3>
+    </div>
 </div>
-    
-    
-    
+<div class="modal-body" id="modal-body">
+    <div class="col-md-12">
+    <dl class="col-md-6">
+        <dt>Nom</dt>
+        <dd class="bloc">{{$ctrl.lemur.nom}}</dd>
+    </dl>
+     <dl class="col-md-6">
+        <dt>Identification</dt>
+        <dd class="bloc">{{$ctrl.lemur.numeroIdentification}}</dd>
+    </dl>
+        </div>
+     <div class="col-md-12">
+     <dl class="col-md-6">
+        <dt>Sexe</dt>
+        <dd class="bloc"> <span ng-if="$ctrl.lemur.sexe.includes('M')">Masculin</span>
+    <span ng-if="$ctrl.lemur.sexe.includes('F')">Féminin</span></dd>
+    </dl>
+     <dl class="col-md-6">
+        <dt>Date de naissance</dt>
+        <dd class="bloc">{{$ctrl.lemur.dateDeNaissance}}</dd>
+    </dl>
+    </div>
+     <div class="col-md-12">
+    <dl class="col-md-6">
+        <dt>Origine</dt>
+        <dd class="bloc">{{$ctrl.lemur.origine}}</dd>
+    </dl>
+    <dl class="col-md-6">
+        <dt>Date d'entrée</dt>
+        <dd class="bloc">{{$ctrl.lemur.dateEntree}}</dd>
+    </dl>
+</div>
+    <div class="col-md-12">
+    <dl class="col-md-6">
+        <dt>Nature d'entrée</dt>
+        <dd class="bloc">{{$ctrl.lemur.natureEntree}}</dd>
+    </dl>
+    <dl class="col-md-6">
+        <dt>Nature d'entrée</dt>
+        <dd class="bloc">{{$ctrl.lemur.ancienProprietaire}}</dd>
+    </dl>
+        </div>
+        <div class="col-md-12">
+    <dl class="col-md-6">
+        <dt>Date de sortie</dt>
+        <dd class="bloc">{{$ctrl.lemur.dateSortie}}</dd>
+    </dl>
+    <dl class="col-md-6">
+        <dt>Nature de sortie</dt>
+        <dd class="bloc">{{$ctrl.lemur.natureSortie}}</dd>
+    </dl>
+            </div>
+            <div class="col-md-12">
+    <dl class="col-md-6">
+        <dt>Commentaire de sortie</dt>
+        <dd class="bloc">{{$ctrl.lemur.commentaireSortie}}</dd>
+    </dl>
+</div>
+    <hr>
+    <div id="printGraphId" print-graph="$ctrl"></div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.ok()">Fermer</button>
+
+    </div>
+</div>
+
+
+
