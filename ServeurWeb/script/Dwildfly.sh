@@ -13,6 +13,8 @@ useradd -g wildfly wildfly
 chown -R wildfly:wildfly /opt/wildfly-10.1.0.Final
 cd /etc/projet100h/LemurRescueCenter/ServeurWeb
 cp -f wildfly/standalone-full.xml /opt/wildfly-10.1.0.Final/standalone/configuration/standalone-full.xml
+cp -f wildfly/mysql-connector-java-5.1.40-bin.jar opt/wildfly-10.1.0.Final/standalone/deployments/mysql-connector-java-5.1.40-bin.jar
+touch 
 cp -f wildfly/wildfly /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso
 chown root:root /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso
 /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso start

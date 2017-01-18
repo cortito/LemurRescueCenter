@@ -480,8 +480,5 @@
         <deployment name="mysql-connector-java-5.1.40-bin.jar" runtime-name="mysql-connector-java-5.1.40-bin.jar">
             <content sha1="7c6a4b402a1f6106ffaf8a957004f30f57d9bdc7"/>
         </deployment>
-        <deployment name="LRC_J2E_9.ear" runtime-name="LRC_J2E_9.ear">
-            <content sha1="cc0a028e47112caea5c199ccb9b114d2cfb88072"/>
-        </deployment>
     </deployments>
 </server>
