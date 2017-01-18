@@ -3,6 +3,7 @@ package com.projet_100_heures.lemurrescuecenter.business.dao;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.projet_100_heures.lemurrescuecenter.business.mapping.MappingLemur;
 import com.projet_100_heures.lemurrescuecenter.model.LemurModel;
@@ -50,21 +51,33 @@ public class RetrieveLemurWeightTask extends AsyncTask<JSONObject,Void, JSONArra
     }
     private JSONArray post(String url, String json) throws IOException {
         client = new OkHttpClient();
+        JSONArray jarray = null;
+        JSONObject[] jsonObject = new JSONObject[50];
+        String response ="";
         RequestBody body = RequestBody.create(JSON, json);
-        JSONArray jarray = new JSONArray();
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
         try {
-            String response = client.newCall(request)
+             response = client.newCall(request)
                     .execute()
                     .body()
                     .string();
 
-            jarray = new JSONArray(response);
+            Log.d("tag", response.toString());
+            try {
 
-        }catch (JSONException e){
+                jarray = new JSONArray(response);
+
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
+
+
+        }catch (IOException e){
             e.printStackTrace();
         }
         return jarray;

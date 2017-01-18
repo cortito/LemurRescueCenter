@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.projet_100_heures.lemurrescuecenter.R;
 
@@ -44,7 +45,12 @@ public class SearchLemurNameDialog extends DialogFragment {
                 .setPositiveButton("Chercher", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText et = (EditText) viewInflater.findViewById(R.id.name_Search);
-                        mListener.onNameRetrieved(et.getText().toString());
+                        if(!(et.getText().toString().equals(""))) {
+                            mListener.onNameRetrieved(et.getText().toString());
+                        }
+                        else {
+                            Toast.makeText(getActivity(),"Veuillez donner un NOM de lémurien !",Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 })

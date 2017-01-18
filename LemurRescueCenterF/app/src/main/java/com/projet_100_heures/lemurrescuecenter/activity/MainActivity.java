@@ -194,7 +194,7 @@ public  class MainActivity extends AppCompatActivity implements SearchLemurNameD
             Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             byte[] buffer = tagFromIntent.getId();
 
-            if (nfcFragment != null) {
+            if (nfcFragment != null && selector == 3) {
                 String fileString = new String(buffer, StandardCharsets.UTF_8);
                 nfcFragment.setIdTag(fileString);
             }
@@ -302,18 +302,5 @@ public  class MainActivity extends AppCompatActivity implements SearchLemurNameD
         retrieveLemurTask.execute(jsonObject);
 
     }
-
-    /*if(searchId != null){
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("idDB", searchId.getText());
-        }catch (JSONException e) {
-            Log.e("Jobect", e.getMessage());
-        }
-        RetrieveLemurTask retrieveLemurTask = new RetrieveLemurTask(MainActivity.this,this);
-        retrieveLemurTask.execute(jsonObject);
-        //retrieveLemurTask.execute();
-    }*/
-
 
 }

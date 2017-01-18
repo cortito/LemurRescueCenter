@@ -42,9 +42,13 @@ public class MappingLemur {
 
         try{
             for ( int i=0 ; i< arrayLenght; i++) {
-                lemurModel.getWeightDate().add(resultPost.getJSONObject(i).getString("date"));
-                if(!resultPost.getJSONObject(i).getString("poids").equals("") && (!resultPost.getJSONObject(i).getString("poids").equals("null"))){
-                    lemurModel.getWeight().add(resultPost.getJSONObject(i).getString("poids"));
+                lemurModel.getWeightDate().add(resultPost.getJSONObject(i).getString("date").replace("\\",""));
+                if((!resultPost.getJSONObject(i).getString("poids").equals("null"))){
+                    if(resultPost.getJSONObject(i).getString("poids").equals("")){
+                        lemurModel.getWeight().add("0.00");
+                    }else {
+                        lemurModel.getWeight().add(resultPost.getJSONObject(i).getString("poids"));
+                    }
                 }
             }
         }

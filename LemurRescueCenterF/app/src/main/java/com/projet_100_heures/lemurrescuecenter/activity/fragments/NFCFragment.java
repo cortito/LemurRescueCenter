@@ -21,7 +21,7 @@ import com.projet_100_heures.lemurrescuecenter.business.nfc.NfcUtils;
 
 public class NFCFragment extends Fragment {
 
-    
+
     TextView textView;
     int selector = 0;
     Communicator comm;
@@ -48,8 +48,6 @@ public class NFCFragment extends Fragment {
 
         textView = (TextView) getActivity().findViewById(R.id.resultRead);
         selector = 1;
-        comm.sendSelector(selector);
-        Log.i("tag","selector " + selector);
 
             }
 

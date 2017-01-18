@@ -49,6 +49,10 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
     ViewGroup contain;
     LayoutInflater layoutInflater;
     LemurModel lemurModelBuff;
+    private String[] bufferYear1 = new String[12];
+    private String[] bufferYear2 = new String[12];
+    private String[] bufferYear3 = new String[12];
+    int compteur = 0;
     private static final String TAG = StatsFragment.class.getSimpleName();
 
     public StatsFragment() {
@@ -106,26 +110,88 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
     @Override
     public void onLemurWeightRetrieved(LemurModel lemurModel) {
 
-        gettYears(lemurModel);
+        getYears(lemurModel);
         Log.d("tag", String.valueOf(firstYear) +" "+ String.valueOf(secondYear) +" "+ String.valueOf(thirdYear) );
 
         lineChart1 = (LineChart) getActivity().findViewById(R.id.chartYear1);
         lineChart2 = (LineChart) getActivity().findViewById(R.id.chartYear2);
         lineChart3 = (LineChart) getActivity().findViewById(R.id.chartYear3);
+
+       /* parseValuesByYear(lemurModel,firstYear );
+        parseValuesByYear(lemurModel,secondYear);
+        parseValuesByYear(lemurModel,thirdYear);
+
+        for(int i = 0 ; i< bufferYear1.length; i++){
+            if(bufferYear1[i] == null){
+                bufferYear1[i] = "0.00";
+            }
+        }
+
+        for(int i = 0 ; i< bufferYear2.length; i++){
+            if(bufferYear2[i] == null){
+                bufferYear2[i] = "0.00";
+            }
+            Log.d("tag2", bufferYear2[i]);
+        }
+
+        for(int i = 0 ; i< bufferYear3.length; i++){
+            if(bufferYear3[i] == null){
+                bufferYear3[i] = "0.00";
+            }
+            Log.d("tag3", bufferYear3[i]);
+        }*/
+
         generateLineChart(lemurModel,firstYear,lineChart1);
         generateLineChart(lemurModel,secondYear,lineChart2);
         generateLineChart(lemurModel,thirdYear, lineChart3);
 
     }
 
-    public void gettYears(LemurModel lemurModel){
+    public void parseValuesByYear(LemurModel lemurModel, int year) {
+
+        compteur = 0;
+        String[] buffer = new String[12];
+
+        if (lemurModel != null && lemurModel.getWeight().size() > 0) {
+            for( int i=0 ; i<countdate;i++ ){
+                bufferYear = Integer.parseInt(dates[i][1]);
+                if(bufferYear == year) {
+                    j=0;
+                    for (String s : lemurModel.getWeight()) {
+                        if(j == i){
+                            buffer[compteur] = s;
+                            compteur++;
+                            j++;
+
+                        }else {
+                            j++;
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        if(year == firstYear){
+            bufferYear1 = buffer;
+        }
+        if(year == secondYear){
+            bufferYear2 = buffer;
+        }
+        if(year == thirdYear){
+            bufferYear3 = buffer;
+        }
+    }
+
+
+    public void getYears(LemurModel lemurModel){
 
         for(String y : lemurModel.getWeightDate()){
             String[] dy = y.split("/");
             dates[countdate]= dy;
             countdate++;
         }
-
         for( int i=0 ; i<countdate;i++ ){
             firstYear = Integer.parseInt(dates[0][1]);
             bufferYear = Integer.parseInt(dates[i][1]);
@@ -137,7 +203,6 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
                 }
             }
         }
-
     }
 
     public void generateLineChart(LemurModel lemurModel , int year,LineChart lineChart){
@@ -165,26 +230,35 @@ public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddW
 
         String[] bufferWeight = new String[50];
         j=0;
-        for (String s : lemurModel.getWeight()) {
-            bufferWeight[j] = s;
-            j++;
-        }
+        if(lemurModel != null && lemurModel.getWeight().size() >0) {
+            for (String s : lemurModel.getWeight()) {
+                bufferWeight[j] = s;
+                j++;
+            }
 
-        counter = 0;
-        for (int i = 0 ; i< countdate ; i++){
-            bufferYear = Integer.parseInt(dates[i][1]);
-            if(bufferYear == year) {
-                float buf = Float.parseFloat(bufferWeight[i]);
-                yAxes.add(new Entry(counter, buf));
-                counter ++;
+            counter = 0;
+
+            for (int i = 0; i < countdate; i++) {
+                bufferYear = Integer.parseInt(dates[i][1]);
+                if (bufferYear == year) {
+                    if(bufferWeight.length >= countdate) {
+                        float buf = Float.parseFloat(bufferWeight[i]);
+                        yAxes.add(new Entry(counter, buf));
+                        counter++;
+                    }else {
+                        float buf = Float.parseFloat("0.00");
+                        yAxes.add(new Entry(0, buf));
+                        counter++;
+                    }
+                }
+            }
+
+
+            if (yAxes.size() == 0) {
+                float buf = Float.parseFloat("0.00");
+                yAxes.add(new Entry(0, buf));
             }
         }
-
-        if(yAxes.size() == 0){
-            float buf = Float.parseFloat("0.00");
-            yAxes.add(new Entry(0,buf));
-        }
-
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSet1 = new LineDataSet(yAxes,"poids(Kg)");

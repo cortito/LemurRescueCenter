@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.projet_100_heures.lemurrescuecenter.R;
 
@@ -46,7 +47,12 @@ public class SearchLemurDialog extends DialogFragment {
                 .setPositiveButton(R.string.dialog_Pos_Button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText et = (EditText) viewInflater.findViewById(R.id.Id_Lemur);
-                        mListener.onIDBRetrieved(et.getText().toString());
+                        if(!(et.getText().toString().equals(""))) {
+                            mListener.onIDBRetrieved(et.getText().toString());
+                        }
+                        else {
+                            Toast.makeText(getActivity(),"Veuillez donner un ID de lémurien !",Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 })
