@@ -3,7 +3,7 @@
 /**
 	/* AJOUT 
 	**/  
-angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope, $route, $uibModalInstance,$rootScope, lemur) 	{
+angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope, $uibModalInstance,$rootScope, lemur) 	{
     var $ctrl = this;
     $scope.empty = {};
 
@@ -15,7 +15,7 @@ angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope
         return $http.post(url, parameter)
 
             .success(function (res) {
-
+            console.log(form);
             $rootScope.$broadcast('refresh');
             alert(res.commentaire);
 
@@ -31,12 +31,16 @@ angular.module('dashboard').controller('ajoutModalCtrl', function ($http, $scope
         });
     };
 
-    $scope.reset = function() {
+    $scope.reset = function(form) {
+        if (form) {
+            form.$setPristine();
+            form.$setUntouched();
+        }
         $scope.lemur = angular.copy($scope.empty);
     };
 
     $scope.reset();
-
+    
     $ctrl.ok = function () {
         $uibModalInstance.close($ctrl.numero);
     };

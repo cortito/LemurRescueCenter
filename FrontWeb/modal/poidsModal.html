@@ -1,16 +1,29 @@
-
-
-            <div class="modal-header">
-                <h3 class="modal-title" id="modal-title">Poids du lémurien {{$ctrl.lemur.nom}}</h3>
+<div class="modal-header">
+    <div class="col-md-8 col-md-offset-2">
+        <h3 class="modal-title" id="modal-title">Poids du lémurien {{$ctrl.lemur.nom}}</h3>
+    </div>
+</div>
+<div class="modal-body" id="modal-body">
+    <form>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="nom">Date:</label>
             </div>
-            <div class="modal-body" id="modal-body">
-                <form novalidate class="css-form">
-                    <label>Date: <input type="text" ng-model="data.date"/></label><br />
-                    <label>Poids: <input type="text" ng-model="data.poids" required /></label><br />
-                </form>
+            <div class="col-md-4">
+                <input type="text" class="form-control" ng-model="data.date" placeholder="mm/aa" />
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
-                <button class="btn btn-danger" type="button" ng-click="deleteWeight($ctrl.lemur.nom, data)">Supprimer</button>
-                <button class="btn btn-primary" type="button" ng-click="addWeight($ctrl.lemur.nom, data)">Envoyer</button>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="nom">Poids:</label>
             </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" ng-model="data.poids" placeholder="Poids" required />
+            </div>
+        </div>
+        </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Annuler</button>
+        <button class="btn btn-danger" type="button" ng-click="deleteWeight($ctrl.lemur.nom, data)">Supprimer</button>
+        <button class="btn btn-primary" type="button" ng-click="addWeight($ctrl.lemur.nom, data)">Envoyer</button>
+    </div>
