@@ -13,16 +13,6 @@ useradd -g wildfly wildfly
 chown -R wildfly:wildfly /opt/wildfly-10.1.0.Final
 cd /etc/projet100h/LemurRescueCenter/ServeurWeb
 cp -f wildfly/standalone-full.xml /opt/wildfly-10.1.0.Final/standalone/configuration/standalone-full.xml
-cp -f wildfly/mysql-connector-java-5.1.40-bin.jar /opt/wildfly-10.1.0.Final/standalone/deployments/
-touch /opt/wildfly-10.1.0.Final/standalone/deployments/mysql-connector-java-5.1.40-bin.jar.dodeploy
-cp /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildfly-init-debian.sh /etc/init.d/wildfly
-cp -f wildfly/wildfly /opt/wildfly-10.1.0.Final/standalone/deployments/wildflyperso
-chown root:root /opt/wildfly-10.1.0.Final/standalone/deployments/wildflyperso
-#chown root:root /etc/init.d/wildfly
-#chmod ug+x /etc/init.d/wildfly
-#chown root:root /etc/init.d/wildflyperso
-#chmod ug+x /etc/init.d/wildflyperso
-#/etc/init.d/wildfly reload
-#/etc/init.d/wildfly start
-/opt/wildfly-10.1.0.Final/standalone/deployments/wildflyperso reload
-/opt/wildfly-10.1.0.Final/standalone/deployments/wildflyperso start
+cp -f wildfly/wildfly /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso
+chown root:root /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso
+/opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso start
