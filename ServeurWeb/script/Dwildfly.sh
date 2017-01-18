@@ -12,7 +12,7 @@ addgroup wildfly
 useradd -g wildfly wildfly
 chown -R wildfly:wildfly /opt/wildfly-10.1.0.Final
 cd /etc/projet100h/LemurRescueCenter/ServeurWeb
-cp -f wildfly/mysql-connector-java-5.1.40-bin.jar opt/wildfly-10.1.0.Final/standalone/deployments/mysql-connector-java-5.1.40-bin.jar
+cp -f wildfly/mysql-connector-java-5.1.40-bin.jar /opt/wildfly-10.1.0.Final/standalone/deployments/mysql-connector-java-5.1.40-bin.jar
 touch opt/wildfly-10.1.0.Final/standalone/deployments/mysql-connector-java-5.1.40-bin.jar.dodeploy
 cp -f wildfly/wildfly /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso
 chown root:root /opt/wildfly-10.1.0.Final/docs/contrib/scripts/init.d/wildflyperso
