@@ -1,1 +1,0 @@
-Front mobile part
