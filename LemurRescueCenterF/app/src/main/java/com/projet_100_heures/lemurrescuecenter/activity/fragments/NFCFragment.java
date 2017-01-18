@@ -1,18 +1,16 @@
 package com.projet_100_heures.lemurrescuecenter.activity.fragments;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import com.projet_100_heures.lemurrescuecenter.business.nfc.NfcUtils;
 
 public class NFCFragment extends Fragment {
 
-    Button readButton;
 
     TextView textView;
     int selector = 0;
@@ -34,7 +31,6 @@ public class NFCFragment extends Fragment {
     public NFCFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,45 +46,11 @@ public class NFCFragment extends Fragment {
     }
     public void readNFC() {
 
-        readButton = (Button) getActivity().findViewById(R.id.nfcLecture);
         textView = (TextView) getActivity().findViewById(R.id.resultRead);
+        selector = 1;
 
-        readButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                final CountDownTimer countDownTimer = new CountDownTimer(10000,1000) {
-                    @Override
-                    public void onTick(long l) {
-                        progressDialog.show();
-                        if(TagDiscovered){
-                            progressDialog.cancel();
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        progressDialog.cancel();
-                        if(!TagDiscovered){
-                            Toast.makeText(getActivity(),"Aucun Tag NFC lu !!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                };
-
-                selector = 1;
-                comm.sendSelector(selector);
-                Log.i("tag","selector " + selector);
-
-                progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage("Approchez le Tag de l'appareil ... ");
-                progressDialog.setCancelable(false);
-                countDownTimer.start();
-                if(TagDiscovered) {
-                    countDownTimer.cancel();
-                }
             }
-        });
-    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -114,7 +76,7 @@ public class NFCFragment extends Fragment {
     public void setIdTag (String str){
         textView.setText(str);
 
-        Toast.makeText(getContext(),"Tag lu !! ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"Tag lu !! ", Toast.LENGTH_SHORT).show();
     }
 }
 

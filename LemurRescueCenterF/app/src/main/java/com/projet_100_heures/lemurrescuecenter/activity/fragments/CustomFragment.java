@@ -1,6 +1,6 @@
 package com.projet_100_heures.lemurrescuecenter.activity.fragments;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -109,7 +109,7 @@ public class CustomFragment extends Fragment implements CustomizeLemurTask.Custo
             }
         }
         else {
-            Toast.makeText(getContext(),"Cherchez un lémurien avant de faire une modification ! ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Cherchez un lémurien avant de faire une modification ! ", Toast.LENGTH_SHORT).show();
         }
 
 

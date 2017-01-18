@@ -3,18 +3,14 @@ package com.projet_100_heures.lemurrescuecenter.activity.fragments;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
-import com.androidifygeeks.library.fragment.PageFragment;
-import com.androidifygeeks.library.fragment.TabDialogFragment;
-import com.androidifygeeks.library.iface.IFragmentListener;
-import com.androidifygeeks.library.iface.ISimpleDialogListener;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
@@ -25,12 +21,17 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.projet_100_heures.lemurrescuecenter.R;
+import com.projet_100_heures.lemurrescuecenter.business.alertDialog.AddWeightLemurDialog;
+import com.projet_100_heures.lemurrescuecenter.business.dao.AddLemurWeightTask;
 import com.projet_100_heures.lemurrescuecenter.business.dao.RetrieveLemurWeightTask;
 import com.projet_100_heures.lemurrescuecenter.model.LemurModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class StatsFragment extends Fragment implements RetrieveLemurWeightTask.LemurWeightListenner, ISimpleDialogListener,IFragmentListener {
+public class StatsFragment extends Fragment implements AddWeightLemurDialog.AddWeightLemurListenner, AddLemurWeightTask.AddWeightLemurListenner,RetrieveLemurWeightTask.LemurWeightListenner {
 
     private LineChart lineChart1;
     private LineChart lineChart2;
@@ -47,6 +48,12 @@ public class StatsFragment extends Fragment implements RetrieveLemurWeightTask.L
     private Bundle bundle;
     ViewGroup contain;
     LayoutInflater layoutInflater;
+    LemurModel lemurModelBuff;
+    private String[] bufferYear1 = new String[12];
+    private String[] bufferYear2 = new String[12];
+    private String[] bufferYear3 = new String[12];
+    int compteur = 0;
+    private static final String TAG = StatsFragment.class.getSimpleName();
 
     public StatsFragment() {
         // Required empty public constructor
@@ -72,48 +79,119 @@ public class StatsFragment extends Fragment implements RetrieveLemurWeightTask.L
             @Override
             public void onClick(View view) {
 
+                AddWeightLemurDialog addWeightLemurDialog = new AddWeightLemurDialog();
 
-                TabDialogFragment.createBuilder(getContext(),getChildFragmentManager())
-                        .setTitle("Ajout d'un poids")
-                        .setTabButtonText(new CharSequence[]{"Poids"})
-                        .setPositiveButtonText("Ajouter")
-                        .setNegativeButtonText("Quitter")
-                        .setRequestCode(43)
-                        .show();
+                addWeightLemurDialog.setmListener(StatsFragment.this);
+                addWeightLemurDialog.show(getFragmentManager(), TAG);
+
+
+
             }
         });
 
     }
+    public void sendLemur(LemurModel lemurModel){
+        lemurModelBuff = lemurModel;
+    }
 
     public void displayChart(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("idDB",String.valueOf(lemurModelBuff.getIdDB()));
+            jsonObject.put("nom",lemurModelBuff.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         RetrieveLemurWeightTask retrieveLemurWeightTask = new RetrieveLemurWeightTask(this,getActivity());
-        retrieveLemurWeightTask.execute();
+        retrieveLemurWeightTask.execute(jsonObject);
     }
 
     @Override
     public void onLemurWeightRetrieved(LemurModel lemurModel) {
 
-        gettYears(lemurModel);
+        getYears(lemurModel);
         Log.d("tag", String.valueOf(firstYear) +" "+ String.valueOf(secondYear) +" "+ String.valueOf(thirdYear) );
 
         lineChart1 = (LineChart) getActivity().findViewById(R.id.chartYear1);
         lineChart2 = (LineChart) getActivity().findViewById(R.id.chartYear2);
         lineChart3 = (LineChart) getActivity().findViewById(R.id.chartYear3);
+
+       /* parseValuesByYear(lemurModel,firstYear );
+        parseValuesByYear(lemurModel,secondYear);
+        parseValuesByYear(lemurModel,thirdYear);
+
+        for(int i = 0 ; i< bufferYear1.length; i++){
+            if(bufferYear1[i] == null){
+                bufferYear1[i] = "0.00";
+            }
+        }
+
+        for(int i = 0 ; i< bufferYear2.length; i++){
+            if(bufferYear2[i] == null){
+                bufferYear2[i] = "0.00";
+            }
+            Log.d("tag2", bufferYear2[i]);
+        }
+
+        for(int i = 0 ; i< bufferYear3.length; i++){
+            if(bufferYear3[i] == null){
+                bufferYear3[i] = "0.00";
+            }
+            Log.d("tag3", bufferYear3[i]);
+        }*/
+
         generateLineChart(lemurModel,firstYear,lineChart1);
         generateLineChart(lemurModel,secondYear,lineChart2);
         generateLineChart(lemurModel,thirdYear, lineChart3);
 
     }
 
-    public void gettYears(LemurModel lemurModel){
+    public void parseValuesByYear(LemurModel lemurModel, int year) {
+
+        compteur = 0;
+        String[] buffer = new String[12];
+
+        if (lemurModel != null && lemurModel.getWeight().size() > 0) {
+            for( int i=0 ; i<countdate;i++ ){
+                bufferYear = Integer.parseInt(dates[i][1]);
+                if(bufferYear == year) {
+                    j=0;
+                    for (String s : lemurModel.getWeight()) {
+                        if(j == i){
+                            buffer[compteur] = s;
+                            compteur++;
+                            j++;
+
+                        }else {
+                            j++;
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        if(year == firstYear){
+            bufferYear1 = buffer;
+        }
+        if(year == secondYear){
+            bufferYear2 = buffer;
+        }
+        if(year == thirdYear){
+            bufferYear3 = buffer;
+        }
+    }
+
+
+    public void getYears(LemurModel lemurModel){
 
         for(String y : lemurModel.getWeightDate()){
             String[] dy = y.split("/");
             dates[countdate]= dy;
             countdate++;
         }
-
         for( int i=0 ; i<countdate;i++ ){
             firstYear = Integer.parseInt(dates[0][1]);
             bufferYear = Integer.parseInt(dates[i][1]);
@@ -125,7 +203,6 @@ public class StatsFragment extends Fragment implements RetrieveLemurWeightTask.L
                 }
             }
         }
-
     }
 
     public void generateLineChart(LemurModel lemurModel , int year,LineChart lineChart){
@@ -153,26 +230,35 @@ public class StatsFragment extends Fragment implements RetrieveLemurWeightTask.L
 
         String[] bufferWeight = new String[50];
         j=0;
-        for (String s : lemurModel.getWeight()) {
-            bufferWeight[j] = s;
-            j++;
-        }
+        if(lemurModel != null && lemurModel.getWeight().size() >0) {
+            for (String s : lemurModel.getWeight()) {
+                bufferWeight[j] = s;
+                j++;
+            }
 
-        counter = 0;
-        for (int i = 0 ; i< countdate ; i++){
-            bufferYear = Integer.parseInt(dates[i][1]);
-            if(bufferYear == year) {
-                float buf = Float.parseFloat(bufferWeight[i]);
-                yAxes.add(new Entry(counter, buf));
-                counter ++;
+            counter = 0;
+
+            for (int i = 0; i < countdate; i++) {
+                bufferYear = Integer.parseInt(dates[i][1]);
+                if (bufferYear == year) {
+                    if(bufferWeight.length >= countdate) {
+                        float buf = Float.parseFloat(bufferWeight[i]);
+                        yAxes.add(new Entry(counter, buf));
+                        counter++;
+                    }else {
+                        float buf = Float.parseFloat("0.00");
+                        yAxes.add(new Entry(0, buf));
+                        counter++;
+                    }
+                }
+            }
+
+
+            if (yAxes.size() == 0) {
+                float buf = Float.parseFloat("0.00");
+                yAxes.add(new Entry(0, buf));
             }
         }
-
-        if(yAxes.size() == 0){
-            float buf = Float.parseFloat("0.00");
-            yAxes.add(new Entry(0,buf));
-        }
-
         ArrayList<ILineDataSet> lineDataSets = new ArrayList<>();
 
         LineDataSet lineDataSet1 = new LineDataSet(yAxes,"poids(Kg)");
@@ -204,46 +290,23 @@ public class StatsFragment extends Fragment implements RetrieveLemurWeightTask.L
     }
 
     @Override
-    public void onFragmentViewCreated(Fragment fragment) {
+    public void onLemurWeightPosted(LemurModel lemurModel) {
 
-        int selectedTabPosition = fragment.getArguments().getInt(PageFragment.ARG_DAY_INDEX, 0);
-        View rootContainer = fragment.getView().findViewById(R.id.root_container);
-        Log.i("tag", "Position: " + selectedTabPosition);
+    }
 
-        switch (selectedTabPosition) {
-            case 0:
-                // add view in container for first tab
-                View tabProductDetailLayout = layoutInflater.inflate(R.layout.add_layout_dialog,(ViewGroup) rootContainer);
+    @Override
+    public void onWeightRetrieved(String date, String weight) {
 
-                EditText test = (EditText) tabProductDetailLayout.findViewById(R.id.date_add);
-
-
-                break;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("date",date);
+            jsonObject.put("nom",lemurModelBuff.getName());
+            jsonObject.put("poids",weight);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void onFragmentAttached(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onFragmentDetached(Fragment fragment) {
-
-    }
-
-    @Override
-    public void onNegativeButtonClicked(int requestCode) {
-
-    }
-
-    @Override
-    public void onNeutralButtonClicked(int requestCode) {
-
-    }
-
-    @Override
-    public void onPositiveButtonClicked(int requestCode) {
-
+        AddLemurWeightTask addLemurWeightTask = new AddLemurWeightTask(this,getActivity());
+        addLemurWeightTask.execute(jsonObject);
     }
 }
