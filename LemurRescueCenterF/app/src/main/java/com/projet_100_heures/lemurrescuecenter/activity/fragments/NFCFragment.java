@@ -35,12 +35,12 @@ public class NFCFragment extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_nfc, container, false);
-
     }
 
     @Override
@@ -61,6 +61,9 @@ public class NFCFragment extends Fragment {
                     @Override
                     public void onTick(long l) {
                         progressDialog.show();
+                        if(TagDiscovered){
+                            progressDialog.cancel();
+                        }
                     }
 
                     @Override
@@ -69,7 +72,6 @@ public class NFCFragment extends Fragment {
                         if(!TagDiscovered){
                             Toast.makeText(getActivity(),"Aucun Tag NFC lu !!", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 };
 
@@ -84,14 +86,12 @@ public class NFCFragment extends Fragment {
                 if(TagDiscovered) {
                     countDownTimer.cancel();
                 }
-
             }
         });
     }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         comm = (Communicator) context;
     }
 
@@ -102,19 +102,19 @@ public class NFCFragment extends Fragment {
     public void getTextFromNDEFMessage(NdefMessage ndefMessage){
 
         NdefRecord[] ndefRecords = ndefMessage.getRecords();
-
         if (ndefRecords != null && ndefRecords.length > 0) {
-
             NdefRecord ndefRecord = ndefRecords[0];
-
             String tagcontent = NfcUtils.getTextFromNDEFRecord(ndefRecord);
-
             textView.setText(tagcontent);
-
         } else {
             Log.e("Tag", "no NDEFRecord found !");
-
         }
+    }
+
+    public void setIdTag (String str){
+        textView.setText(str);
+
+        Toast.makeText(getContext(),"Tag lu !! ", Toast.LENGTH_SHORT).show();
     }
 }
 

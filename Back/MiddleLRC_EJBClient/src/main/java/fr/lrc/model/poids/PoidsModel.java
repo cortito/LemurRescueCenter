@@ -14,9 +14,9 @@ public class PoidsModel implements Serializable {
 	private int idDB;
 	private String nom = "";
 	private String date = "";
-	private Double poids = 0.0;
+	private String poids = "";
 
-	public PoidsModel(int idDB, String nom, String date, Double poids) {
+	public PoidsModel(int idDB, String nom, String date, String poids) {
 		this.idDB = idDB;
 		this.nom = nom;
 		this.date = date;
@@ -57,11 +57,11 @@ public class PoidsModel implements Serializable {
 		this.date = date;
 	}
 
-	public Double getPoids() {
+	public String getPoids() {
 		return poids;
 	}
 
-	public void setPoids(Double poids) {
+	public void setPoids(String poids) {
 		this.poids = poids;
 	}
 
@@ -82,7 +82,12 @@ public class PoidsModel implements Serializable {
 		Map<String, String> mapParam = new HashMap<>();
 		mapParam.put("Nom", this.nom);
 		mapParam.put("Date", this.date);
+		mapParam.put("Poids", this.poids);
 		return mapParam;
+	}
+
+	public void setUpperCaseNom() {
+		this.nom = nom.toUpperCase();
 	}
 
 }

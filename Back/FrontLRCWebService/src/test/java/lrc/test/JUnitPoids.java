@@ -11,9 +11,9 @@ import fr.lrc.model.poids.PoidsModel;
 public class JUnitPoids {
 
 	@Test
-	public void PoidsVide() {
-		PoidsModel PoidsM = new PoidsModel(1, "", "01/17", 0.0);
-		StringReturn poidsTest = PoidsController.poidsController(PoidsM);
+	public void poidsVide() {
+		PoidsModel poidsM = new PoidsModel(1, "", "01/17", "0.0");
+		StringReturn poidsTest = PoidsController.poidsController(poidsM);
 		StringReturn message = StringReturn.stringReturnMessage(true, "");
 
 		assertEquals(message.isResponse(), poidsTest.isResponse());
@@ -27,7 +27,38 @@ public class JUnitPoids {
 	}
 
 	@Test
-	public void PoidsParam() {
+	public void poidsNonConforme() {
+		PoidsModel poidsM = new PoidsModel(1, "", "01/17", "-10.0");
+		StringReturn poidsTest = PoidsController.poidsController(poidsM);
+		StringReturn message = StringReturn.stringReturnMessage(false, "Poids non conforme");
+
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		assertEquals(message.getCommentaire(), poidsTest.getCommentaire());
+
+		poidsM = new PoidsModel(1, "", "01/17", "sdfg");
+		poidsTest = PoidsController.poidsController(poidsM);
+
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		assertEquals(message.getCommentaire(), poidsTest.getCommentaire());
+
+		poidsM = new PoidsModel(1, "", "01/17", "20");
+		poidsTest = PoidsController.poidsController(poidsM);
+		message = StringReturn.stringReturnMessage(true, "");
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		
+		poidsM = new PoidsModel(1, "", "01/17", "2");
+		poidsTest = PoidsController.poidsController(poidsM);
+		message = StringReturn.stringReturnMessage(true, "");
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+		
+		poidsM = new PoidsModel(1, "", "01/17", "1.2");
+		poidsTest = PoidsController.poidsController(poidsM);
+		message = StringReturn.stringReturnMessage(true, "");
+		assertEquals(message.isResponse(), poidsTest.isResponse());
+	}
+
+	@Test
+	public void poidsParam() {
 		assertEquals(true, PoidsController.isStringValid("", "", 64).isResponse());
 		assertEquals(true, PoidsController.isStringValid("", "azerty", 64).isResponse());
 		assertEquals(false, PoidsController.isStringValid("", null, 64).isResponse());
@@ -36,7 +67,7 @@ public class JUnitPoids {
 	}
 
 	@Test
-	public void PoidsDate() {
+	public void poidsDate() {
 		assertEquals(true, PoidsController.isDateValide("", "01/15").isResponse());
 		assertEquals(false, PoidsController.isDateValide("", "011/15").isResponse());
 		assertEquals(false, PoidsController.isDateValide("", "01/151").isResponse());

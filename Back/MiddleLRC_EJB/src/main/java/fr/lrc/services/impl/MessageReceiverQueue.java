@@ -32,7 +32,6 @@ public class MessageReceiverQueue implements IMessageReceiverQueue {
 
 		JMSConsumer receiver = context.createConsumer(queue);
 		Message message = receiver.receive(2000);
-		log.info("Reception de la Queue d'un Message");
 
 		String s = "";
 		try {

@@ -122,6 +122,7 @@ public class LRCMsgDrivenEJB implements MessageListener {
 		 * UPDATE Lemurien
 		 */
 		else if (msg.getBooleanProperty("update")) {
+			log.info(lemurienM);
 			return dao.updateLemurien(lemurienM);
 		}
 		/**

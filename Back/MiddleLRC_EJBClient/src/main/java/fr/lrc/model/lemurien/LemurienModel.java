@@ -77,7 +77,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setNom(String nom) {
-		this.nom = nom;
+		this.nom = nom.toUpperCase();
 	}
 
 	public String getNumeroIdentification() {
@@ -93,7 +93,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setSexe(String sexe) {
-		this.sexe = sexe;
+		this.sexe = sexe.toUpperCase();
 	}
 
 	public String getDateDeNaissance() {
@@ -117,7 +117,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setOrigine(String origine) {
-		this.origine = origine;
+		this.origine = origine.toUpperCase();
 	}
 
 	public String getNatureEntree() {
@@ -125,7 +125,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setNatureEntree(String natureEntree) {
-		this.natureEntree = natureEntree;
+		this.natureEntree = natureEntree.toUpperCase();
 	}
 
 	public String getAncienProprietaire() {
@@ -133,7 +133,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setAncienProprietaire(String ancienProprietaire) {
-		this.ancienProprietaire = ancienProprietaire;
+		this.ancienProprietaire = ancienProprietaire.toUpperCase();
 	}
 
 	public String getDateSortie() {
@@ -141,7 +141,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setDateSortie(String dateSortie) {
-		this.dateSortie = dateSortie;
+		this.dateSortie = dateSortie.toUpperCase();
 	}
 
 	public String getNatureSortie() {
@@ -149,7 +149,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setNatureSortie(String natureSortie) {
-		this.natureSortie = natureSortie;
+		this.natureSortie = natureSortie.toUpperCase();
 	}
 
 	public String getCommentaireSortie() {
@@ -157,7 +157,7 @@ public class LemurienModel implements Serializable {
 	}
 
 	public void setCommentaireSortie(String commentaireSortie) {
-		this.commentaireSortie = commentaireSortie;
+		this.commentaireSortie = commentaireSortie.toUpperCase();
 	}
 
 	public String toJSON() {
