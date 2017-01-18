@@ -23,9 +23,10 @@ public class LemurModel {
     private String leaveCommentary;
     private final List<String> weightDate = new ArrayList<>();
     private final List<String> weight = new ArrayList<>();
-
+    private List<PoidsModel> poidsModels = new ArrayList<>();
 
     public  LemurModel(){
+
 
     }
 
@@ -43,6 +44,14 @@ public class LemurModel {
         this.leaveDate = leaveDate;
         this.leaveNature = leaveNature;
         this.leaveCommentary = leaveCommentary;
+    }
+
+    public List<PoidsModel> getPoidsModels() {
+        return poidsModels;
+    }
+
+    public void setPoidsModels(List<PoidsModel> poidsModels) {
+        this.poidsModels = poidsModels;
     }
 
     public List<String> getWeightDate() {

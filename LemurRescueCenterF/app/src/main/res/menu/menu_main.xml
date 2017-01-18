@@ -7,10 +7,10 @@
     >
 
     <item
-        android:title="chercher ID"
+        android:title="Chercher par ID"
         android:id="@+id/search_id"/>
     <item
-        android:title="chercher par Nom"
+        android:title="Chercher par Nom"
         android:id="@+id/search_name"/>
 
 </menu>
